@@ -2,17 +2,7 @@ import { genSalt, hash } from 'bcryptjs';
 import { JwtPayload, sign, verify } from 'jsonwebtoken';
 import { FieldPacket, ResultSetHeader, RowDataPacket } from 'mysql2';
 import db from '../db/database';
-
-interface TokenData {
-  userId: number;
-  firstName: string;
-  lastName: string;
-  username: string;
-  jobTitle: string;
-  teamId: number;
-  authLevel: number;
-  pictureColour: string;
-}
+import { TokenData } from '../types';
 
 interface DbRefreshToken extends RowDataPacket {
   token: string;

@@ -9,7 +9,7 @@ import {
   insertTeam,
   insertUser,
 } from '../services';
-import { ResponseLocals, SignUpReqBody } from '../types';
+import { SignUpReqBody, TokenData } from '../types';
 import { HttpException } from '../exceptions/http-exception';
 
 export const postSignUp = async (
@@ -52,21 +52,11 @@ export const postSignUp = async (
 
 export const postLogin = async (
   req: Request,
-  res: Response<{ accessToken: string; refreshToken: string }, ResponseLocals>
+  res: Response<{ accessToken: string; refreshToken: string }, TokenData>
 ): Promise<void> => {
   // db already queried for teamId and user data during auth login validation middleware
   // values saved in res.locals to prevent repetitive db queries
-  const { teamId, userLoggedIn } = res.locals;
-  const userData = {
-    userId: userLoggedIn.id,
-    firstName: userLoggedIn.firstName,
-    lastName: userLoggedIn.lastName,
-    username: userLoggedIn.username,
-    jobTitle: userLoggedIn.jobTitle,
-    authLevel: userLoggedIn.authLevel,
-    pictureColour: userLoggedIn.pictureColour,
-  };
-  const tokenPair = await createTokenPair({ ...userData, teamId });
+  const tokenPair = await createTokenPair(res.locals);
 
   res.status(200).send(tokenPair);
 };

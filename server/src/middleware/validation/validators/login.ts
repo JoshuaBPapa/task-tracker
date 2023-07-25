@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { ValidationChain } from 'express-validator';
-import { LoginReqBody, ResponseLocals } from '../../../types';
+import { LoginReqBody, TokenData } from '../../../types';
 import {
   checkTeamName,
   checkPassword,
@@ -12,7 +12,7 @@ import { runValidationChecks } from '../run-validation-chains';
 
 export const loginValidator = async (
   req: Request<any, any, LoginReqBody>,
-  res: Response<any, ResponseLocals>,
+  res: Response<any, TokenData>,
   next: NextFunction
 ): Promise<void | NextFunction> => {
   const validationChecks: ValidationChain[] = [
