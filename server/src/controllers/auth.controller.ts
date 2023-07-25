@@ -58,7 +58,7 @@ export const postLogin = async (
   // values saved in res.locals to prevent repetitive db queries
   const { teamId, userLoggedIn } = res.locals;
   const userData = {
-    userId: userLoggedIn.userId,
+    userId: userLoggedIn.id,
     firstName: userLoggedIn.firstName,
     lastName: userLoggedIn.lastName,
     username: userLoggedIn.username,
