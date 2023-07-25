@@ -2,8 +2,9 @@ import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import * as dotenv from 'dotenv';
-import { authRouter } from './routes';
+import { authRouter, projectsRouter } from './routes';
 import { errorMiddleware } from './middleware/error-middleware';
+import { verifyAccessToken } from './middleware';
 
 dotenv.config();
 
@@ -14,7 +15,12 @@ app.use(helmet());
 app.use(cors());
 app.use(express.json());
 
+// unprotected routes
 app.use('/auth', authRouter);
+
+// protected routes
+app.use(verifyAccessToken);
+app.use('/projects', projectsRouter);
 
 app.use(errorMiddleware);
 
