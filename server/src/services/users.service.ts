@@ -1,6 +1,5 @@
-import { ResultSetHeader, FieldPacket } from 'mysql2';
+import { ResultSetHeader, FieldPacket, RowDataPacket } from 'mysql2';
 import db from '../db/database';
-import { User } from '../types/user';
 
 interface InsertUserValues {
   firstName: string;
@@ -10,6 +9,18 @@ interface InsertUserValues {
   password: string;
   teamId: number;
   authLevel: number;
+  pictureColour: string;
+}
+
+interface User extends RowDataPacket {
+  id: number;
+  firstName: string;
+  lastName: string;
+  username: string;
+  teamId: number;
+  authLevel: number;
+  jobTitle: string;
+  password: string;
   pictureColour: string;
 }
 
