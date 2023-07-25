@@ -3,7 +3,7 @@ import { ValidationChain } from 'express-validator';
 import { checkRefreshToken } from '../chains';
 import { runValidationChecks } from '../run-validation-chains';
 
-export const logutValidator = async (
+export const logutOrTokenValidator = async (
   req: Request<any, any, { refreshToken: string }>,
   res: Response,
   next: NextFunction

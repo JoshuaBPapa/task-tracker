@@ -1,6 +1,6 @@
 import { genSalt, hash } from 'bcryptjs';
-import { sign } from 'jsonwebtoken';
-import { FieldPacket, ResultSetHeader } from 'mysql2';
+import { JwtPayload, sign, verify } from 'jsonwebtoken';
+import { FieldPacket, ResultSetHeader, RowDataPacket } from 'mysql2';
 import db from '../db/database';
 
 interface TokenData {
@@ -12,6 +12,10 @@ interface TokenData {
   teamId: number;
   authLevel: number;
   pictureColour: string;
+}
+
+interface DbRefreshToken extends RowDataPacket {
+  token: string;
 }
 
 export const hashPw = async (plaintext: string): Promise<string> => {
@@ -52,4 +56,25 @@ export const deleteRefreshToken = async (
   token: string
 ): Promise<[ResultSetHeader, FieldPacket[]]> => {
   return db.execute(`DELETE FROM refresh_tokens WHERE token = "${token}"`);
+};
+
+const selectRefreshToken = async (token: string): Promise<[DbRefreshToken[], FieldPacket[]]> => {
+  return db.execute(`SELECT * FROM refresh_tokens WHERE token = "${token}"`);
+};
+
+export const decodeToken = async (token: string): Promise<TokenData | null> => {
+  let decodedData: TokenData | null = null;
+  const findRefreshTokenInDb = await selectRefreshToken(token);
+  const dbRefreshToken = findRefreshTokenInDb[0][0];
+
+  if (dbRefreshToken) {
+    verify(dbRefreshToken.token, process.env.JWT_REFRESH_SECRET as string, (err, decoded) => {
+      if (!err && decoded) {
+        const { iat, exp, ...userData } = decoded as JwtPayload;
+        decodedData = userData as TokenData;
+      }
+    });
+  }
+
+  return decodedData;
 };

@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import {
+  createAccessToken,
   createTokenPair,
+  decodeToken,
   deleteRefreshToken,
   getProfilePictureColour,
   hashPw,
@@ -8,6 +10,7 @@ import {
   insertUser,
 } from '../services';
 import { ResponseLocals, SignUpReqBody } from '../types';
+import { HttpException } from '../exceptions/http-exception';
 
 export const postSignUp = async (
   req: Request<any, any, SignUpReqBody>,
@@ -76,4 +79,21 @@ export const postLogout = async (
   await deleteRefreshToken(refreshToken);
 
   res.status(200).send('Successfully logged out.');
+};
+
+export const postNewAccessToken = async (
+  req: Request<any, any, { refreshToken: string }>,
+  res: Response<{ accessToken: string }>
+): Promise<void> => {
+  const { refreshToken } = req.body;
+  const tokenData = await decodeToken(refreshToken);
+
+  if (!tokenData) {
+    // delete any expired refresh tokens
+    await deleteRefreshToken(refreshToken);
+    throw new HttpException(401, 'Refresh token invalid');
+  }
+
+  const accessToken = createAccessToken(tokenData);
+  res.status(200).send({ accessToken });
 };
