@@ -1,15 +1,15 @@
 import { ResultSetHeader, FieldPacket, RowDataPacket } from 'mysql2';
 import db from '../db/database';
+import { CreateUserReqBody, UpdateUserReqBody } from '../types';
 
-interface InsertUserValues {
-  firstName: string;
-  lastName: string;
-  username: string;
-  jobTitle: string;
-  password: string;
+interface InsertUserValues extends Omit<CreateUserReqBody, 'confirmPassword'> {
   teamId: number;
-  authLevel: number;
   pictureColour: string;
+}
+
+interface UpdateUserValues extends UpdateUserReqBody {
+  id: number;
+  teamId: number;
 }
 
 interface User extends RowDataPacket {
@@ -47,6 +47,41 @@ export const insertUser = (
       userData.pictureColour,
     ]
   );
+};
+
+export const updateUserById = (
+  userData: UpdateUserValues
+): Promise<[ResultSetHeader, FieldPacket[]]> => {
+  return db.execute(
+    `UPDATE 
+      users 
+    SET 
+      firstName = "${userData.firstName}", lastName = "${userData.lastName}", authLevel = ${userData.authLevel}, jobTitle = "${userData.jobTitle}"  
+    WHERE 
+      id = ${userData.id} AND teamId = ${userData.teamId}`
+  );
+};
+
+export const updateUserPasswordById = (
+  newPassword: string,
+  userId: number,
+  teamId: number
+): Promise<[ResultSetHeader, FieldPacket[]]> => {
+  return db.execute(
+    `UPDATE 
+      users 
+    SET 
+      password = "${newPassword}"  
+    WHERE 
+      id = ${userId} AND teamId = ${teamId}`
+  );
+};
+
+export const deleteUserById = (
+  userId: number,
+  teamId: number
+): Promise<[ResultSetHeader, FieldPacket[]]> => {
+  return db.execute(`DELETE FROM users WHERE id = ${userId} AND teamId = ${teamId}`);
 };
 
 export const selectUserByUsername = (

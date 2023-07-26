@@ -1,5 +1,14 @@
 import { ValidationChain, body } from 'express-validator';
-import { maxLengthMsg, minLengthMsg, requiredMsg } from '../error-messages';
+import {
+  alreadyExistsMsg,
+  betweenIntsMsg,
+  maxLengthMsg,
+  minLengthMsg,
+  requiredMsg,
+} from '../error-messages';
+import { Response } from 'express';
+import { TokenData } from '../../../types';
+import { selectUserByUsername } from '../../../services';
 
 export const checkUsername = (): ValidationChain => {
   return body('username')
@@ -38,4 +47,19 @@ export const checkFirstNameOrLastName = (name: 'firstName' | 'lastName'): Valida
 
 export const checkJobTitle = (): ValidationChain => {
   return body('jobTitle').trim().notEmpty().isLength({ max: 50 }).withMessage(maxLengthMsg(50));
+};
+
+export const checkAuthLevel = (): ValidationChain => {
+  return body('authLevel')
+    .notEmpty()
+    .withMessage(requiredMsg())
+    .isInt({ min: 1, max: 4 })
+    .withMessage(betweenIntsMsg(1, 4));
+};
+
+export const checkUsernameIsTaken = (res: Response<any, TokenData>): ValidationChain => {
+  return body('username').custom(async (value: string) => {
+    const findUser = await selectUserByUsername(value, res.locals.teamId);
+    if (!findUser[0].length) return Promise.reject(alreadyExistsMsg());
+  });
 };
