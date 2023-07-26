@@ -1,8 +1,8 @@
 import { FieldPacket, ResultSetHeader } from 'mysql2';
 import db from '../db/database';
+import { CreateProjectReqBody } from '../types';
 
-interface InsertProjectValues {
-  name: string;
+interface InsertProjectValues extends CreateProjectReqBody {
   teamId: number;
 }
 
