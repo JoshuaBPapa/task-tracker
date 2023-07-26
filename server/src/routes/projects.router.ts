@@ -1,6 +1,10 @@
 import { Router } from 'express';
-import { selectProjects } from '../controllers';
+import { deleteProject, postProject, putProject } from '../controllers';
+import { catchAsyncError } from '../middleware';
+import { projectValidator } from '../middleware/validation/validators';
 
 export const projectsRouter = Router();
 
-projectsRouter.get('', selectProjects);
+projectsRouter.post('', catchAsyncError(projectValidator), catchAsyncError(postProject));
+projectsRouter.put('/:id', catchAsyncError(projectValidator), catchAsyncError(putProject));
+projectsRouter.delete('/:id', catchAsyncError(deleteProject));
