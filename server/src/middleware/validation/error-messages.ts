@@ -7,4 +7,9 @@ export const minLengthMsg = (value: number): string => `Must have at least ${val
 
 export const maxLengthMsg = (value: number): string => `Can not have more than ${value} characters`;
 
-export const alreadyExistsMsg = () => 'Already exists. Please try something different';
+export const alreadyExistsMsg = (): string => 'Already exists. Please try something different';
+
+export const intOnlyMsg = (): string => 'Must be an integer';
+
+export const betweenIntsMsg = (min: number, max: number): string =>
+  `Must be number between ${min} and ${max}`;
