@@ -14,7 +14,6 @@ interface UpdateTaskValues extends InsertTaskValues {
 export const insertTask = (
   taskData: InsertTaskValues
 ): Promise<[ResultSetHeader, FieldPacket[]]> => {
-  console.log(taskData);
   return db.execute(
     'INSERT INTO tasks (title, description, status, priority, projectId, createdUserId, assignedUserId, teamId) VALUES (?,?,?,?,?,?,?,?)',
     [
