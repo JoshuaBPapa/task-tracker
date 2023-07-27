@@ -38,7 +38,7 @@ export const updateTasksById = (
     SET 
       title = "${taskData.title}", description = "${taskData.description}", status = ${taskData.status}, priority = ${taskData.priority}, assignedUserId = ${taskData.assignedUserId}
     WHERE 
-      taskId = ${taskData.id} AND teamId = ${taskData.teamId}`
+      id = ${taskData.id} AND teamId = ${taskData.teamId}`
   );
 };
 
