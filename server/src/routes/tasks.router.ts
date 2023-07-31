@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { deleteTask, postComment, postTask, putTask } from '../controllers';
+import { deleteTask, getTasksPaginated, postComment, postTask, putTask } from '../controllers';
 import { catchAsyncError } from '../middleware';
 import { commentValidator, taskValidator } from '../middleware/validation/validators';
 
@@ -9,3 +9,4 @@ tasksRouter.post('', catchAsyncError(taskValidator), catchAsyncError(postTask));
 tasksRouter.post('/comment', catchAsyncError(commentValidator), catchAsyncError(postComment));
 tasksRouter.put('/:id', catchAsyncError(taskValidator), catchAsyncError(putTask));
 tasksRouter.delete('/:id', catchAsyncError(deleteTask));
+tasksRouter.get('', catchAsyncError(getTasksPaginated));

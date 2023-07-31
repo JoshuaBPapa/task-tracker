@@ -1,7 +1,14 @@
 import { Request, Response } from 'express';
-import { CreateTaskReqBody, TokenData } from '../types';
-import { deleteTaskById, insertTask, updateTasksById } from '../services';
+import { CreateTaskReqBody, PaginatedReqParams, Tasks, TokenData } from '../types';
+import {
+  countTotalTasks,
+  deleteTaskById,
+  insertTask,
+  selectTasksPaginated,
+  updateTasksById,
+} from '../services';
 import { handleEmptyQueryResults } from '../helpers';
+import { Pagination } from '../classes';
 
 export const postTask = async (
   req: Request<any, any, CreateTaskReqBody>,
@@ -35,4 +42,18 @@ export const deleteTask = async (
   handleEmptyQueryResults(deleted[0]);
 
   res.status(204).send();
+};
+
+export const getTasksPaginated = async (
+  req: Request<any, Pagination<Tasks>, any, PaginatedReqParams>,
+  res: Response<Pagination<Tasks>, TokenData>
+): Promise<void> => {
+  const { teamId } = res.locals;
+  const { page } = req.query;
+
+  const results = await selectTasksPaginated(teamId, page);
+  const count = await countTotalTasks(teamId);
+  const resBody = new Pagination<Tasks>(results[0], count[0][0].total, page);
+
+  res.status(200).send(resBody);
 };
