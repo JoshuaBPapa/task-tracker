@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { CreateTaskReqBody, PaginatedReqParams, Tasks, TokenData } from '../types';
+import { CreateTaskReqBody, GetTasksReqParams, Tasks, TokenData } from '../types';
 import {
   countTotalTasks,
   deleteTaskById,
@@ -45,15 +45,14 @@ export const deleteTask = async (
 };
 
 export const getTasksPaginated = async (
-  req: Request<any, Pagination<Tasks>, any, PaginatedReqParams>,
+  req: Request<any, Pagination<Tasks>, any, GetTasksReqParams>,
   res: Response<Pagination<Tasks>, TokenData>
 ): Promise<void> => {
   const { teamId } = res.locals;
-  const { page } = req.query;
 
-  const results = await selectTasksPaginated(teamId, page);
+  const results = await selectTasksPaginated(teamId, req.query);
   const count = await countTotalTasks(teamId);
-  const resBody = new Pagination<Tasks>(results[0], count[0][0].total, page);
+  const resBody = new Pagination<Tasks>(results[0], count[0][0].total, req.query.page);
 
   res.status(200).send(resBody);
 };

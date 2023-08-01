@@ -1,7 +1,8 @@
 import { FieldPacket, ResultSetHeader, RowDataPacket } from 'mysql2';
-import { CreateTaskReqBody, SelectCountResults, Tasks } from '../types';
+import { CreateTaskReqBody, GetTasksReqParams, SelectCountResults, Tasks } from '../types';
 import db from '../db/database';
 import { Pagination } from '../classes';
+import { buildOrderByQueryString } from '../helpers';
 
 interface InsertTaskValues extends CreateTaskReqBody {
   teamId: number;
@@ -54,30 +55,32 @@ export const deleteTaskById = (
 
 export const selectTasksPaginated = (
   teamId: number,
-  pageParam: string
+  params: GetTasksReqParams
 ): Promise<[SelectTasksResults[], FieldPacket[]]> => {
-  const paginationQueryString = Pagination.buildQueryString(pageParam);
+  const paginationQueryString = Pagination.buildQueryString(params.page);
+  const orderByQueryString = buildOrderByQueryString(params.orderBy);
 
   return db.execute(`
     SELECT
       t.id, t.title, t.status, t.priority, t.dateTimeCreated, t.dateTimeUpdated,
       JSON_OBJECT(
-        'id', u.id, 
-        'firstName', u.firstName, 
-        'lastName', u.lastName, 
-        'jobTitle', u.jobTitle, 
-        'pictureColour', u.pictureColour
+        'id', assignedUser.id, 
+        'firstName', assignedUser.firstName, 
+        'lastName', assignedUser.lastName, 
+        'jobTitle', assignedUser.jobTitle, 
+        'pictureColour', assignedUser.pictureColour
       ) assignedUser
     FROM 
       tasks AS t
     JOIN
-      users AS u
+      users AS assignedUser
     ON
-      u.id = t.assignedUserId
+      assignedUser.id = t.assignedUserId
     WHERE 
       t.teamId = ${teamId}
     GROUP BY 
       t.id
+    ${orderByQueryString}
     ${paginationQueryString}`);
 };
 
