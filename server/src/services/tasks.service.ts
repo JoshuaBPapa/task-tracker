@@ -2,7 +2,11 @@ import { FieldPacket, ResultSetHeader, RowDataPacket } from 'mysql2';
 import { CreateTaskReqBody, GetTasksReqParams, SelectCountResults, Tasks } from '../types';
 import db from '../db/database';
 import { Pagination } from '../classes';
-import { buildFilterQueryString, buildOrderByQueryString } from '../helpers';
+import {
+  buildFilterQueryString,
+  buildOrderByQueryString,
+  buildSearchQueryString,
+} from '../helpers';
 
 interface InsertTaskValues extends CreateTaskReqBody {
   teamId: number;
@@ -61,6 +65,7 @@ export const selectTasksPaginated = (
   const orderByQueryString = buildOrderByQueryString(params.orderBy);
   const statusFilterQueryString = buildFilterQueryString(params.status, 'status');
   const priorityFilterQueryString = buildFilterQueryString(params.priority, 'priority');
+  const searchQueryString = buildSearchQueryString(params.search, 'title');
 
   return db.execute(`
     SELECT
@@ -79,7 +84,7 @@ export const selectTasksPaginated = (
     ON
       assignedUser.id = t.assignedUserId
     WHERE 
-      t.teamId = ${teamId} ${statusFilterQueryString} ${priorityFilterQueryString}
+      t.teamId = ${teamId} ${statusFilterQueryString} ${priorityFilterQueryString} ${searchQueryString} 
     GROUP BY 
       t.id
     ${orderByQueryString}
@@ -92,6 +97,7 @@ export const countTotalTasks = (
 ): Promise<[SelectCountResults[], FieldPacket[]]> => {
   const statusFilterQueryString = buildFilterQueryString(params.status, 'status');
   const priorityFilterQueryString = buildFilterQueryString(params.priority, 'priority');
+  const searchQueryString = buildSearchQueryString(params.search, 'title');
 
   return db.execute(`    
     SELECT 
@@ -99,5 +105,5 @@ export const countTotalTasks = (
     FROM 
       tasks 
     WHERE 
-      teamId = ${teamId} ${statusFilterQueryString} ${priorityFilterQueryString}`);
+      teamId = ${teamId} ${statusFilterQueryString} ${priorityFilterQueryString} ${searchQueryString}`);
 };
