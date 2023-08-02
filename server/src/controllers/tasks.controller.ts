@@ -51,7 +51,7 @@ export const getTasksPaginated = async (
   const { teamId } = res.locals;
 
   const results = await selectTasksPaginated(teamId, req.query);
-  const count = await countTotalTasks(teamId);
+  const count = await countTotalTasks(teamId, req.query);
   const resBody = new Pagination<Tasks>(results[0], count[0][0].total, req.query.page);
 
   res.status(200).send(resBody);

@@ -2,7 +2,7 @@ import { FieldPacket, ResultSetHeader, RowDataPacket } from 'mysql2';
 import { CreateTaskReqBody, GetTasksReqParams, SelectCountResults, Tasks } from '../types';
 import db from '../db/database';
 import { Pagination } from '../classes';
-import { buildOrderByQueryString } from '../helpers';
+import { buildFilterQueryString, buildOrderByQueryString } from '../helpers';
 
 interface InsertTaskValues extends CreateTaskReqBody {
   teamId: number;
@@ -13,7 +13,7 @@ interface UpdateTaskValues extends InsertTaskValues {
   id: number;
 }
 
-interface SelectTasksResults extends RowDataPacket, Tasks {}
+type SelectTasksResults = RowDataPacket & Tasks;
 
 export const insertTask = (
   taskData: InsertTaskValues
@@ -59,6 +59,8 @@ export const selectTasksPaginated = (
 ): Promise<[SelectTasksResults[], FieldPacket[]]> => {
   const paginationQueryString = Pagination.buildQueryString(params.page);
   const orderByQueryString = buildOrderByQueryString(params.orderBy);
+  const statusFilterQueryString = buildFilterQueryString(params.status, 'status');
+  const priorityFilterQueryString = buildFilterQueryString(params.priority, 'priority');
 
   return db.execute(`
     SELECT
@@ -77,19 +79,25 @@ export const selectTasksPaginated = (
     ON
       assignedUser.id = t.assignedUserId
     WHERE 
-      t.teamId = ${teamId}
+      t.teamId = ${teamId} ${statusFilterQueryString} ${priorityFilterQueryString}
     GROUP BY 
       t.id
     ${orderByQueryString}
     ${paginationQueryString}`);
 };
 
-export const countTotalTasks = (teamId: number): Promise<[SelectCountResults[], FieldPacket[]]> => {
+export const countTotalTasks = (
+  teamId: number,
+  params: GetTasksReqParams
+): Promise<[SelectCountResults[], FieldPacket[]]> => {
+  const statusFilterQueryString = buildFilterQueryString(params.status, 'status');
+  const priorityFilterQueryString = buildFilterQueryString(params.priority, 'priority');
+
   return db.execute(`    
     SELECT 
       COUNT(*) AS total 
     FROM 
       tasks 
     WHERE 
-      teamId = ${teamId}`);
+      teamId = ${teamId} ${statusFilterQueryString} ${priorityFilterQueryString}`);
 };

@@ -1,4 +1,5 @@
+import { FilterParams } from './filter-req-params';
 import { OrderByReqParams } from './order-by-req-params';
 import { PaginatedReqParams } from './paginated-req-params';
 
-export interface GetTasksReqParams extends OrderByReqParams, PaginatedReqParams {}
+export type GetTasksReqParams = OrderByReqParams & PaginatedReqParams & FilterParams;
