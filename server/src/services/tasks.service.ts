@@ -70,16 +70,20 @@ export const selectTasksPaginated = (
   return db.execute(`
     SELECT
       t.id, t.title, t.status, t.priority, t.dateTimeCreated, t.dateTimeUpdated,
-      JSON_OBJECT(
-        'id', assignedUser.id, 
-        'firstName', assignedUser.firstName, 
-        'lastName', assignedUser.lastName, 
-        'jobTitle', assignedUser.jobTitle, 
-        'pictureColour', assignedUser.pictureColour
-      ) assignedUser
+      CASE 
+        WHEN 
+          t.assignedUserId IS null THEN null
+        ELSE 
+          JSON_OBJECT(
+            'id', assignedUser.id, 
+            'firstName', assignedUser.firstName, 
+            'lastName', assignedUser.lastName, 
+            'jobTitle', assignedUser.jobTitle, 
+            'pictureColour', assignedUser.pictureColour
+          ) END AS assignedUser
     FROM 
       tasks AS t
-    JOIN
+    LEFT JOIN
       users AS assignedUser
     ON
       assignedUser.id = t.assignedUserId
