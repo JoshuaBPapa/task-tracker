@@ -1,8 +1,15 @@
 import { Request, Response } from 'express';
-import { deleteProjectById, insertProject, updateProjectById } from '../services';
-import { CreateProjectReqBody } from '../types';
+import {
+  countTotalProjects,
+  deleteProjectById,
+  insertProject,
+  selectProjectsPaginated,
+  updateProjectById,
+} from '../services';
+import { CreateProjectReqBody, GetProjectsReqParams, Projects } from '../types';
 import { TokenData } from '../types';
 import { handleEmptyQueryResults } from '../helpers';
+import { Pagination } from '../classes';
 
 export const postProject = async (
   req: Request<any, any, CreateProjectReqBody>,
@@ -38,4 +45,17 @@ export const deleteProject = async (
   handleEmptyQueryResults(deleted[0]);
 
   res.status(204).send();
+};
+
+export const getProjectsPaginated = async (
+  req: Request<any, Pagination<Projects>, any, GetProjectsReqParams>,
+  res: Response<Pagination<Projects>, TokenData>
+): Promise<void> => {
+  const { teamId } = res.locals;
+
+  const results = await selectProjectsPaginated(teamId, req.query);
+  const count = await countTotalProjects(teamId, req.query);
+  const resBody = new Pagination<Projects>(results[0], count[0][0].total, req.query.page);
+
+  res.status(200).send(resBody);
 };
