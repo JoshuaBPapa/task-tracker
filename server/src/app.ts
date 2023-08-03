@@ -2,7 +2,7 @@ import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import * as dotenv from 'dotenv';
-import { authRouter, projectsRouter, tasksRouter, usersRouter } from './routes';
+import { authRouter, commentsRouter, projectsRouter, tasksRouter, usersRouter } from './routes';
 import { errorMiddleware } from './middleware/error-middleware';
 import { verifyAccessToken } from './middleware';
 
@@ -23,6 +23,7 @@ app.use(verifyAccessToken);
 app.use('/projects', projectsRouter);
 app.use('/tasks', tasksRouter);
 app.use('/users', usersRouter);
+app.use('/comments', commentsRouter);
 
 app.use(errorMiddleware);
 

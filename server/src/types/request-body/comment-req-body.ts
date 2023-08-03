@@ -1,4 +1,4 @@
 export interface CreateCommentReqBody {
   comment: string;
-  taskId: string;
+  taskId: number;
 }
