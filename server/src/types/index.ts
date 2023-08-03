@@ -10,11 +10,13 @@ export * from './request-body/comment-req-body';
 export * from './req-params/get-tasks-params';
 export * from './req-params/get-projects-params';
 export * from './req-params/get-users-params';
+export * from './req-params/get-comments-params';
 
 // --- RESPONSE BODIES --- //
 export * from './response-body/tasks';
 export * from './response-body/projects';
 export * from './response-body/users';
+export * from './response-body/comments';
 
 export * from './select-count-result';
 export * from './token-data';
