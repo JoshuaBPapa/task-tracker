@@ -80,15 +80,23 @@ export const selectTasksPaginated = (
             'lastName', assignedUser.lastName, 
             'jobTitle', assignedUser.jobTitle, 
             'pictureColour', assignedUser.pictureColour
-          ) END AS assignedUser
+          ) END AS assignedUser,
+      JSON_OBJECT(
+        'id', project.id,
+        'name', project.name
+      ) AS project
     FROM 
       tasks AS t
     LEFT JOIN
       users AS assignedUser
     ON
       assignedUser.id = t.assignedUserId
+    LEFT JOIN
+      projects AS project
+    ON
+      project.id = t.projectId 
     WHERE 
-      t.teamId = ${teamId} ${statusFilterQueryString} ${priorityFilterQueryString} ${searchQueryString} 
+      t.teamId = ${teamId} ${statusFilterQueryString} ${priorityFilterQueryString} ${searchQueryString}
     GROUP BY 
       t.id
     ${orderByQueryString}
