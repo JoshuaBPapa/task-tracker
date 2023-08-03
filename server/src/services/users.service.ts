@@ -1,6 +1,18 @@
 import { ResultSetHeader, FieldPacket, RowDataPacket } from 'mysql2';
 import db from '../db/database';
-import { CreateUserReqBody, UpdateUserReqBody } from '../types';
+import {
+  CreateUserReqBody,
+  GetUsersReqParams,
+  SelectCountResults,
+  UpdateUserReqBody,
+  Users,
+} from '../types';
+import { Pagination } from '../classes';
+import {
+  buildFilterQueryString,
+  buildOrderByQueryString,
+  buildSearchQueryString,
+} from '../helpers';
 
 interface InsertUserValues extends Omit<CreateUserReqBody, 'confirmPassword'> {
   teamId: number;
@@ -12,7 +24,7 @@ interface UpdateUserValues extends UpdateUserReqBody {
   teamId: number;
 }
 
-interface User extends RowDataPacket {
+interface UserWithPw extends RowDataPacket {
   id: number;
   firstName: string;
   lastName: string;
@@ -23,6 +35,8 @@ interface User extends RowDataPacket {
   password: string;
   pictureColour: string;
 }
+
+type SelectUsersResults = RowDataPacket & Users;
 
 export const getProfilePictureColour = (): string => {
   const colours = ['#50CD89', '#F1416C', '#7239EA', '#BD00FF', '#009EF7'];
@@ -87,8 +101,51 @@ export const deleteUserById = (
 export const selectUserByUsername = (
   username: string,
   teamId: number
-): Promise<[User[], FieldPacket[]]> => {
-  return db.execute<User[]>(
+): Promise<[UserWithPw[], FieldPacket[]]> => {
+  return db.execute<UserWithPw[]>(
     `SELECT * FROM users WHERE username = "${username}" AND teamId = ${teamId}`
   );
+};
+
+export const selectUsersPaginated = (
+  teamId: number,
+  params: GetUsersReqParams
+): Promise<[SelectUsersResults[], FieldPacket[]]> => {
+  const paginationQueryString = Pagination.buildQueryString(params.page);
+  const orderByQueryString = buildOrderByQueryString(params.orderBy);
+  const searchQueryString = buildSearchQueryString(params.search, 'firstName');
+  const authLevelFilterQueryString = buildFilterQueryString(params.authLevel, 'authLevel');
+
+  return db.execute(`
+    SELECT 
+      u.id, u.firstName, u.lastName, u.username, u.authLevel, u.jobTitle, u.pictureColour,
+      COUNT(t.assignedUserId) as 'assignedTasks' 
+    FROM 
+      users AS u
+    LEFT JOIN
+      tasks AS t
+    ON
+      u.id = t.assignedUserId
+    WHERE
+      u.teamId = ${teamId} ${searchQueryString} ${authLevelFilterQueryString}
+    GROUP BY
+      u.id
+    ${orderByQueryString}
+    ${paginationQueryString}`);
+};
+
+export const countTotalUsers = (
+  teamId: number,
+  params: GetUsersReqParams
+): Promise<[SelectCountResults[], FieldPacket[]]> => {
+  const authLevelFilterQueryString = buildFilterQueryString(params.authLevel, 'authLevel');
+  const searchQueryString = buildSearchQueryString(params.search, 'firstName');
+
+  return db.execute(`    
+    SELECT 
+      COUNT(*) AS total 
+    FROM 
+      users 
+    WHERE 
+      teamId = ${teamId} ${searchQueryString} ${authLevelFilterQueryString}`);
 };

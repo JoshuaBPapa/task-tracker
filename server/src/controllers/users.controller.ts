@@ -1,5 +1,11 @@
 import { Request, Response } from 'express';
-import { CreateUserReqBody, UpdateUserReqBody, TokenData, UpdateUserPassword } from '../types';
+import {
+  CreateUserReqBody,
+  UpdateUserReqBody,
+  TokenData,
+  UpdateUserPassword,
+  GetUsersReqParams,
+} from '../types';
 import {
   updateUserPasswordById,
   deleteUserById,
@@ -7,8 +13,12 @@ import {
   hashPw,
   insertUser,
   updateUserById,
+  selectUsersPaginated,
+  countTotalUsers,
 } from '../services';
 import { handleEmptyQueryResults } from '../helpers';
+import { Pagination } from '../classes';
+import { Users } from '../types/response-body/users';
 
 export const postUser = async (
   req: Request<any, any, CreateUserReqBody>,
@@ -58,4 +68,17 @@ export const deleteUser = async (
   handleEmptyQueryResults(deleted[0]);
 
   res.status(204).send();
+};
+
+export const getUsersPaginated = async (
+  req: Request<any, Pagination<Users>, any, GetUsersReqParams>,
+  res: Response<Pagination<Users>, TokenData>
+): Promise<void> => {
+  const { teamId } = res.locals;
+
+  const results = await selectUsersPaginated(teamId, req.query);
+  const count = await countTotalUsers(teamId, req.query);
+  const resBody = new Pagination<Users>(results[0], count[0][0].total, req.query.page);
+
+  res.status(200).send(resBody);
 };
