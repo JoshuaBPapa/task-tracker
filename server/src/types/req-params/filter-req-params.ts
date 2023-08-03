@@ -1,6 +1,8 @@
-interface TaskFilterParams {
+export interface TaskFilterParams {
   status: string | undefined;
   priority: string | undefined;
 }
 
-export type FilterParams = TaskFilterParams;
+export interface UsersFilterParams {
+  authLevel: string | undefined;
+}
