@@ -45,13 +45,19 @@ export const deleteTask = async (
 };
 
 export const getTasksPaginated = async (
-  req: Request<any, Pagination<Tasks>, any, GetTasksReqParams>,
+  req: Request<
+    { tableScope: string | undefined; foreignKeyId: string | undefined },
+    Pagination<Tasks>,
+    any,
+    GetTasksReqParams
+  >,
   res: Response<Pagination<Tasks>, TokenData>
 ): Promise<void> => {
+  const { tableScope, foreignKeyId } = req.params;
   const { teamId } = res.locals;
 
-  const results = await selectTasksPaginated(teamId, req.query);
-  const count = await countTotalTasks(teamId, req.query);
+  const results = await selectTasksPaginated(teamId, req.query, tableScope, foreignKeyId);
+  const count = await countTotalTasks(teamId, req.query, tableScope, foreignKeyId);
   const resBody = new Pagination<Tasks>(results[0], count[0][0].total, req.query.page);
 
   res.status(200).send(resBody);

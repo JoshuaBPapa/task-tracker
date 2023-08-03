@@ -57,15 +57,26 @@ export const deleteTaskById = (
   return db.execute(`DELETE FROM tasks WHERE id = ${taskId} AND teamId = ${teamId}`);
 };
 
+const buildTableScopeQueryString = (
+  tableScope: string | undefined,
+  foreignKeyId: string | undefined
+): string => {
+  if (!tableScope || !foreignKeyId) return '';
+  return `AND ${tableScope}Id = ${foreignKeyId}`;
+};
+
 export const selectTasksPaginated = (
   teamId: number,
-  params: GetTasksReqParams
+  params: GetTasksReqParams,
+  tableScope: string | undefined,
+  foreignKeyId: string | undefined
 ): Promise<[SelectTasksResults[], FieldPacket[]]> => {
   const paginationQueryString = Pagination.buildQueryString(params.page);
   const orderByQueryString = buildOrderByQueryString(params.orderBy);
   const statusFilterQueryString = buildFilterQueryString(params.status, 'status');
   const priorityFilterQueryString = buildFilterQueryString(params.priority, 'priority');
   const searchQueryString = buildSearchQueryString(params.search, 'title');
+  const tableScopeQueryString = buildTableScopeQueryString(tableScope, foreignKeyId);
 
   return db.execute(`
     SELECT
@@ -96,7 +107,7 @@ export const selectTasksPaginated = (
     ON
       project.id = t.projectId 
     WHERE 
-      t.teamId = ${teamId} ${statusFilterQueryString} ${priorityFilterQueryString} ${searchQueryString}
+      t.teamId = ${teamId} ${statusFilterQueryString} ${priorityFilterQueryString} ${searchQueryString} ${tableScopeQueryString}
     GROUP BY 
       t.id
     ${orderByQueryString}
@@ -105,11 +116,14 @@ export const selectTasksPaginated = (
 
 export const countTotalTasks = (
   teamId: number,
-  params: GetTasksReqParams
+  params: GetTasksReqParams,
+  tableScope: string | undefined,
+  foreignKeyId: string | undefined
 ): Promise<[SelectCountResults[], FieldPacket[]]> => {
   const statusFilterQueryString = buildFilterQueryString(params.status, 'status');
   const priorityFilterQueryString = buildFilterQueryString(params.priority, 'priority');
   const searchQueryString = buildSearchQueryString(params.search, 'title');
+  const tableScopeQueryString = buildTableScopeQueryString(tableScope, foreignKeyId);
 
   return db.execute(`    
     SELECT 
@@ -117,5 +131,5 @@ export const countTotalTasks = (
     FROM 
       tasks 
     WHERE 
-      teamId = ${teamId} ${statusFilterQueryString} ${priorityFilterQueryString} ${searchQueryString}`);
+      teamId = ${teamId} ${statusFilterQueryString} ${priorityFilterQueryString} ${searchQueryString} ${tableScopeQueryString}`);
 };
