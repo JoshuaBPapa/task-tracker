@@ -1,6 +1,13 @@
 import { Router } from 'express';
 import { catchAsyncError } from '../middleware';
-import { deleteUser, getUsersPaginated, postUser, putPassword, putUser } from '../controllers';
+import {
+  deleteUser,
+  getUserById,
+  getUsersPaginated,
+  postUser,
+  putPassword,
+  putUser,
+} from '../controllers';
 import { createUserValidator, updatePasswordValidator } from '../middleware/validation/validators';
 import { updateUserValidator } from '../middleware/validation/validators/update-user';
 
@@ -15,3 +22,4 @@ usersRouter.put(
 usersRouter.put('/:id', catchAsyncError(updateUserValidator), catchAsyncError(putUser));
 usersRouter.delete('/:id', catchAsyncError(deleteUser));
 usersRouter.get('', catchAsyncError(getUsersPaginated));
+usersRouter.get('/:id', catchAsyncError(getUserById));

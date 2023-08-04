@@ -15,10 +15,11 @@ import {
   updateUserById,
   selectUsersPaginated,
   countTotalUsers,
+  selectUserById,
 } from '../services';
 import { handleEmptyQueryResults } from '../helpers';
 import { Pagination } from '../classes';
-import { Users } from '../types/response-body/users';
+import { SingleUser, Users } from '../types/response-body/users';
 
 export const postUser = async (
   req: Request<any, any, CreateUserReqBody>,
@@ -81,4 +82,17 @@ export const getUsersPaginated = async (
   const resBody = new Pagination<Users>(results[0], count[0][0].total, req.query.page);
 
   res.status(200).send(resBody);
+};
+
+export const getUserById = async (
+  req: Request<{ id: string }, SingleUser>,
+  res: Response<SingleUser, TokenData>
+): Promise<void> => {
+  const id = parseInt(req.params.id);
+  const { teamId } = res.locals;
+
+  const result = await selectUserById(teamId, id);
+  handleEmptyQueryResults(result[0]);
+
+  res.status(200).send(result[0][0]);
 };

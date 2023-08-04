@@ -4,6 +4,7 @@ import {
   CreateUserReqBody,
   GetUsersReqParams,
   SelectCountResults,
+  SingleUser,
   UpdateUserReqBody,
   Users,
 } from '../types';
@@ -37,6 +38,8 @@ interface UserWithPw extends RowDataPacket {
 }
 
 type SelectUsersResults = RowDataPacket & Users;
+
+type SelectSingleUserResult = RowDataPacket & SingleUser;
 
 export const getProfilePictureColour = (): string => {
   const colours = ['#50CD89', '#F1416C', '#7239EA', '#BD00FF', '#009EF7'];
@@ -148,4 +151,24 @@ export const countTotalUsers = (
       users 
     WHERE 
       teamId = ${teamId} ${searchQueryString} ${authLevelFilterQueryString}`);
+};
+
+export const selectUserById = (
+  teamId: number,
+  userId: number
+): Promise<[SelectSingleUserResult[], FieldPacket[]]> => {
+  return db.execute(`
+    SELECT 
+      u.id, u.firstName, u.lastName, u.username, u.authLevel, u.jobTitle, u.pictureColour,
+      COUNT(t.assignedUserId) as 'assignedTasks' 
+    FROM 
+      users AS u
+    LEFT JOIN
+      tasks AS t
+    ON
+      u.id = t.assignedUserId
+    WHERE
+      u.teamId = ${teamId} AND u.id = ${userId}
+    GROUP BY
+      u.id`);
 };

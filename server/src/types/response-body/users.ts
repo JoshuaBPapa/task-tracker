@@ -8,3 +8,5 @@ export interface Users {
   assignedTasks: number;
   username: string;
 }
+
+export type SingleUser = Users;
