@@ -6,3 +6,8 @@ export interface Projects {
   unassignedTasks: number;
   tasksNotStarted: number;
 }
+
+export interface SingleProject {
+  id: number;
+  name: string;
+}

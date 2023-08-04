@@ -3,10 +3,11 @@ import {
   countTotalProjects,
   deleteProjectById,
   insertProject,
+  selectProjectById,
   selectProjectsPaginated,
   updateProjectById,
 } from '../services';
-import { CreateProjectReqBody, GetProjectsReqParams, Projects } from '../types';
+import { CreateProjectReqBody, GetProjectsReqParams, SingleProject, Projects } from '../types';
 import { TokenData } from '../types';
 import { handleEmptyQueryResults } from '../helpers';
 import { Pagination } from '../classes';
@@ -58,4 +59,17 @@ export const getProjectsPaginated = async (
   const resBody = new Pagination<Projects>(results[0], count[0][0].total, req.query.page);
 
   res.status(200).send(resBody);
+};
+
+export const getProjectById = async (
+  req: Request<{ id: string }, SingleProject>,
+  res: Response<SingleProject, TokenData>
+): Promise<void> => {
+  const id = parseInt(req.params.id);
+  const { teamId } = res.locals;
+
+  const result = await selectProjectById(teamId, id);
+  handleEmptyQueryResults(result[0]);
+
+  res.status(200).send(result[0][0]);
 };

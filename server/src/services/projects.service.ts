@@ -1,6 +1,12 @@
 import { FieldPacket, ResultSetHeader, RowDataPacket } from 'mysql2';
 import db from '../db/database';
-import { CreateProjectReqBody, GetProjectsReqParams, Projects, SelectCountResults } from '../types';
+import {
+  CreateProjectReqBody,
+  GetProjectsReqParams,
+  SingleProject,
+  Projects,
+  SelectCountResults,
+} from '../types';
 import { Pagination } from '../classes';
 import { buildOrderByQueryString, buildSearchQueryString } from '../helpers';
 
@@ -13,6 +19,8 @@ interface UpdateProjectValues extends InsertProjectValues {
 }
 
 type SelectProjectsResults = RowDataPacket & Projects;
+
+type SelectSingleProjectResult = RowDataPacket & SingleProject;
 
 export const insertProject = (
   projectData: InsertProjectValues
@@ -85,4 +93,17 @@ export const countTotalProjects = (
       projects
     WHERE
       teamId = ${teamId} ${searchQueryString}`);
+};
+
+export const selectProjectById = (
+  teamId: number,
+  projectId: number
+): Promise<[SelectSingleProjectResult[], FieldPacket[]]> => {
+  return db.execute(`
+    SELECT 
+      id, name
+    FROM 
+      projects
+    WHERE
+      teamId = ${teamId} AND id = ${projectId}`);
 };

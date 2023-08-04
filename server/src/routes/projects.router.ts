@@ -1,5 +1,11 @@
 import { Router } from 'express';
-import { deleteProject, getProjectsPaginated, postProject, putProject } from '../controllers';
+import {
+  deleteProject,
+  getProjectById,
+  getProjectsPaginated,
+  postProject,
+  putProject,
+} from '../controllers';
 import { catchAsyncError } from '../middleware';
 import { projectValidator } from '../middleware/validation/validators';
 
@@ -9,3 +15,4 @@ projectsRouter.post('', catchAsyncError(projectValidator), catchAsyncError(postP
 projectsRouter.put('/:id', catchAsyncError(projectValidator), catchAsyncError(putProject));
 projectsRouter.delete('/:id', catchAsyncError(deleteProject));
 projectsRouter.get('', catchAsyncError(getProjectsPaginated));
+projectsRouter.get('/:id', catchAsyncError(getProjectById));
