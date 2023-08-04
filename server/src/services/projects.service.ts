@@ -64,7 +64,7 @@ export const selectProjectsPaginated = (
       p.id, p.name, 
       COUNT(t.projectId) as 'totalTasks', 
       COUNT(CASE t.priority WHEN 4 THEN 1 ELSE null END) as 'severeTasks',
-      COUNT(t.assignedUserId) as 'unassignedTasks',
+      COUNT(t.assignedUserId) as 'assignedTasks',
       COUNT(CASE t.status WHEN 1 THEN 1 ELSE null END) as 'tasksNotStarted'
     FROM 
       projects AS p

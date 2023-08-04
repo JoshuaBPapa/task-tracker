@@ -3,7 +3,7 @@ export interface Projects {
   name: string;
   totalTasks: number;
   severeTasks: number;
-  unassignedTasks: number;
+  assignedTasks: number;
   tasksNotStarted: number;
 }
 
