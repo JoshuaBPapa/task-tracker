@@ -17,3 +17,7 @@ export interface Tasks {
   dateTimeCreated: string;
   dateTimeUpdated: string;
 }
+
+export interface SingleTask extends Tasks {
+  description: string;
+}

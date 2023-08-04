@@ -1,5 +1,11 @@
 import { FieldPacket, ResultSetHeader, RowDataPacket } from 'mysql2';
-import { CreateTaskReqBody, GetTasksReqParams, SelectCountResults, Tasks } from '../types';
+import {
+  CreateTaskReqBody,
+  GetTasksReqParams,
+  SelectCountResults,
+  SingleTask,
+  Tasks,
+} from '../types';
 import db from '../db/database';
 import { Pagination } from '../classes';
 import {
@@ -18,6 +24,8 @@ interface UpdateTaskValues extends InsertTaskValues {
 }
 
 type SelectTasksResults = RowDataPacket & Tasks;
+
+type SelectSingleTaskResult = RowDataPacket & SingleTask;
 
 export const insertTask = (
   taskData: InsertTaskValues
@@ -132,4 +140,42 @@ export const countTotalTasks = (
       tasks 
     WHERE 
       teamId = ${teamId} ${statusFilterQueryString} ${priorityFilterQueryString} ${searchQueryString} ${tableScopeQueryString}`);
+};
+
+export const selectTaskById = (
+  teamId: number,
+  taskId: number
+): Promise<[SelectSingleTaskResult[], FieldPacket[]]> => {
+  return db.execute(`
+    SELECT
+      t.id, t.title, t.description, t.status, t.priority, t.dateTimeCreated, t.dateTimeUpdated,
+      CASE 
+        WHEN 
+          t.assignedUserId IS null THEN null
+        ELSE 
+          JSON_OBJECT(
+            'id', assignedUser.id, 
+            'firstName', assignedUser.firstName, 
+            'lastName', assignedUser.lastName, 
+            'jobTitle', assignedUser.jobTitle, 
+            'pictureColour', assignedUser.pictureColour
+          ) END AS assignedUser,
+      JSON_OBJECT(
+        'id', project.id,
+        'name', project.name
+      ) AS project
+    FROM 
+      tasks AS t
+    LEFT JOIN
+      users AS assignedUser
+    ON
+      assignedUser.id = t.assignedUserId
+    LEFT JOIN
+      projects AS project
+    ON
+      project.id = t.projectId
+    WHERE
+      t.teamId = ${teamId} AND t.id = ${taskId}
+    GROUP BY
+      t.id`);
 };

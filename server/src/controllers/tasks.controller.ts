@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
-import { CreateTaskReqBody, GetTasksReqParams, Tasks, TokenData } from '../types';
+import { CreateTaskReqBody, GetTasksReqParams, SingleTask, Tasks, TokenData } from '../types';
 import {
   countTotalTasks,
   deleteTaskById,
   insertTask,
+  selectTaskById,
   selectTasksPaginated,
   updateTasksById,
 } from '../services';
@@ -61,4 +62,17 @@ export const getTasksPaginated = async (
   const resBody = new Pagination<Tasks>(results[0], count[0][0].total, req.query.page);
 
   res.status(200).send(resBody);
+};
+
+export const getTaskById = async (
+  req: Request<{ id: string }, SingleTask>,
+  res: Response<SingleTask, TokenData>
+): Promise<void> => {
+  const id = parseInt(req.params.id);
+  const { teamId } = res.locals;
+
+  const result = await selectTaskById(teamId, id);
+  handleEmptyQueryResults(result[0]);
+
+  res.status(200).send(result[0][0]);
 };
