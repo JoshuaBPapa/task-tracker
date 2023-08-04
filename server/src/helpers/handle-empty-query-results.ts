@@ -1,6 +1,12 @@
-import { ResultSetHeader } from 'mysql2';
+import { ResultSetHeader, RowDataPacket } from 'mysql2';
 import { HttpException } from '../exceptions/http-exception';
 
-export const handleEmptyQueryResults = (resultsHeader: ResultSetHeader): void | never => {
-  if (!resultsHeader.affectedRows) throw new HttpException(404, 'Resource not found');
+export const handleEmptyQueryResults = (
+  results: ResultSetHeader | RowDataPacket[]
+): void | never => {
+  if (Array.isArray(results)) {
+    if (!results.length) throw new HttpException(404, 'Resource not found');
+  } else {
+    if (!results.affectedRows) throw new HttpException(404, 'Resource not found');
+  }
 };
