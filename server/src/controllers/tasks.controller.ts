@@ -1,6 +1,15 @@
 import { Request, Response } from 'express';
-import { CreateTaskReqBody, GetTasksReqParams, SingleTask, Tasks, TokenData } from '../types';
 import {
+  CreateTaskReqBody,
+  GetTasksReqParams,
+  SingleTask,
+  Statistics,
+  Tasks,
+  TokenData,
+} from '../types';
+import {
+  selectStatisticCounts,
+  selectTopTenTasks,
   countTotalTasks,
   deleteTaskById,
   insertTask,
@@ -75,4 +84,34 @@ export const getTaskById = async (
   handleEmptyQueryResults(result[0]);
 
   res.status(200).send(result[0][0]);
+};
+
+export const getStatistics = async (req: Request, res: Response<Statistics, TokenData>) => {
+  const { teamId } = res.locals;
+
+  const statisticCounts = await selectStatisticCounts(teamId);
+  const topTenTasksByStatus = await selectTopTenTasks(teamId, 'status');
+  const topTenTasksByDateCreated = await selectTopTenTasks(teamId, 'dateTimeCreated');
+
+  const {
+    severeTasksCount,
+    tasksAssignedCount,
+    totalTasksCount,
+    tasksNotStartedCount,
+    statusCounts,
+  } = statisticCounts[0][0];
+  const [tenMostSevereTasks] = topTenTasksByStatus;
+  const [tenLatestTasks] = topTenTasksByDateCreated;
+
+  const resBody = {
+    severeTasksCount,
+    tasksAssignedCount,
+    totalTasksCount,
+    tasksNotStartedCount,
+    statusCounts,
+    tenLatestTasks,
+    tenMostSevereTasks,
+  };
+
+  res.status(200).send(resBody);
 };

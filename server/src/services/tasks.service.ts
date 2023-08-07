@@ -4,6 +4,8 @@ import {
   GetTasksReqParams,
   SelectCountResults,
   SingleTask,
+  StatisticsTask,
+  StatisticCounts,
   Tasks,
 } from '../types';
 import db from '../db/database';
@@ -26,6 +28,10 @@ interface UpdateTaskValues extends InsertTaskValues {
 type SelectTasksResults = RowDataPacket & Tasks;
 
 type SelectSingleTaskResult = RowDataPacket & SingleTask;
+
+type SelectStatisticCountsResults = RowDataPacket & StatisticCounts;
+
+type SelectStatisticsTasksResults = RowDataPacket & StatisticsTask;
 
 export const insertTask = (
   taskData: InsertTaskValues
@@ -178,4 +184,44 @@ export const selectTaskById = (
       t.teamId = ${teamId} AND t.id = ${taskId}
     GROUP BY
       t.id`);
+};
+
+export const selectStatisticCounts = (
+  teamId: number
+): Promise<[SelectStatisticCountsResults[], FieldPacket[]]> => {
+  return db.execute(`
+    SELECT
+      COUNT (*) AS totalTasksCount,
+      COUNT(CASE priority WHEN 4 THEN 1 ELSE null END) as 'severeTasksCount',
+      COUNT(CASE status WHEN 1 THEN 1 ELSE null END) as 'tasksNotStartedCount',
+      COUNT(assignedUserId) as 'tasksAssignedCount',
+      JSON_OBJECT(
+        '1', COUNT(CASE status WHEN 1 THEN 1 ELSE null END),
+        '2', COUNT(CASE status WHEN 2 THEN 1 ELSE null END), 
+        '3', COUNT(CASE status WHEN 3 THEN 1 ELSE null END), 
+        '4', COUNT(CASE status WHEN 4 THEN 1 ELSE null END)
+      ) AS statusCounts
+    FROM
+      tasks
+    WHERE
+      teamId = ${teamId}
+  `);
+};
+
+export const selectTopTenTasks = (
+  teamId: number,
+  orderByColumn: string
+): Promise<[SelectStatisticsTasksResults[], FieldPacket[]]> => {
+  return db.execute(`
+    SELECT
+      id, title, status, priority, dateTimeCreated, dateTimeUpdated
+    FROM
+      tasks
+    WHERE
+      teamId = ${teamId}
+    ORDER BY
+      ${orderByColumn} DESC
+    LIMIT
+      10
+  `);
 };

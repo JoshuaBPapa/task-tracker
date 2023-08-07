@@ -17,6 +17,7 @@ export * from './response-body/tasks';
 export * from './response-body/projects';
 export * from './response-body/users';
 export * from './response-body/comments';
+export * from './response-body/statistics';
 
 export * from './select-count-result';
 export * from './token-data';
