@@ -2,9 +2,15 @@ import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import * as dotenv from 'dotenv';
-import { authRouter, commentsRouter, projectsRouter, tasksRouter, usersRouter } from './routes';
-import { errorMiddleware } from './middleware/error-middleware';
-import { verifyAccessToken } from './middleware';
+import {
+  authRouter,
+  commentsRouter,
+  projectsRouter,
+  tasksRouter,
+  teamsRouter,
+  usersRouter,
+} from './routes';
+import { verifyAccessToken, errorMiddleware } from './middleware';
 
 dotenv.config();
 
@@ -24,6 +30,7 @@ app.use('/projects', projectsRouter);
 app.use('/tasks', tasksRouter);
 app.use('/users', usersRouter);
 app.use('/comments', commentsRouter);
+app.use('/teams', teamsRouter);
 
 app.use(errorMiddleware);
 

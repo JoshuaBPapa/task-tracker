@@ -13,3 +13,7 @@ export const insertTeam = async (teamName: string): Promise<[ResultSetHeader, Fi
 export const selectTeamByTeamName = async (teamName: string): Promise<[Team[], FieldPacket[]]> => {
   return db.execute(`SELECT * FROM teams WHERE teamName = "${teamName}"`);
 };
+
+export const deleteTeamById = (teamId: number): Promise<[ResultSetHeader, FieldPacket[]]> => {
+  return db.execute(`DELETE FROM teams WHERE id = ${teamId}`);
+};
