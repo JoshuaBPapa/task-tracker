@@ -8,8 +8,11 @@ import {
   putPassword,
   putUser,
 } from '../controllers';
-import { createUserValidator, updatePasswordValidator } from '../middleware/validation/validators';
-import { updateUserValidator } from '../middleware/validation/validators/update-user';
+import {
+  createUserValidator,
+  updatePasswordValidator,
+  updateUserValidator,
+} from '../middleware/validation/validators';
 
 export const usersRouter = Router();
 

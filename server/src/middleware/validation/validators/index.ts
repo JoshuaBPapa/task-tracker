@@ -6,3 +6,4 @@ export * from './task';
 export * from './create-user';
 export * from './update-password';
 export * from './comment';
+export * from './update-user';
