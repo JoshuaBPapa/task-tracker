@@ -47,11 +47,13 @@ export const putUser = async (
 };
 
 export const putPassword = async (
-  req: Request<any, any, UpdateUserPassword>,
+  req: Request<{ id: string }, any, UpdateUserPassword>,
   res: Response<never, TokenData>
 ): Promise<void> => {
   const { teamId } = res.locals;
-  const { password, id } = req.body;
+  const { password } = req.body;
+  const id = parseInt(req.params.id);
+
   const hashedPw = await hashPw(password);
   const updated = await updateUserPasswordById(hashedPw, id, teamId);
   handleEmptyQueryResults(updated[0]);

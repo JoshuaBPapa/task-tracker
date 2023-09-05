@@ -18,7 +18,7 @@ export const usersRouter = Router();
 
 usersRouter.post('/', catchAsyncError(createUserValidator), catchAsyncError(postUser));
 usersRouter.put(
-  '/password',
+  '/password/:id',
   catchAsyncError(updatePasswordValidator),
   catchAsyncError(putPassword)
 );

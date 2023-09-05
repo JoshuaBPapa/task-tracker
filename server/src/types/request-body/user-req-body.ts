@@ -12,7 +12,6 @@ export interface UpdateUserReqBody
   extends Omit<CreateUserReqBody, 'password' | 'confirmPassword' | 'username'> {}
 
 export interface UpdateUserPassword {
-  id: number;
   password: string;
   confirmPassword: string;
 }
