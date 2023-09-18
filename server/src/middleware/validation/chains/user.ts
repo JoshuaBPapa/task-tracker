@@ -65,6 +65,6 @@ export const checkAuthLevel = (): ValidationChain => {
 export const checkUsernameIsTaken = (res: Response<any, TokenData>): ValidationChain => {
   return body('username').custom(async (value: string) => {
     const findUser = await selectUserByUsername(value, res.locals.teamId);
-    if (!findUser[0].length) return Promise.reject(alreadyExistsMsg());
+    if (findUser[0].length) return Promise.reject(alreadyExistsMsg());
   });
 };
