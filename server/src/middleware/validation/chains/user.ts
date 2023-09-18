@@ -46,7 +46,12 @@ export const checkFirstNameOrLastName = (name: 'firstName' | 'lastName'): Valida
 };
 
 export const checkJobTitle = (): ValidationChain => {
-  return body('jobTitle').trim().notEmpty().isLength({ max: 50 }).withMessage(maxLengthMsg(50));
+  return body('jobTitle')
+    .trim()
+    .notEmpty()
+    .withMessage(requiredMsg())
+    .isLength({ max: 50 })
+    .withMessage(maxLengthMsg(50));
 };
 
 export const checkAuthLevel = (): ValidationChain => {
