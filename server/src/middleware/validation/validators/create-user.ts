@@ -22,7 +22,7 @@ export const createUserValidator = async (
     checkFirstNameOrLastName('firstName'),
     checkFirstNameOrLastName('lastName'),
     checkJobTitle(),
-    checkAuthLevel(),
+    checkAuthLevel(true),
   ];
   const dbValidationChecks: ValidationChain[] = [checkUsernameIsTaken(res)];
 

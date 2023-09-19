@@ -13,7 +13,7 @@ export const updateUserValidator = async (
     checkFirstNameOrLastName('firstName'),
     checkFirstNameOrLastName('lastName'),
     checkJobTitle(),
-    checkAuthLevel(),
+    checkAuthLevel(false),
   ];
 
   await runValidationChecks(req, validationChecks, true);

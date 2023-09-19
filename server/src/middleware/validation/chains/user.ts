@@ -54,12 +54,16 @@ export const checkJobTitle = (): ValidationChain => {
     .withMessage(maxLengthMsg(50));
 };
 
-export const checkAuthLevel = (): ValidationChain => {
+export const checkAuthLevel = (isCreate: boolean): ValidationChain => {
+  const levelRange = { min: 1, max: 4 };
+  // restrict new users being created within a team with master admin auth level (authLevel 4)
+  if (isCreate) levelRange.max = 3;
+
   return body('authLevel')
     .notEmpty()
     .withMessage(requiredMsg())
-    .isInt({ min: 1, max: 4 })
-    .withMessage(betweenIntsMsg(1, 4));
+    .isInt(levelRange)
+    .withMessage(betweenIntsMsg(levelRange.min, levelRange.max));
 };
 
 export const checkUsernameIsTaken = (res: Response<any, TokenData>): ValidationChain => {
