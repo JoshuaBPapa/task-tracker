@@ -9,13 +9,13 @@ export interface Tasks {
     lastName: string;
     jobTitle: string;
     pictureColour: string;
-  };
+  } | null;
   project: {
     id: number;
     name: number;
   };
   dateTimeCreated: string;
-  dateTimeUpdated: string;
+  dateTimeUpdated: string | null;
 }
 
 export interface SingleTask extends Tasks {
