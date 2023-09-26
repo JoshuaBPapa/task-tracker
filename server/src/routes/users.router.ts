@@ -13,6 +13,7 @@ import {
   updatePasswordValidator,
   updateUserValidator,
 } from '../middleware/validation/validators';
+import { checkTargetIsMasterAdmin } from '../middleware/authorisation';
 
 export const usersRouter = Router();
 
@@ -22,7 +23,12 @@ usersRouter.put(
   catchAsyncError(updatePasswordValidator),
   catchAsyncError(putPassword)
 );
-usersRouter.put('/:id', catchAsyncError(updateUserValidator), catchAsyncError(putUser));
-usersRouter.delete('/:id', catchAsyncError(deleteUser));
+usersRouter.put(
+  '/:id',
+  catchAsyncError(updateUserValidator),
+  catchAsyncError(checkTargetIsMasterAdmin),
+  catchAsyncError(putUser)
+);
+usersRouter.delete('/:id', catchAsyncError(checkTargetIsMasterAdmin), catchAsyncError(deleteUser));
 usersRouter.get('', catchAsyncError(getUsersPaginated));
 usersRouter.get('/:id', catchAsyncError(getUserById));

@@ -9,11 +9,17 @@ import {
 } from '../controllers';
 import { catchAsyncError } from '../middleware';
 import { taskValidator } from '../middleware/validation/validators';
+import { checkUserCanEditTask } from '../middleware/authorisation';
 
 export const tasksRouter = Router();
 
 tasksRouter.post('', catchAsyncError(taskValidator), catchAsyncError(postTask));
-tasksRouter.put('/:id', catchAsyncError(taskValidator), catchAsyncError(putTask));
+tasksRouter.put(
+  '/:id',
+  catchAsyncError(taskValidator),
+  catchAsyncError(checkUserCanEditTask),
+  catchAsyncError(putTask)
+);
 tasksRouter.delete('/:id', catchAsyncError(deleteTask));
 tasksRouter.get('/statistics', catchAsyncError(getStatistics));
 tasksRouter.get('/task/:id', catchAsyncError(getTaskById));

@@ -11,6 +11,7 @@ import {
   usersRouter,
 } from './routes';
 import { verifyAccessToken, errorMiddleware } from './middleware';
+import { checkAuthLevel } from './middleware/authorisation';
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ app.use('/auth', authRouter);
 
 // protected routes
 app.use(verifyAccessToken);
+app.use(checkAuthLevel);
 app.use('/projects', projectsRouter);
 app.use('/tasks', tasksRouter);
 app.use('/users', usersRouter);
