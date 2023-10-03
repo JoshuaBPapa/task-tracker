@@ -1,6 +1,6 @@
 /// Padding of an input field, must be defined with a shorthand for vertical and horizontal values e.g. ".5rem .5rem"
 /// @group form
-$inputPadding: .5rem .5rem;
+$inputPadding: 0.75rem 0.75rem;
 
 /// Background of an input field
 /// @group form
@@ -32,7 +32,7 @@ $inputFocusBorderColor: $primaryColor;
 
 /// Color of an input field in invalid state
 /// @group form
-$inputErrorBorderColor: #ced4da #ced4da #ced4da $errorColor;
+$inputErrorBorderColor: $errorColor;
 
 /// Text color of a placeholder
 /// @group form
