@@ -1,0 +1,20 @@
+<div class="labelled-input">
+  <label>{{ label }}</label>
+  <input
+    pInputText
+    [placeholder]="placeholder"
+    [type]="type"
+    [formControl]="control"
+    [ngClass]="{
+      'ng-invalid ng-dirty':
+        control.invalid && (control.touched || control.dirty)
+    }"
+  />
+  <small *ngIf="helpText">{{ helpText }}</small>
+  <small
+    *ngIf="control.invalid && (control.touched || control.dirty)"
+    class="failed-validation-message"
+  >
+    {{ control.errors | validationMessage }}
+  </small>
+</div>
