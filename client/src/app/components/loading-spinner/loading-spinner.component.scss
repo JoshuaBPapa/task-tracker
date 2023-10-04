@@ -1,0 +1,19 @@
+.loader {
+  animation: rotation 0.66s linear infinite;
+  border: 5px solid var(--highlight-bg);
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  box-sizing: border-box;
+  display: inline-block;
+  height: 40px;
+  width: 40px;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
