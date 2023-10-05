@@ -8,9 +8,7 @@ export function passwordsMatch(): ValidatorFn {
       const password = parent.get('password')?.value;
       const confirmPassword = control.value;
 
-      return password !== confirmPassword
-        ? { notMatchingPasswords: true }
-        : null;
+      return password !== confirmPassword ? { notMatchingPasswords: true } : null;
     }
 
     return null;
