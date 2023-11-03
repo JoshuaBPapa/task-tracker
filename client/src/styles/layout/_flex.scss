@@ -1,0 +1,11 @@
+@use "../abstracts/media-queries" as *;
+
+.split-row-into-columns {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+
+  @include md-breakpoint {
+    flex-direction: row;
+  }
+}

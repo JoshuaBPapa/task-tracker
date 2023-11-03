@@ -1,0 +1,68 @@
+@use "../../../../styles/styles.scss" as *;
+
+.auth-container {
+  background-image: url("/assets/backgrounds/auth-background.svg");
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+  position: fixed;
+  width: 100%;
+
+  @include md-breakpoint {
+    padding: 100px 0;
+  }
+
+  .auth-form-container {
+    background-color: white;
+    height: 100%;
+    overflow: auto;
+    padding: 75px 50px 0;
+    position: relative;
+
+    @include md-breakpoint {
+      box-shadow: 0 0 15px 0 #909090;
+      border-radius: 5px;
+      height: auto;
+      margin: auto;
+      max-height: 100%;
+      max-width: 40rem;
+    }
+
+    .auth-form-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+
+      img {
+        margin-bottom: 1rem;
+        width: 75px;
+      }
+
+      h1 {
+        margin: 0;
+        margin-bottom: 1rem;
+      }
+
+      p {
+        margin: 0;
+        font-weight: 700;
+      }
+
+      .sign-up-button {
+        padding: 0;
+      }
+    }
+
+    .loading-spinner-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+      margin-top: 20px;
+      visibility: hidden;
+
+      &.visible {
+        visibility: visible;
+      }
+    }
+  }
+}

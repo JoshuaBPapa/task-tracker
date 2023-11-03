@@ -1,0 +1,6 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <app-labelled-input [control]="form.controls.teamName" label="Team Name" placeholder="Team Name" />
+  <app-labelled-input [control]="form.controls.username" label="Username" placeholder="Username" helpText="Alphanumeric characters only" />
+  <app-labelled-input [control]="form.controls.password" label="Password" type="password" placeholder="Password" helpText="Minimum 8 characters" />
+  <button pButton style="width: 100%" type="submit" label="Login"></button>
+</form>

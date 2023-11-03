@@ -1,0 +1,30 @@
+<div class="auth-container">
+  <div class="auth-form-container">
+    <!-- FORM CONTAINER HEADER -->
+    <div class="auth-form-header">
+      <img src="/assets/logos/logo1.png" alt="task tracker logo" />
+      <h1>{{ formType | titlecase }} to Task Tracker</h1>
+      <p *ngIf="formType === 'login'; else loginLink">
+        New Here?
+        <button pButton class="sign-up-button p-button-link" label="Sign Up" (click)="changeFormType()" [disabled]="isLoading | async"></button>
+      </p>
+      <ng-template #loginLink>
+        <p>
+          Have an Account?
+          <button pButton class="sign-up-button p-button-link" label="Login" (click)="changeFormType()" [disabled]="isLoading | async"></button>
+        </p>
+      </ng-template>
+    </div>
+    <!-- FORM -->
+    <app-login-form (submitForm)="handleSubmit($event)" *ngIf="formType === 'login'; else signUpForm" />
+    <ng-template #signUpForm>
+      <app-signup-form (submitForm)="handleSubmit($event)"/>
+    </ng-template>
+    <!-- LOADING SPINNER -->
+    <div class="loading-spinner-container" [ngClass]="{visible: isLoading | async}">
+      <app-loading-spinner />
+    </div>
+  </div>
+</div>
+
+

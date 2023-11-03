@@ -1,0 +1,16 @@
+<form [formGroup]="form"  (ngSubmit)="onSubmit()">
+  <app-labelled-input [control]="form.controls.teamName" label="Team Name" placeholder="Team Name" />
+  <div class="split-row-into-columns">
+    <app-labelled-input [control]="form.controls.firstName" label="First Name" placeholder="First Name" />
+    <app-labelled-input [control]="form.controls.lastName" label="Last Name" placeholder="Last Name" />
+  </div>
+  <div class="split-row-into-columns">
+    <app-labelled-input [control]="form.controls.username" label="Username" placeholder="Username" helpText="Alphanumeric characters only" />
+    <app-labelled-input [control]="form.controls.jobTitle" label="Job Title" placeholder="Job Title" />
+  </div>
+  <div class="split-row-into-columns">
+    <app-labelled-input [control]="form.controls.password" label="Password" type="password" placeholder="Password" helpText="Minimum 8 characters" />
+    <app-labelled-input [control]="form.controls.confirmPassword" label="Confirm Password" type="password" placeholder="Confirm Password" />
+  </div>
+  <button pButton style="width: 100%" type="submit" label="Sign Up"></button>
+</form>
