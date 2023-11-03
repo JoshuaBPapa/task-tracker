@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { HttpClientModule } from '@angular/common/http';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -16,6 +17,7 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserAnimationsModule,
     ToastModule,
     HttpClientModule,
+    SharedModule,
   ],
   providers: [MessageService],
   bootstrap: [AppComponent],
