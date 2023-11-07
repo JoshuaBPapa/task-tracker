@@ -113,4 +113,12 @@ describe('AuthService', () => {
     expect(service.loggedInUser as any).toBe(null);
     expect(routerSpy.navigateByUrl).toHaveBeenCalledWith('/auth');
   });
+
+  it('getNewAccessToken should place a POST request with the correct url and payload', () => {
+    const mockPayload = 'refresh token';
+    service.getNewAccessToken(mockPayload).subscribe();
+    const req = httpMock.expectOne(`${environment.api}/auth/token`);
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body).toEqual({ refreshToken: mockPayload });
+  });
 });

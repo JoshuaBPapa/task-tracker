@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import jwtDecode from 'jwt-decode';
 import { Tokens } from 'src/types/tokens';
@@ -83,5 +83,11 @@ export class AuthService {
     localStorage.removeItem('refreshToken');
     this.loggedInUser = null;
     this.router.navigateByUrl('/auth');
+  }
+
+  getNewAccessToken(refreshToken: string): Observable<string> {
+    return this.http
+      .post<{ accessToken: string }>(`${environment.api}/auth/token`, { refreshToken })
+      .pipe(map((res) => res.accessToken));
   }
 }
