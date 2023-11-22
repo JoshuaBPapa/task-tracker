@@ -1,0 +1,43 @@
+@use "../../../../styles/abstracts" as *;
+
+.user-icon-container {
+  align-items: center;
+  display: inline-flex;
+
+  .user-icon-text {
+    color: white;
+    display: inline-flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-right: 1rem;
+
+    &.user-icon-text-responsive {
+      display: none;
+
+      @include md-breakpoint {
+        display: inline-flex;
+      }
+    }
+
+    .user-icon-name {
+      @include text-truncate(9rem);
+      font-weight: bold;
+    }
+
+    .user-icon-job-title {
+      @include text-truncate(9rem);
+    }
+  }
+
+  .user-icon-circle {
+    align-items: center;
+    border: 2px solid white;
+    border-radius: 50%;
+    color: white;
+    display: inline-flex;
+    font-size: 1.5rem;
+    height: 3rem;
+    justify-content: center;
+    width: 3rem;
+  }
+}
