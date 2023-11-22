@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import jwtDecode from 'jwt-decode';
 import { Tokens } from 'src/types/tokens';
 import { Router } from '@angular/router';
+import { LoggedInUser } from 'src/types/logged-in-user';
 
 interface LoginBody {
   teamName: string;
@@ -17,17 +18,6 @@ interface SignUpBody extends LoginBody {
   lastName: string;
   jobTitle: string;
   confirmPassword: string;
-}
-
-interface LoggedInUser {
-  userId: number;
-  firstName: string;
-  lastName: string;
-  username: string;
-  jobTitle: string;
-  teamId: number;
-  authLevel: number;
-  pictureColour: string;
 }
 
 interface DecodedToken extends LoggedInUser {
@@ -52,7 +42,6 @@ export class AuthService {
     localStorage.setItem('refreshToken', tokens.refreshToken);
     localStorage.setItem('accessToken', tokens.accessToken);
     this.setLoggedInUser();
-    this.router.navigateByUrl('/dashboard');
   }
 
   setLoggedInUser(): void {
@@ -67,6 +56,7 @@ export class AuthService {
       const decodedToken = jwtDecode(accessToken) as DecodedToken;
       const { iat, exp, ...userData } = decodedToken;
       this.loggedInUser = userData;
+      this.router.navigateByUrl('/');
     } catch (err) {
       this.clearUser();
     }

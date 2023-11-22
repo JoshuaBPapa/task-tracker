@@ -67,21 +67,21 @@ describe('AuthService', () => {
     expect(signUpReq.request.body).toBe(mockSignUpPayload);
   });
 
-  it('handleSuccessfulLogin should set localStorage, call setLoggedInUser, and then navigateByUrl with the correct argument', () => {
+  it('handleSuccessfulLogin should set localStorage and call setLoggedInUser', () => {
     spyOn(service, 'setLoggedInUser');
     service.handleSuccessfulLogin(mockTokens);
     expect(localStorage.getItem('refreshToken')).toEqual(mockTokens.refreshToken);
     expect(localStorage.getItem('accessToken')).toEqual(mockTokens.accessToken);
-    expect(routerSpy.navigateByUrl).toHaveBeenCalledWith('/dashboard');
   });
 
-  it('setLoggedInUser should set the user if the access token is valid or set to null if not', () => {
+  it('setLoggedInUser should set the user if the access token is valid or set to null if not. Should also navigate the user to the root path if a user is present', () => {
     service.setLoggedInUser();
     expect(service.loggedInUser).toBe(null);
 
     localStorage.setItem('accessToken', mockTokens.accessToken);
     service.setLoggedInUser();
     expect(service.loggedInUser).toBeTruthy();
+    expect(routerSpy.navigateByUrl).toHaveBeenCalledWith('/');
   });
 
   it('logout should place a POST request with the correct url and payload and call clearUser', () => {
