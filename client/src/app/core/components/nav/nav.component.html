@@ -1,0 +1,18 @@
+<div (click)="onCloseMobileNavMenu()" class="mobile-nav-backdrop" *ngIf="isMobileNavOpen"></div>
+<nav [ngClass]="{ 'show-mobile-nav': isMobileNavOpen }">
+  <button
+    class="close-mobile-nav-button"
+    aria-label="close mobile navigation menu"
+    (click)="onCloseMobileNavMenu()"
+  >
+    <i class="pi pi-times"></i>
+  </button>
+  <ul>
+    <li *ngFor="let link of linkList">
+      <a [routerLink]="link.url" routerLinkActive="active-link" (click)="onCloseMobileNavMenu()">
+        <i [class]="link.icon"></i>
+        <span>{{ link.title }}</span>
+      </a>
+    </li>
+  </ul>
+</nav>

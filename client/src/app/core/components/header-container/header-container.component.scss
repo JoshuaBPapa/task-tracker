@@ -1,0 +1,51 @@
+@use "../../../../styles/abstracts/media-queries" as *;
+
+.top-bar {
+  align-items: center;
+  background: linear-gradient(90deg, var(--blue-500), var(--blue-600));
+  background-color: var(--blue-500);
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem 1.5rem;
+
+  .top-bar-logo {
+    align-items: center;
+    color: white;
+    display: flex;
+
+    img {
+      width: 2.875rem;
+    }
+
+    span {
+      display: none;
+      font-size: 1.5rem;
+      margin-left: 0.5rem;
+
+      @include md-breakpoint {
+        display: inline;
+      }
+    }
+  }
+
+  .top-bar-buttons {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+
+    .hamburger-menu {
+      background: transparent;
+      border: 0;
+      margin-left: 0.5rem;
+
+      i {
+        color: white;
+        font-size: 1.75rem;
+      }
+
+      @include md-breakpoint {
+        display: none;
+      }
+    }
+  }
+}

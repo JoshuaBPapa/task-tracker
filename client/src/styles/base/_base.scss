@@ -3,7 +3,12 @@ html {
 }
 
 body {
+  background-color: #f2f2f2;
   color: var(--text-color);
   margin: 0;
   min-height: 100vh;
+
+  &.lock-scroll {
+    overflow: hidden;
+  }
 }

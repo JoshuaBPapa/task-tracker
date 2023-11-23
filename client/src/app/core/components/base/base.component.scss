@@ -1,0 +1,11 @@
+.container {
+  margin: auto;
+
+  &.container-base {
+    max-width: 1920px;
+  }
+
+  &.container-page-content {
+    padding: 1rem;
+  }
+}

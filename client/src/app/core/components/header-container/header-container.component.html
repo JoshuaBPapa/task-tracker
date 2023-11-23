@@ -1,0 +1,18 @@
+<header>
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <a routerLink="/dashboard" class="top-bar-logo">
+      <img src="/assets/logos/logo2.png" alt="task tracker logo - white" />
+      <span>Task Tracker</span>
+    </a>
+    <!-- USER ICON AND HAMBURGER MENU FOR MOBILE NAV -->
+    <div class="top-bar-buttons">
+      <app-user-icon [firstName]="currentUser.firstName" [lastName]="currentUser.lastName" [showText]="true" [jobTitle]="currentUser.jobTitle" [responsiveText]="true" [bgColour]="currentUser.pictureColour" />
+      <button class="hamburger-menu" aria-label="open mobile navigation menu" (click)="setIsMobileNavOpen(true)">
+        <i class="pi pi-bars"></i>
+      </button>
+    </div>
+  </div>
+  <!-- NAVIGATION MENU -->
+  <app-nav (closeMobileNavMenu)="setIsMobileNavOpen(false)" [linkList]="linkList" [isMobileNavOpen]="isMobileNavOpen"/>
+</header>
