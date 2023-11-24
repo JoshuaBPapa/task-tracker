@@ -14,8 +14,14 @@ export class NavComponent {
   @Input() linkList: NavLink[];
   @Input() isMobileNavOpen = false;
   @Output() closeMobileNavMenu = new EventEmitter<void>();
+  @Output() logout = new EventEmitter<void>();
 
   onCloseMobileNavMenu(): void {
     this.closeMobileNavMenu.emit();
+  }
+
+  onLogout(): void {
+    this.onCloseMobileNavMenu();
+    this.logout.emit();
   }
 }

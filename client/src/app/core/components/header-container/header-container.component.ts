@@ -57,4 +57,8 @@ export class HeaderContainerComponent implements OnInit {
       this.document.body.classList.remove('lock-scroll');
     }
   }
+
+  handleLogout(): void {
+    this.authService.logout();
+  }
 }

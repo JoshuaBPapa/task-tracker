@@ -9,10 +9,19 @@
   </button>
   <ul>
     <li *ngFor="let link of linkList">
-      <a [routerLink]="link.url" routerLinkActive="active-link" (click)="onCloseMobileNavMenu()">
+      <a
+        [routerLink]="link.url"
+        routerLinkActive="active-link"
+        (click)="onCloseMobileNavMenu()"
+        class="nav-item"
+      >
         <i [class]="link.icon"></i>
         <span>{{ link.title }}</span>
       </a>
     </li>
   </ul>
+  <button (click)="onLogout()" class="nav-item">
+    <i class="pi pi-lock-open"></i>
+    Logout
+  </button>
 </nav>

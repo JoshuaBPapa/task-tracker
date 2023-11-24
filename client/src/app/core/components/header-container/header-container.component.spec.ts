@@ -30,7 +30,7 @@ const mockLinks: NavLink[] = [
 describe('HeaderContainerComponent', () => {
   let component: HeaderContainerComponent;
   let fixture: ComponentFixture<HeaderContainerComponent>;
-  const authServiceSpy = jasmine.createSpyObj('AuthService', [], {
+  const authServiceSpy = jasmine.createSpyObj('AuthService', ['logout'], {
     loggedInUser: mockLoggedInUser,
   });
 
@@ -80,5 +80,10 @@ describe('HeaderContainerComponent', () => {
     component.setIsMobileNavOpen(false);
     expect(component.isMobileNavOpen).toBeFalse();
     expect(document.body.classList).not.toContain('lock-scroll');
+  });
+
+  it('handleLogout should call authService.logout', () => {
+    component.handleLogout();
+    expect(authServiceSpy.logout).toHaveBeenCalled();
   });
 });
