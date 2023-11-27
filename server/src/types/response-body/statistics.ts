@@ -1,6 +1,6 @@
 export interface StatisticsTask {
   id: number;
-  title: number;
+  title: string;
   status: number;
   priority: number;
   dateTimeCreated: string;
