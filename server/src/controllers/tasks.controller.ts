@@ -90,7 +90,7 @@ export const getStatistics = async (req: Request, res: Response<Statistics, Toke
   const { teamId } = res.locals;
 
   const statisticCounts = await selectStatisticCounts(teamId);
-  const topTenTasksByStatus = await selectTopTenTasks(teamId, 'status');
+  const topTenTasksByPriority = await selectTopTenTasks(teamId, 'priority');
   const topTenTasksByDateCreated = await selectTopTenTasks(teamId, 'dateTimeCreated');
 
   const {
@@ -100,7 +100,7 @@ export const getStatistics = async (req: Request, res: Response<Statistics, Toke
     tasksNotStartedCount,
     statusCounts,
   } = statisticCounts[0][0];
-  const [tenMostSevereTasks] = topTenTasksByStatus;
+  const [tenMostSevereTasks] = topTenTasksByPriority;
   const [tenLatestTasks] = topTenTasksByDateCreated;
 
   const resBody = {
