@@ -1,0 +1,4 @@
+<span class="task-status-tag" [style]="{ color: value | taskStatus: 'colour' }">
+  <i [ngClass]="[value | taskStatus: 'icon', 'task-status-tag-icon']"></i>
+  <span class="task-status-tag-text">{{ value | taskStatus }}</span>
+</span>

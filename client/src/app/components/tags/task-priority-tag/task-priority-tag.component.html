@@ -1,0 +1,4 @@
+<p-tag [severity]="severity" [style]="{ padding: '0.5rem 0.75rem' }">
+  <i [ngClass]="[value | taskPriority: 'icon', 'task-priority-tag-icon']"></i>
+  <span class="task-priority-tag-text">{{ value | taskPriority }}</span>
+</p-tag>

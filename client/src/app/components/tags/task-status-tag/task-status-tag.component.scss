@@ -1,0 +1,16 @@
+.task-status-tag {
+  align-items: center;
+  border: 2px solid;
+  border-radius: 10px;
+  display: inline-flex;
+  font-size: 0.85rem;
+  font-weight: bold;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  white-space: nowrap;
+
+  .task-status-tag-icon {
+    font-weight: bold;
+    margin-right: 0.75rem;
+  }
+}
