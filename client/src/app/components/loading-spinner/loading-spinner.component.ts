@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-loading-spinner',
@@ -7,4 +7,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   styleUrls: ['./loading-spinner.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoadingSpinnerComponent {}
+export class LoadingSpinnerComponent {
+  @Input() size = '40px';
+}
