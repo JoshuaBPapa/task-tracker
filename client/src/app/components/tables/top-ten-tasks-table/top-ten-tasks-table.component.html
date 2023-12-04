@@ -1,0 +1,20 @@
+<p-table [value]="tasks">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Title</th>
+      <th>Status</th>
+      <th>Priority</th>
+      <th>Created</th>
+      <th>Updated</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-task>
+    <tr>
+      <td class="top-ten-tasks-table-task-title">{{ task.title }}</td>
+      <td><app-task-status-tag [value]="task.status" /></td>
+      <td><app-task-priority-tag [value]="task.priority" /></td>
+      <td>{{ task.dateTimeCreated | date: "dd/MM/yyyy" }}</td>
+      <td>{{ task.dateTimeUpdated | date: "dd/MM/yyyy" }}</td>
+    </tr>
+  </ng-template>
+</p-table>

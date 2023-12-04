@@ -1,0 +1,5 @@
+@use "../../../../styles/abstracts" as *;
+
+.top-ten-tasks-table-task-title {
+  @include text-truncate(10rem);
+}
