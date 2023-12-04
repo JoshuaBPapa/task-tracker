@@ -10,6 +10,7 @@ $mobile-nav-max-width: 16rem;
   position: fixed;
   top: 0;
   width: 100vh;
+  z-index: 9998;
 }
 
 nav {
