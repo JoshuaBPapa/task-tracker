@@ -1,0 +1,49 @@
+<!-- LOADING CARD -->
+<app-loading-card *ngIf="isLoading | async" text="Loading Dashboard..." />
+
+<!-- ERROR CARD -->
+<app-error-card *ngIf="isError | async" text="Sorry, there was an error while trying to load your dashboard. Please try again later."/>
+
+<!-- DASHBOARD WITH DATA -->
+<ng-container *ngIf="(statisticsData$ | async ) as data">
+  <!-- NO TASKS FOUND -->
+  <app-notification-card *ngIf="!data.totalTasksCount else dashboardGrid">
+    <i class="pi pi-exclamation-circle dashboard-no-tasks-icon"></i>
+    <span class="dashboard-no-tasks-text"
+      >You don't have any tasks created. Please begin by creating a project to allocate tasks
+      to.</span
+    >
+  </app-notification-card>
+
+  <!-- DASHBOARD GRID WITH TASKS -->
+  <ng-template #dashboardGrid>
+    <div class="flex-grid flex-grid-container dashboard-grid">
+      <!-- LEFT COLUMN -->
+      <div class="flex-grid flex-grid-col col-1">
+        <p-card header="Tasks by Status">
+          <app-stacked-bar-diagram [data]="data.statusCounts" [config]="chartConfig"/>
+        </p-card>
+        <p-card header="Latest Tasks">
+          <app-top-ten-tasks-table [tasks]="data.tenLatestTasks" />
+        </p-card>
+      </div>
+      <!-- RIGHT COLUMN -->
+      <div class="flex-grid flex-grid-col col-1">
+        <div class="flex-grid flex-grid-container">
+          <div class="flex-grid flex-grid-col col-1">
+            <app-count-card [count]="data.totalTasksCount" label="Total Tasks" />
+            <app-count-card [count]="data.tasksNotStartedCount" label="Tasks Not Started" bgColour="var(--orange-500)" icon="pi pi-calendar-times" />
+          </div>
+          <div class="flex-grid flex-grid-col col-1">
+            <app-count-card [count]="data.tasksAssignedCount" label="Assigned Tasks" bgColour="var(--green-500)" icon="pi pi-user" />
+            <app-count-card [count]="data.severeTasksCount" label="Severe Tasks" bgColour="var(--red-500)" icon="pi pi-exclamation-triangle" />
+          </div>
+        </div>
+        <p-card header="Most Severe Tasks" >
+          <app-top-ten-tasks-table [tasks]="data.tenMostSevereTasks" />
+        </p-card>
+      </div>
+    </div>
+  </ng-template>
+</ng-container>
+

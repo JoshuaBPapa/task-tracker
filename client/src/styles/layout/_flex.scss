@@ -9,3 +9,31 @@
     flex-direction: row;
   }
 }
+
+$gap: 1.5rem;
+.flex-grid {
+  display: flex;
+  gap: $gap;
+
+  &.flex-grid-container {
+    flex-direction: column;
+    max-width: 100%;
+    overflow: auto;
+
+    @include lg-breakpoint {
+      flex-direction: row;
+    }
+  }
+
+  &.flex-grid-col {
+    flex-direction: column;
+
+    &.col-1 {
+      flex: 1;
+    }
+
+    &.col-2 {
+      flex: 2;
+    }
+  }
+}

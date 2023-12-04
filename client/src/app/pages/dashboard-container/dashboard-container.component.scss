@@ -1,0 +1,23 @@
+@use "../../../styles/styles.scss" as *;
+
+.dashboard-no-tasks-icon {
+  font-size: 6rem;
+  color: var(--bluegray-200);
+}
+
+.dashboard-no-tasks-text {
+  font-size: 1.125rem;
+  margin-top: 2.125rem;
+}
+
+.dashboard-grid {
+  &.flex-grid-container {
+    @include lg-breakpoint {
+      flex-direction: column;
+    }
+
+    @include xl-breakpoint {
+      flex-direction: row;
+    }
+  }
+}
