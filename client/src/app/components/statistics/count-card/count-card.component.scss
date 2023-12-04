@@ -1,0 +1,31 @@
+.count-card-container {
+  align-items: center;
+  border-radius: 5px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1.75rem;
+  text-align: center;
+
+  .count-card-icon {
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    display: flex;
+    font-size: 1.75rem;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+    padding: 1rem;
+  }
+
+  .count-card-count {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .count-card-label {
+    font-size: 1.125rem;
+    opacity: 0.8;
+  }
+}
