@@ -1,0 +1,31 @@
+<div class="stacked-bar-diagram-container">
+  <!-- DIAGRAM -->
+  <div class="stacked-bar-diagram">
+    <span class="stacked-bar-diagram-total-count">Total: {{ total }}</span>
+    <div class="stacked-bar-diagram-bars-container">
+      <div
+        class="stacked-bar-diagram-bar"
+        *ngFor="let label of labels"
+        [style]="{ 'background-color': label.colour, width: label.proportion + '%' }"
+      ></div>
+    </div>
+  </div>
+  <!-- LABEL LIST WITH VALUES -->
+  <ul>
+    <li *ngFor="let label of labels">
+      <span>
+        <span
+          class="stacked-bar-diagram-list-point"
+          [style]="{ 'background-color': label.colour }"
+        ></span>
+        <span class="stacked-bar-diagram-list-label">{{ label.label }}</span>
+      </span>
+      <span>
+        <span class="stacked-bar-diagram-list-value">{{ label.value }}</span>
+        <span class="stacked-bar-diagram-list-proportion"
+          >({{ label.proportion | number: "1.0-2" }}%)</span
+        >
+      </span>
+    </li>
+  </ul>
+</div>

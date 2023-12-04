@@ -1,0 +1,48 @@
+.stacked-bar-diagram-container {
+  .stacked-bar-diagram {
+    border: 1px solid #dfe7ef;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 2.5rem;
+
+    .stacked-bar-diagram-total-count {
+      display: inline-block;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .stacked-bar-diagram-bars-container {
+      border-radius: 10px;
+      display: flex;
+      overflow: hidden;
+
+      .stacked-bar-diagram-bar {
+        height: 1.25rem;
+      }
+    }
+  }
+
+  ul {
+    li {
+      align-items: center;
+      display: flex;
+      font-size: 1.125rem;
+      justify-content: space-between;
+      margin-bottom: 2.5rem;
+
+      .stacked-bar-diagram-list-point {
+        border-radius: 5px;
+        display: inline-block;
+        height: 1rem;
+        margin-right: 0.75rem;
+        vertical-align: middle;
+        width: 1rem;
+      }
+
+      .stacked-bar-diagram-list-value {
+        font-weight: bold;
+        margin-right: 0.5rem;
+      }
+    }
+  }
+}
