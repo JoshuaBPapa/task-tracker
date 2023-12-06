@@ -29,8 +29,8 @@ export const checkAuthLevel = (
   next: NextFunction
 ): void | never => {
   const { authLevel } = res.locals;
-  const { method, originalUrl } = req;
-  const baseUrl = originalUrl.split('/')[1];
+  const { method, path } = req;
+  const baseUrl = path.replace('/', '').split('/')[0];
   const requiredAuthLevel = authLevelMap[baseUrl as BaseRoute][method as Method];
 
   if (requiredAuthLevel > authLevel) {
