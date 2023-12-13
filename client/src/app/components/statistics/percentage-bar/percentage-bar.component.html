@@ -1,0 +1,15 @@
+<div class="percentage-bar-container" *ngIf="total > 0; else noTotal">
+  <div class="percentage-bar-values">
+    <span class="percentage-bar-values-value" [style]="{ color: colour }">{{ value }}</span> /
+    {{ total }}
+    <span class="percentage-bar-values-percentage">({{ percentage | number: "1.0-2" }}%)</span>
+  </div>
+  <div class="percentage-bar">
+    <div
+      class="percentage-bar-coloured"
+      [style]="{ width: percentage + '%', background: colour }"
+    ></div>
+  </div>
+</div>
+
+<ng-template #noTotal>-</ng-template>
