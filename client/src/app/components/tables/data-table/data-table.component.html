@@ -1,0 +1,44 @@
+<!-- TABLE ERROR MESSAGE -->
+<ng-container *ngIf="isError && !isLoading; else table">
+  <div class="table-error-message">
+    <i class="pi pi-times-circle table-error-message-icon"></i>
+    <span class="table-error-message-text">
+      There was an error while fetching data for this table. Please try again.
+    </span>
+  </div>
+</ng-container>
+
+<!-- TABLE -->
+<ng-template #table>
+  <p-table
+    [value]="page ? page.results : []"
+    [loading]="isLoading"
+    [lazy]="true"
+    (onLazyLoad)="onChangeParam($event)"
+    [lazyLoadOnInit]="false"
+  >
+    <!-- TABLE HEADERS -->
+    <ng-template pTemplate="header">
+      <tr>
+        <th *ngFor="let header of headers" [pSortableColumn]="header.key">
+          {{ header.label }}<p-sortIcon [field]="header.key"></p-sortIcon>
+        </th>
+      </tr>
+    </ng-template>
+
+    <!-- TABLE BODY WITH RESULTS -->
+    <ng-template pTemplate="body" let-row>
+      <ng-container
+        pTemplate="body"
+        *ngTemplateOutlet="bodyTemplate; context: { $implicit: row }"
+      ></ng-container>
+    </ng-template>
+
+    <!-- TABLE BODY WITHOUT RESULTS -->
+    <ng-template pTemplate="emptymessage">
+      <tr class="table-empty-message">
+        <td [attr.colspan]="headers.length">No Results Found</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</ng-template>

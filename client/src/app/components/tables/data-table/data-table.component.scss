@@ -1,0 +1,22 @@
+.table-empty-message {
+  td {
+    padding: 2rem;
+    text-align: center;
+  }
+}
+
+.table-error-message {
+  text-align: center;
+  padding: 2rem 0 3.5rem;
+
+  .table-error-message-icon {
+    display: block;
+    color: var(--red-500);
+    font-size: 4.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .table-error-message-text {
+    font-size: 1.25rem;
+  }
+}
