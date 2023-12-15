@@ -24,6 +24,13 @@ const routes: Routes = [
             (c) => c.DashboardContainerComponent
           ),
       },
+      {
+        path: 'projects',
+        loadComponent: () =>
+          import('./pages/projects/project-list-container/project-list-container.component').then(
+            (c) => c.ProjectListContainerComponent
+          ),
+      },
     ],
   },
 ];

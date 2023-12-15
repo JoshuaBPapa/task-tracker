@@ -1,0 +1,11 @@
+@use "../../../../styles/abstracts" as *;
+
+.project-list-container-tool-bar {
+  display: flex;
+  justify-content: end;
+  margin: 1.5rem 0;
+}
+
+.project-table-name {
+  @include text-truncate(15rem);
+}

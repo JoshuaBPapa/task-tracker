@@ -1,0 +1,26 @@
+<div class="project-list-container">
+  <p-card header="Projects" subheader="A list of all of your team's projects" *ngIf="{ isLoading: isLoading | async, isError: isError | async, page: projectsData$ | async} as data">
+    <!-- PROJECT SEARCH BAR -->
+    <div class="project-list-container-tool-bar">
+      <app-search-input (search)="updateParams($event)" placeholder="Search projects by name..." />
+    </div>
+
+    <!-- PROJECT TABLE -->
+    <app-data-table [headers]="tableHeaderConfig" [isError]="data.isError || false" [isLoading]="data.isLoading || false" [page]="data.page" (paramsChange)="updateParams($event)">
+      <ng-template pTemplate="body" let-row>
+        <tr>
+          <td class="project-table-name">{{ row.name }}</td>
+          <td>{{ row.totalTasks }}</td>
+          <td><app-percentage-bar [value]="row.severeTasks" [total]="row.totalTasks" [invertColourValues]="true" /></td>
+          <td><app-percentage-bar [value]="row.assignedTasks" [total]="row.totalTasks" /></td>
+          <td><app-percentage-bar [value]="row.tasksNotStarted" [total]="row.totalTasks" /></td>
+        </tr>
+      </ng-template>
+    </app-data-table>
+
+    <!-- PAGINATOR-->
+    <app-paginator [page]="data.page" (pageChange)="updateParams($event)" />
+  </p-card>
+</div>
+
+
