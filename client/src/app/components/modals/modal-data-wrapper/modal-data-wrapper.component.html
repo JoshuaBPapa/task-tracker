@@ -1,0 +1,6 @@
+<p-dialog styleClass="modal-data-wrapper-container" [header]="header" [visible]="visible" [modal]="true" [draggable]="false" [resizable]="false" [closable]="false">
+  <div class="modal-data-wrapper-loading-spinner" *ngIf="isLoading">
+    <app-loading-spinner size="75px" />
+  </div>
+  <ng-content />
+</p-dialog>

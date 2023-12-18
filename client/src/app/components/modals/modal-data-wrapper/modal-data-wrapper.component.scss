@@ -1,0 +1,13 @@
+.modal-data-wrapper-loading-spinner {
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(2px);
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 9000;
+}
