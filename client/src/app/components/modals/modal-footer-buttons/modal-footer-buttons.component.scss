@@ -1,0 +1,12 @@
+.modal-footer-buttons-container {
+  margin-top: 1.5rem;
+
+  .modal-footer-buttons {
+    display: flex;
+    justify-content: flex-end;
+
+    .modal-footer-buttons-close-button {
+      margin-left: 1rem;
+    }
+  }
+}
