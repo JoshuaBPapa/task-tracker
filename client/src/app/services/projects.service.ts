@@ -25,4 +25,8 @@ export class ProjectsService {
   postProject(project: { name: string }) {
     return this.http.post<CreatedResponse>(`${environment.api}/projects`, project);
   }
+
+  getProject(id: string): Observable<Project> {
+    return this.http.get<Project>(`${environment.api}/projects/${id}`);
+  }
 }
