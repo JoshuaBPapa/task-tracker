@@ -1,12 +1,6 @@
 import { FieldPacket, ResultSetHeader, RowDataPacket } from 'mysql2';
 import db from '../db/database';
-import {
-  CreateProjectReqBody,
-  GetProjectsReqParams,
-  SingleProject,
-  Projects,
-  SelectCountResults,
-} from '../types';
+import { CreateProjectReqBody, GetProjectsReqParams, Project, SelectCountResults } from '../types';
 import { Pagination } from '../classes';
 import { buildOrderByQueryString, buildSearchQueryString } from '../helpers';
 
@@ -18,9 +12,7 @@ interface UpdateProjectValues extends InsertProjectValues {
   id: number;
 }
 
-type SelectProjectsResults = RowDataPacket & Projects;
-
-type SelectSingleProjectResult = RowDataPacket & SingleProject;
+type SelectProjectsResults = RowDataPacket & Project;
 
 export const insertProject = (
   projectData: InsertProjectValues
@@ -98,12 +90,22 @@ export const countTotalProjects = (
 export const selectProjectById = (
   teamId: number,
   projectId: number
-): Promise<[SelectSingleProjectResult[], FieldPacket[]]> => {
+): Promise<[SelectProjectsResults[], FieldPacket[]]> => {
   return db.execute(`
     SELECT 
-      id, name
+      p.id, p.name,
+      COUNT(t.projectId) as 'totalTasks', 
+      COUNT(CASE t.priority WHEN 4 THEN 1 ELSE null END) as 'severeTasks',
+      COUNT(t.assignedUserId) as 'assignedTasks',
+      COUNT(CASE t.status WHEN 1 THEN 1 ELSE null END) as 'tasksNotStarted'
     FROM 
-      projects
+      projects AS p
+    LEFT JOIN
+      tasks AS t
+    ON
+      p.id = t.projectId
     WHERE
-      teamId = ${teamId} AND id = ${projectId}`);
+      p.teamId = ${teamId} AND p.id = ${projectId}
+    GROUP BY
+      p.id`);
 };

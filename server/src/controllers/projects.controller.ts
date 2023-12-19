@@ -7,7 +7,7 @@ import {
   selectProjectsPaginated,
   updateProjectById,
 } from '../services';
-import { CreateProjectReqBody, GetProjectsReqParams, SingleProject, Projects } from '../types';
+import { CreateProjectReqBody, GetProjectsReqParams, Project } from '../types';
 import { TokenData } from '../types';
 import { handleEmptyQueryResults } from '../helpers';
 import { Pagination } from '../classes';
@@ -49,21 +49,21 @@ export const deleteProject = async (
 };
 
 export const getProjectsPaginated = async (
-  req: Request<any, Pagination<Projects>, any, GetProjectsReqParams>,
-  res: Response<Pagination<Projects>, TokenData>
+  req: Request<any, Pagination<Project>, any, GetProjectsReqParams>,
+  res: Response<Pagination<Project>, TokenData>
 ): Promise<void> => {
   const { teamId } = res.locals;
 
   const results = await selectProjectsPaginated(teamId, req.query);
   const count = await countTotalProjects(teamId, req.query);
-  const resBody = new Pagination<Projects>(results[0], count[0][0].total, req.query.page);
+  const resBody = new Pagination<Project>(results[0], count[0][0].total, req.query.page);
 
   res.status(200).send(resBody);
 };
 
 export const getProjectById = async (
-  req: Request<{ id: string }, SingleProject>,
-  res: Response<SingleProject, TokenData>
+  req: Request<{ id: string }, Project>,
+  res: Response<Project, TokenData>
 ): Promise<void> => {
   const id = parseInt(req.params.id);
   const { teamId } = res.locals;
