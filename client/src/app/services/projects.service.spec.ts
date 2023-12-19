@@ -30,4 +30,11 @@ describe('ProjectsService', () => {
     const req = httpMock.expectOne(`${environment.api}/projects`);
     expect(req.request.method).toBe('GET');
   });
+
+  it('postProject should place a POST request with the correct url and body', () => {
+    service.postProject({ name: 'mock project' }).subscribe();
+    const req = httpMock.expectOne(`${environment.api}/projects`);
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body).toEqual({ name: 'mock project' });
+  });
 });

@@ -4,6 +4,7 @@ import { Observable, Subject, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Page } from 'src/types/page';
 import { Params } from 'src/types/params/params';
+import { CreatedResponse } from 'src/types/responses/created-response';
 import { Projects } from 'src/types/responses/projects';
 
 @Injectable()
@@ -19,5 +20,9 @@ export class ProjectsService {
         params: { ...params },
       })
       .pipe(tap((res) => this.projectsData.next(res)));
+  }
+
+  postProject(project: { name: string }) {
+    return this.http.post<CreatedResponse>(`${environment.api}/projects`, project);
   }
 }
