@@ -1,0 +1,15 @@
+@use "../../../../styles/styles.scss" as *;
+
+.project-details-container-header {
+  margin: 0;
+  padding: 2rem 1rem;
+  padding-bottom: 0;
+}
+
+.project-details-container-count-cards {
+  &.flex-grid-container {
+    @include md-breakpoint {
+      flex-direction: row;
+    }
+  }
+}

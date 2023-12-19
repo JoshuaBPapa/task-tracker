@@ -1,0 +1,21 @@
+
+<p-card>
+  <ng-template pTemplate="header">
+    <h1 class="project-details-container-header">{{ project.name }}</h1>
+  </ng-template>
+
+  <div class="flex-grid flex-grid-container project-details-container-count-cards">
+    <div class="flex-grid flex-grid-col col-1">
+      <app-count-card [count]="project.totalTasks" label="Total Tasks" />
+    </div>
+    <div class="flex-grid flex-grid-col col-1">
+      <app-count-card [count]="project.tasksNotStarted" label="Tasks Not Started" bgColour="var(--orange-500)" icon="pi pi-calendar-times" />
+    </div>
+    <div class="flex-grid flex-grid-col col-1">
+      <app-count-card [count]="project.assignedTasks" label="Assigned Tasks" bgColour="var(--green-500)" icon="pi pi-user" />
+    </div>
+    <div class="flex-grid flex-grid-col col-1">
+      <app-count-card [count]="project.severeTasks" label="Severe Tasks" bgColour="var(--red-500)" icon="pi pi-exclamation-triangle" />
+    </div>
+  </div>
+</p-card>
