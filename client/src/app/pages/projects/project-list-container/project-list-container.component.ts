@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/
 import { BehaviorSubject, Observable, catchError, switchMap, tap } from 'rxjs';
 import { SearchInputComponent } from 'src/app/components/inputs/search-input/search-input.component';
 import { LoadingSpinnerComponent } from 'src/app/components/loading-spinner/loading-spinner.component';
+import { ProjectFormModalComponent } from 'src/app/components/modals/project-form-modal/project-form-modal.component';
 import { PaginatorComponent } from 'src/app/components/paginator/paginator.component';
 import { PercentageBarComponent } from 'src/app/components/statistics/percentage-bar/percentage-bar.component';
 import { DataTableComponent } from 'src/app/components/tables/data-table/data-table.component';
@@ -24,6 +25,7 @@ import { Projects } from 'src/types/responses/projects';
     SearchInputComponent,
     LoadingSpinnerComponent,
     PaginatorComponent,
+    ProjectFormModalComponent,
   ],
   providers: [ProjectsService, ParamsService, UnsubscribeService, ErrorHandlingService],
   templateUrl: './project-list-container.component.html',
@@ -92,6 +94,10 @@ export class ProjectListContainerComponent implements OnInit, OnDestroy {
 
   updateParams(params: Params): void {
     this.paramsService.setNewParamsValue(params);
+  }
+
+  handleCreatedProject(): void {
+    // TODO - link to project details page on creation
   }
 
   ngOnDestroy(): void {
