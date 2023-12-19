@@ -13,7 +13,7 @@ import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { Page } from 'src/types/page';
 import { Params } from 'src/types/params/params';
-import { Projects } from 'src/types/responses/projects';
+import { Project } from 'src/types/responses/project';
 
 @Component({
   selector: 'app-project-list-container',
@@ -33,7 +33,7 @@ import { Projects } from 'src/types/responses/projects';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProjectListContainerComponent implements OnInit, OnDestroy {
-  projectsData$: Observable<Page<Projects>>;
+  projectsData$: Observable<Page<Project>>;
   isLoading = new BehaviorSubject(false);
   isError = new BehaviorSubject(false);
   tableHeaderConfig = [

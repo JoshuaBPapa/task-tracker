@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProjectListContainerComponent } from './project-list-container.component';
 import { ProjectsService } from 'src/app/services/projects.service';
 import { Page } from 'src/types/page';
-import { Projects } from 'src/types/responses/projects';
+import { Project } from 'src/types/responses/project';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ParamsService } from 'src/app/services/params.service';
 import { ErrorHandlingService } from 'src/app/services/error-handling.service';
@@ -11,7 +11,7 @@ import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
 import { MessageService } from 'primeng/api';
 import { Subject, of } from 'rxjs';
 
-const mockProjectReponse: Page<Projects> = {
+const mockProjectReponse: Page<Project> = {
   results: [
     {
       id: 3,
