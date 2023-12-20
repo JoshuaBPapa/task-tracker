@@ -2,8 +2,12 @@
 
 .project-details-container-header {
   margin: 0;
-  padding: 2rem 1rem;
-  padding-bottom: 0;
+  margin-bottom: 1rem;
+  @include text-truncate(100%);
+}
+
+.project-details-container-buttons {
+  margin-bottom: 3rem;
 }
 
 .project-details-container-count-cards {
