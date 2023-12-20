@@ -22,11 +22,15 @@ export class ProjectsService {
       .pipe(tap((res) => this.projectsData.next(res)));
   }
 
-  postProject(project: { name: string }) {
+  postProject(project: { name: string }): Observable<CreatedResponse> {
     return this.http.post<CreatedResponse>(`${environment.api}/projects`, project);
   }
 
   getProject(id: string): Observable<Project> {
     return this.http.get<Project>(`${environment.api}/projects/${id}`);
+  }
+
+  putProject(project: { name: string }, id: number): Observable<CreatedResponse> {
+    return this.http.put<CreatedResponse>(`${environment.api}/projects/${id}`, project);
   }
 }
