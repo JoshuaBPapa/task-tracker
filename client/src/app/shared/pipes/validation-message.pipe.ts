@@ -16,9 +16,15 @@ export class ValidationMessagePipe implements PipeTransform {
       case 'required':
         return 'This field is required';
 
-      case 'minlength':
+      case 'minlength': {
         const { requiredLength } = formErrors[formError];
         return `Must be at least ${requiredLength} characters long`;
+      }
+
+      case 'maxlength': {
+        const { requiredLength } = formErrors[formError];
+        return `Must be at most ${requiredLength} characters long`;
+      }
 
       case 'isNotAlphanumeric':
         return 'Please only enter alphanumeric characters';

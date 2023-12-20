@@ -15,14 +15,13 @@ describe('ValidationMessagePipe', () => {
     expect(transform({ minlength: { requiredLength: 5 } })).toBe(
       'Must be at least 5 characters long'
     );
+    expect(transform({ maxlength: { requiredLength: 5 } })).toBe(
+      'Must be at most 5 characters long'
+    );
     expect(transform({ isNotAlphanumeric: true })).toBe(
       'Please only enter alphanumeric characters'
     );
-    expect(transform({ notMatchingPasswords: true })).toBe(
-      'Passwords do not match'
-    );
-    expect(transform({ serverSideError: 'Username taken' })).toBe(
-      'Username taken'
-    );
+    expect(transform({ notMatchingPasswords: true })).toBe('Passwords do not match');
+    expect(transform({ serverSideError: 'Username taken' })).toBe('Username taken');
   });
 });
