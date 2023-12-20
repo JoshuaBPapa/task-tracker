@@ -4,7 +4,7 @@ import { MessageService } from 'primeng/api';
 import { BehaviorSubject, Observable, catchError, tap } from 'rxjs';
 import { ErrorHandlingService } from './error-handling.service';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ModalDataService {
   isLoading = new BehaviorSubject(false);
 

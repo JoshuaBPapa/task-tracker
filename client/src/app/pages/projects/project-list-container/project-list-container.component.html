@@ -2,7 +2,7 @@
   <p-card header="Projects" subheader="A list of all of your team's projects" *ngIf="{ isLoading: isLoading | async, isError: isError | async, page: projectsData$ | async} as data">
     <!-- PROJECT TOOL BAR - CREATE PROJECT BUTTON AND SEARCH BAR -->
     <div class="project-list-container-tool-bar">
-      <app-project-form-modal (created)="handleCreatedProject()" />
+      <button pButton (click)="onOpenCreateModal()"  label="Create Project +" ></button>
       <app-search-input (search)="updateParams($event)" placeholder="Search projects by name..." />
     </div>
 
@@ -23,3 +23,6 @@
     <app-paginator [page]="data.page" (pageChange)="updateParams($event)" />
   </p-card>
 </div>
+
+<!-- CREATE PROJECT FORM MODAL -->
+<app-project-form-modal (submitForm)="handleCreateModalSubmit($event)" (closeModal)="handleCreateModalClose()" *ngIf="isCreateModalVisible" />

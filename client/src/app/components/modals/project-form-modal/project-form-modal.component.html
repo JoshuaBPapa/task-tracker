@@ -1,10 +1,9 @@
-<button pButton (click)="onOpenModal()">Create Project +</button>
-<app-modal-data-wrapper header="Create Project" [visible]="visible" [isLoading]="(modalDataService.isLoading | async) || false">
+<app-modal-data-wrapper [header]="header">
   <div class="project-form-modal-container">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <app-labelled-input [control]="form.controls.name" label="Project Name *" placeholder="Project Name" />
     </form>
-    <app-modal-footer-buttons confirmLabel="Create" (confirm)="onSubmit()" (cancel)="handleClose()" />
+    <app-modal-footer-buttons confirmLabel="Create" (confirm)="onSubmit()" (cancel)="handleCancel()" />
   </div>
 </app-modal-data-wrapper>
 

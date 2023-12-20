@@ -1,13 +1,17 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { LabelledInputComponent } from '../../inputs/labelled-input/labelled-input.component';
-import { NonNullableFormBuilder, Validators } from '@angular/forms';
+import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { ModalDataWrapperComponent } from '../modal-data-wrapper/modal-data-wrapper.component';
 import { ModalFooterButtonsComponent } from '../modal-footer-buttons/modal-footer-buttons.component';
-import { FormValidationService } from 'src/app/services/form-validation.service';
-import { ModalDataService } from 'src/app/services/modal-data.service';
-import { ProjectsService } from 'src/app/services/projects.service';
-import { CreatedResponse } from 'src/types/responses/created-response';
+import { ProjectForm } from 'src/types/forms/project-form';
 
 @Component({
   selector: 'app-project-form-modal',
@@ -18,42 +22,39 @@ import { CreatedResponse } from 'src/types/responses/created-response';
     ModalDataWrapperComponent,
     ModalFooterButtonsComponent,
   ],
-  providers: [ModalDataService],
   templateUrl: './project-form-modal.component.html',
   styleUrls: ['./project-form-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProjectFormModalComponent {
-  @Output() created = new EventEmitter<number>();
-  visible = false;
+export class ProjectFormModalComponent implements OnInit {
+  @Input() formEditData: { name: string } | undefined;
+  @Output() submitForm = new EventEmitter<FormGroup<ProjectForm>>();
+  @Output() closeModal = new EventEmitter<void>();
+  header: string;
   form = this.nfb.group({
-    name: ['', Validators.required],
+    name: ['', [Validators.required, Validators.maxLength(200)]],
   });
 
-  constructor(
-    private nfb: NonNullableFormBuilder,
-    private formValidationService: FormValidationService,
-    public modalDataService: ModalDataService,
-    private projectsService: ProjectsService
-  ) {}
+  constructor(private nfb: NonNullableFormBuilder) {}
+
+  ngOnInit(): void {
+    this.setFormMode();
+  }
+
+  setFormMode(): void {
+    if (!this.formEditData) {
+      this.header = 'Create Project';
+    } else {
+      this.form.controls.name.setValue(this.formEditData.name);
+      this.header = 'Edit Project';
+    }
+  }
 
   onSubmit(): void {
-    if (!this.formValidationService.checkIsFormValid(this.form)) return;
-    const formValue = this.form.getRawValue();
-    this.modalDataService
-      .sendRequest(this.projectsService.postProject(formValue), 'Project Created', this.form)
-      .subscribe((res: CreatedResponse) => {
-        this.handleClose();
-        this.created.emit(res.id);
-      });
+    this.submitForm.emit(this.form);
   }
 
-  onOpenModal(): void {
-    this.visible = true;
-  }
-
-  handleClose(): void {
-    this.visible = false;
-    this.form.reset();
+  handleCancel(): void {
+    this.closeModal.emit();
   }
 }
