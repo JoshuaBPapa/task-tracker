@@ -1,0 +1,4 @@
+<app-modal-data-wrapper [header]="'Delete ' + (label | titlecase)">
+  Are you sure you want to delete this {{ label }}?
+  <app-modal-footer-buttons confirmLabel="Delete" confirmClass="p-button-danger" (confirm)="handleConfirm()" (cancel)="handleCancel()" />
+</app-modal-data-wrapper>
