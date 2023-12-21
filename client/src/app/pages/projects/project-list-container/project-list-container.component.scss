@@ -17,4 +17,13 @@
 
 .project-table-name {
   @include text-truncate(15rem);
+
+  a {
+    display: inline-block;
+    width: 100%;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
