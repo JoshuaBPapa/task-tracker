@@ -1,12 +1,15 @@
 
 <p-card>
-  <!-- PROJECT NAME -->
-  <h1 class="project-details-container-header">{{ project.name }}</h1>
-  <!-- PROJECT BUTTONS -->
-  <div class="project-details-container-buttons">
-    <button pButton (click)="onOpenEditProjectModal()" label="Edit Project"></button>
+  <div class="project-details-container-header">
+    <!-- PROJECT NAME -->
+    <h1 class="project-details-container-name">{{ project.name }}</h1>
+    <div class="project-details-container-buttons">
+    <!-- PROJECT BUTTONS -->
+      <button pButton (click)="onOpenEditProjectModal()" label="Edit Project"></button>
+      <button pButton (click)="openDeleteProjectModal()" label="Delete Project" class="p-button-danger"></button>
+    </div>
   </div>
-  <!-- PROJECT TASK COUNT CARDS -->
+  <!-- PROJECT TASKs COUNT CARDS -->
   <div class="flex-grid flex-grid-container project-details-container-count-cards">
     <div class="flex-grid flex-grid-col col-1">
       <app-count-card [count]="project.totalTasks" label="Total Tasks" />
@@ -25,3 +28,5 @@
 
 <!-- EDIT PROJECT MODAL -->
 <app-project-form-modal (submitForm)="handleEditProjectModalSubmit($event)" (closeModal)="handleEditProjectModalClose()" *ngIf="isEditProjectModalVisible" [formEditData]="{name: project.name}" />
+<!-- DELETE PROJECT MODAL -->
+<app-delete-modal (confirmDelete)="handleDeleteProjectModalConfirm()" (closeModal)="handleDeleteProjectModalClose()" *ngIf="isDeleteProjectModalVisible" label="project" />

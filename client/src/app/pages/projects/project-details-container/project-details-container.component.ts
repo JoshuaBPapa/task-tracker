@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DeleteModalComponent } from 'src/app/components/modals/delete-modal/delete-modal.component';
 import { ProjectFormModalComponent } from 'src/app/components/modals/project-form-modal/project-form-modal.component';
 import { CountCardComponent } from 'src/app/components/statistics/count-card/count-card.component';
 import { FormValidationService } from 'src/app/services/form-validation.service';
@@ -13,7 +14,7 @@ import { Project } from 'src/types/responses/project';
 @Component({
   selector: 'app-project-details-container',
   standalone: true,
-  imports: [SharedModule, CountCardComponent, ProjectFormModalComponent],
+  imports: [SharedModule, CountCardComponent, ProjectFormModalComponent, DeleteModalComponent],
   templateUrl: './project-details-container.component.html',
   styleUrls: ['./project-details-container.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -21,6 +22,7 @@ import { Project } from 'src/types/responses/project';
 export class ProjectDetailsContainerComponent implements OnInit {
   project: Project;
   isEditProjectModalVisible = false;
+  isDeleteProjectModalVisible = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -59,6 +61,23 @@ export class ProjectDetailsContainerComponent implements OnInit {
         this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
           this.router.navigateByUrl(`/projects/${this.project.id}`);
         });
+      });
+  }
+
+  openDeleteProjectModal(): void {
+    this.isDeleteProjectModalVisible = true;
+  }
+
+  handleDeleteProjectModalClose(): void {
+    this.isDeleteProjectModalVisible = false;
+  }
+
+  handleDeleteProjectModalConfirm(): void {
+    this.modalDataService
+      .sendRequest(this.projectsService.deleteProject(this.project.id), 'Project Deleted')
+      .subscribe(() => {
+        this.handleDeleteProjectModalClose();
+        this.router.navigateByUrl('/projects');
       });
   }
 }
