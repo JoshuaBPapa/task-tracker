@@ -50,8 +50,14 @@ describe('ProjectsService', () => {
 
   it('putProject should place a POST request with the correct url, id, and body', () => {
     service.putProject({ name: 'mock project' }, 1).subscribe();
-    const req = httpMock.expectOne(`${environment.api}/projects/${1}`);
+    const req = httpMock.expectOne(`${environment.api}/projects/1`);
     expect(req.request.method).toBe('PUT');
     expect(req.request.body).toEqual({ name: 'mock project' });
+  });
+
+  it('deleteProject should place a DELETE request with the correct url and id', () => {
+    service.deleteProject(1).subscribe();
+    const req = httpMock.expectOne(`${environment.api}/projects/1`);
+    expect(req.request.method).toBe('DELETE');
   });
 });

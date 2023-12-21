@@ -33,4 +33,8 @@ export class ProjectsService {
   putProject(project: { name: string }, id: number): Observable<CreatedResponse> {
     return this.http.put<CreatedResponse>(`${environment.api}/projects/${id}`, project);
   }
+
+  deleteProject(id: number): Observable<null> {
+    return this.http.delete<null>(`${environment.api}/projects/${id}`);
+  }
 }
