@@ -5,6 +5,8 @@ import { MessageService } from 'primeng/api';
 import { BehaviorSubject } from 'rxjs';
 import { FormControl, FormGroup } from '@angular/forms';
 import { FormValidationService } from './form-validation.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 describe('ErrorHandlingService', () => {
   let service: ErrorHandlingService;
@@ -12,12 +14,14 @@ describe('ErrorHandlingService', () => {
   const formValidationServiceSpy = jasmine.createSpyObj('FormValidationService', [
     'handleServerValidationErrors',
   ]);
+  const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         { provide: MessageService, useValue: messageServiceSpy },
         { provide: FormValidationService, useValue: formValidationServiceSpy },
+        { provide: Router, useValue: routerSpy },
       ],
     });
     service = TestBed.inject(ErrorHandlingService);
@@ -71,14 +75,13 @@ describe('ErrorHandlingService', () => {
     );
   });
 
-  it('showErrorMessage should call messageService.add with the correct arguments', () => {
-    const mockMessageConfig = {
-      severity: 'error',
-      summary: `Error: 404`,
-      detail: 'Not Found',
-      key: 'error',
-    };
-    service.showErrorMessage(404, 'Not Found');
-    expect(messageServiceSpy.add).toHaveBeenCalledWith(mockMessageConfig);
+  it('handleResolverError should call router.navigateByUrl with the correct arguments', () => {
+    service.handleResolverError(
+      new HttpErrorResponse({ error: { status: 400, message: 'Mock Error' } })
+    );
+    expect(routerSpy.navigateByUrl).toHaveBeenCalledWith('/error', {
+      state: { message: 'Error: 400 - Mock Error' },
+      skipLocationChange: true,
+    });
   });
 });

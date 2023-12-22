@@ -5,6 +5,7 @@ import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { HttpError } from 'src/types/http-error';
 import { FormValidationService } from './form-validation.service';
 import { ServerValidationError } from 'src/types/server-validation-error';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,8 @@ import { ServerValidationError } from 'src/types/server-validation-error';
 export class ErrorHandlingService {
   constructor(
     private messageService: MessageService,
-    private formValidationService: FormValidationService
+    private formValidationService: FormValidationService,
+    private router: Router
   ) {}
 
   handleError(
@@ -43,5 +45,21 @@ export class ErrorHandlingService {
       key: 'error',
     };
     this.messageService.add(messageConfig);
+  }
+
+  handleResolverError(errorResponse: HttpError): Observable<never> {
+    const { error } = errorResponse;
+
+    let message = 'Error: Unknown Error';
+    if (error.message && error.status) {
+      message = `Error: ${error.status} - ${error.message}`;
+    }
+
+    this.router.navigateByUrl('/error', {
+      state: { message },
+      skipLocationChange: true,
+    });
+
+    return EMPTY;
   }
 }

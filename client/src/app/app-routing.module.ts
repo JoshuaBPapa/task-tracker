@@ -47,6 +47,11 @@ const routes: Routes = [
           },
         ],
       },
+      {
+        path: 'error',
+        loadComponent: () => import('./pages/error/error.component').then((c) => c.ErrorComponent),
+      },
+      { path: '**', redirectTo: 'dashboard', pathMatch: 'full' },
     ],
   },
 ];
