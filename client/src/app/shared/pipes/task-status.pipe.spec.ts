@@ -21,6 +21,6 @@ describe('TaskStatusPipe', () => {
     expect(pipe.transform(1, 'icon')).toBe('pi pi-calendar-times');
     expect(pipe.transform(2, 'icon')).toBe('pi pi-clock');
     expect(pipe.transform(3, 'icon')).toBe('pi pi-eye');
-    expect(pipe.transform(4, 'icon')).toBe('pi pi-calendar-times');
+    expect(pipe.transform(4, 'icon')).toBe('pi pi-check-circle');
   });
 });

@@ -19,7 +19,7 @@ const statusConfig: { [key: number]: { text: string; colour: string; icon: strin
   4: {
     text: 'Complete',
     colour: '#4caf50',
-    icon: 'pi pi-calendar-times',
+    icon: 'pi pi-check-circle',
   },
 };
 
