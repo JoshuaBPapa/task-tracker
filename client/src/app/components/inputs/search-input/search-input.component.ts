@@ -11,6 +11,7 @@ import { FormControl } from '@angular/forms';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { Params } from '@angular/router';
 
 @Component({
   selector: 'app-search-input',
@@ -23,7 +24,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 })
 export class SearchInputComponent implements OnInit, OnDestroy {
   @Input() placeholder = 'Begin typing to search...';
-  @Output() search = new EventEmitter<{ search: string; page?: 1 }>();
+  @Output() search = new EventEmitter<Params>();
   input = new FormControl('', { nonNullable: true });
 
   constructor(private unsubscribeService: UnsubscribeService) {}
