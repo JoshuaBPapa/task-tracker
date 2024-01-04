@@ -4,12 +4,12 @@ import { ProjectListContainerComponent } from './project-list-container.componen
 import { ProjectsService } from 'src/app/services/projects.service';
 import { Page } from 'src/types/page';
 import { Project } from 'src/types/responses/project';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ParamsService } from 'src/app/services/params.service';
-import { ErrorHandlingService } from 'src/app/services/error-handling.service';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
 import { MessageService } from 'primeng/api';
-import { Subject, of } from 'rxjs';
+import { BehaviorSubject, Subject, of } from 'rxjs';
+import { FormControl } from '@angular/forms';
+import { ModalDataService } from 'src/app/services/modal-data.service';
 
 const mockProjectReponse: Page<Project> = {
   results: [
@@ -37,29 +37,37 @@ const mockProjectReponse: Page<Project> = {
 describe('ProjectListContainerComponent', () => {
   let component: ProjectListContainerComponent;
   let fixture: ComponentFixture<ProjectListContainerComponent>;
-  const paramsServiceSpy = jasmine.createSpyObj('ParamsService', ['setNewParamsValue']);
-  const errorHandlingServiceSpy = jasmine.createSpyObj('ErrorHandlingService', ['handleError']);
-  const projectsServiceSpy = jasmine.createSpyObj('ProjectsService', ['getProjects'], {
-    projectsData$: new Subject().asObservable(),
-  });
+  const paramsServiceSpy = jasmine.createSpyObj(
+    'ParamsService',
+    ['setNewParamsValue', 'makeRequestOnParamsChange'],
+    {
+      isLoading: new BehaviorSubject(false),
+      isError: new BehaviorSubject(false),
+    }
+  );
+  const projectsServiceSpy = jasmine.createSpyObj(
+    'ProjectsService',
+    ['getProjects', 'postProject'],
+    {
+      projectsData$: new Subject().asObservable(),
+    }
+  );
   const unsubscribeServiceSpy = jasmine.createSpyObj('UnsubscribeService', [
     'addSubscription',
     'unsubscribeAll',
   ]);
+  const modalDataServiceSpy = jasmine.createSpyObj('ModalDataService', ['sendRequest']);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ProjectListContainerComponent, HttpClientTestingModule],
-      providers: [
-        MessageService,
-        { provide: ProjectsService, useValue: projectsServiceSpy },
-        { provide: ParamsService, useValue: paramsServiceSpy },
-        { provide: ErrorHandlingService, useValue: errorHandlingServiceSpy },
-        { provide: UnsubscribeService, useValue: unsubscribeServiceSpy },
-      ],
+      imports: [ProjectListContainerComponent],
+      providers: [MessageService, { provide: ModalDataService, useValue: modalDataServiceSpy }],
     });
+    TestBed.overrideProvider(ProjectsService, { useValue: projectsServiceSpy });
+    TestBed.overrideProvider(ParamsService, { useValue: paramsServiceSpy });
+    TestBed.overrideProvider(UnsubscribeService, { useValue: unsubscribeServiceSpy });
 
-    projectsServiceSpy.getProjects.and.returnValue(of(mockProjectReponse));
+    paramsServiceSpy.makeRequestOnParamsChange.and.returnValue(of(mockProjectReponse));
 
     fixture = TestBed.createComponent(ProjectListContainerComponent);
     component = fixture.componentInstance;
@@ -75,5 +83,28 @@ describe('ProjectListContainerComponent', () => {
     component.ngOnInit();
     expect(component.subscribeToParams).toHaveBeenCalled();
     component.projectsData$.subscribe((res) => expect(res).toEqual(mockProjectReponse));
+  });
+
+  it('subscribeToParams should set the values of isLoading and isError and call paramsService.makeRequestOnParamsChange and unsubscribeService.addSubscription', () => {
+    component.subscribeToParams();
+    expect(paramsServiceSpy.makeRequestOnParamsChange).toHaveBeenCalled();
+    expect(unsubscribeServiceSpy.addSubscription).toHaveBeenCalled();
+    expect(component.isLoading).toEqual(paramsServiceSpy.isLoading);
+    expect(component.isError).toEqual(paramsServiceSpy.isError);
+  });
+
+  it('updateParams should call paramsService.setNewParamsValue', () => {
+    component.updateParams({ search: 'test' });
+    expect(paramsServiceSpy.setNewParamsValue).toHaveBeenCalledWith({ search: 'test' });
+  });
+
+  it('onOpenCreateModal should set isCreateModalVisible as true', () => {
+    component.onOpenCreateModal();
+    expect(component.isCreateModalVisible).toBeTrue();
+  });
+
+  it('handleCreateModalClose should set isCreateModalVisible as false', () => {
+    component.handleCreateModalClose();
+    expect(component.isCreateModalVisible).toBeFalse();
   });
 });

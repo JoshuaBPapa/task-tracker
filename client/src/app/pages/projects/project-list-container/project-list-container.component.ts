@@ -1,14 +1,13 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, catchError, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { SearchInputComponent } from 'src/app/components/inputs/search-input/search-input.component';
 import { LoadingSpinnerComponent } from 'src/app/components/loading-spinner/loading-spinner.component';
 import { ProjectFormModalComponent } from 'src/app/components/modals/project-form-modal/project-form-modal.component';
 import { PaginatorComponent } from 'src/app/components/paginator/paginator.component';
 import { PercentageBarComponent } from 'src/app/components/statistics/percentage-bar/percentage-bar.component';
 import { DataTableComponent } from 'src/app/components/tables/data-table/data-table.component';
-import { ErrorHandlingService } from 'src/app/services/error-handling.service';
 import { FormValidationService } from 'src/app/services/form-validation.service';
 import { ModalDataService } from 'src/app/services/modal-data.service';
 import { ParamsService } from 'src/app/services/params.service';
@@ -33,15 +32,15 @@ import { Project } from 'src/types/responses/project';
     PaginatorComponent,
     ProjectFormModalComponent,
   ],
-  providers: [ProjectsService, ParamsService, UnsubscribeService, ErrorHandlingService],
+  providers: [ProjectsService, ParamsService, UnsubscribeService],
   templateUrl: './project-list-container.component.html',
   styleUrls: ['./project-list-container.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProjectListContainerComponent implements OnInit, OnDestroy {
   projectsData$: Observable<Page<Project>>;
-  isLoading = new BehaviorSubject(false);
-  isError = new BehaviorSubject(false);
+  isLoading: BehaviorSubject<boolean>;
+  isError: BehaviorSubject<boolean>;
   isCreateModalVisible = false;
   tableHeaderConfig = [
     {
@@ -70,7 +69,6 @@ export class ProjectListContainerComponent implements OnInit, OnDestroy {
     private projectsService: ProjectsService,
     private paramsService: ParamsService,
     private unsubscribeService: UnsubscribeService,
-    private errorHandlingService: ErrorHandlingService,
     private modalDataService: ModalDataService,
     private formValidationService: FormValidationService,
     private router: Router
@@ -82,24 +80,12 @@ export class ProjectListContainerComponent implements OnInit, OnDestroy {
   }
 
   subscribeToParams(): void {
-    const paramSub = this.paramsService.params$
-      .pipe(
-        tap(() => this.isLoading.next(true)),
-        switchMap((params) => {
-          return this.projectsService.getProjects(params).pipe(
-            catchError((err) => {
-              this.isError.next(true);
-              return this.errorHandlingService.handleError(err, this.isLoading);
-            })
-          );
-        }),
-        tap(() => {
-          this.isLoading.next(false);
-          this.isError.next(false);
-        })
-      )
+    this.isLoading = this.paramsService.isLoading;
+    this.isError = this.paramsService.isError;
+    const paramsSub = this.paramsService
+      .makeRequestOnParamsChange((params: Params) => this.projectsService.getProjects(params))
       .subscribe();
-    this.unsubscribeService.addSubscription(paramSub);
+    this.unsubscribeService.addSubscription(paramsSub);
   }
 
   updateParams(params: Params): void {
@@ -119,7 +105,7 @@ export class ProjectListContainerComponent implements OnInit, OnDestroy {
     const formValue = form.getRawValue();
 
     this.modalDataService
-      .sendRequest(this.projectsService.postProject(formValue), 'Project Updated', form)
+      .sendRequest(this.projectsService.postProject(formValue), 'Project Created', form)
       .subscribe((res: CreatedResponse) => {
         this.handleCreateModalClose();
         this.router.navigateByUrl(`/projects/${res.id}`);

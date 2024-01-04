@@ -1,13 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 
 import { ParamsService } from './params.service';
+import { MessageService } from 'primeng/api';
 
 describe('ParamsService', () => {
   let service: ParamsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ParamsService],
+      providers: [ParamsService, MessageService],
     });
     service = TestBed.inject(ParamsService);
   });
