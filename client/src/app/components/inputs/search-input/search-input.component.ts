@@ -19,7 +19,6 @@ import { Params } from '@angular/router';
   imports: [SharedModule],
   providers: [UnsubscribeService],
   templateUrl: './search-input.component.html',
-  styleUrls: ['./search-input.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchInputComponent implements OnInit, OnDestroy {
