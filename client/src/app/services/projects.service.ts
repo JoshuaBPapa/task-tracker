@@ -6,11 +6,14 @@ import { Page } from 'src/types/page';
 import { Params } from 'src/types/params/params';
 import { CreatedResponse } from 'src/types/responses/created-response';
 import { Project } from 'src/types/responses/project';
+import { Task } from 'src/types/responses/task';
 
 @Injectable()
 export class ProjectsService {
   private projectsData = new Subject<Page<Project>>();
   projectsData$ = this.projectsData.asObservable();
+  private projectTasksData = new Subject<Page<Task>>();
+  projectTasksData$ = this.projectTasksData.asObservable();
 
   constructor(private http: HttpClient) {}
 
@@ -20,6 +23,14 @@ export class ProjectsService {
         params: { ...params },
       })
       .pipe(tap((res) => this.projectsData.next(res)));
+  }
+
+  getProjectTasks(params: Params, id: number): Observable<Page<Task>> {
+    return this.http
+      .get<Page<Task>>(`${environment.api}/tasks/project/${id}`, {
+        params: { ...params },
+      })
+      .pipe(tap((res) => this.projectTasksData.next(res)));
   }
 
   postProject(project: { name: string }): Observable<CreatedResponse> {

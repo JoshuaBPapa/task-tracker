@@ -60,4 +60,14 @@ describe('ProjectsService', () => {
     const req = httpMock.expectOne(`${environment.api}/projects/1`);
     expect(req.request.method).toBe('DELETE');
   });
+
+  it('getProjectTasks should place a GET request with the correct url and id', () => {
+    service.getProjectTasks({}, 1).subscribe();
+    const req1 = httpMock.expectOne(`${environment.api}/tasks/project/1`);
+    expect(req1.request.method).toBe('GET');
+
+    service.getProjectTasks({}, 2).subscribe();
+    const req2 = httpMock.expectOne(`${environment.api}/tasks/project/2`);
+    expect(req2.request.method).toBe('GET');
+  });
 });
