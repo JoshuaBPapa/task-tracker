@@ -1,0 +1,22 @@
+<p-accordion (onOpen)="handleOpen()" expandIcon="pi pi-filter" collapseIcon="pi pi-filter-slash">
+  <p-accordionTab header="Filter">
+    <div class="filter-dropdown-container">
+      <!-- FILTER LISTS -->
+      <div class="filter-dropdown-filters">
+        <div class="filter-dropdown-filters-filter" *ngFor="let filter of config">
+          <h4 class="filter-dropdown-filters-filter-name">{{ filter.filterName }}</h4>
+          <ul class="filter-dropdown-filters-filter-list" >
+            <!-- FILTER CHECKBOXES -->
+            <li *ngFor="let option of filter.options">
+              <p-checkbox [(ngModel)]="checkedFilters[filter.filterKey]" [value]="option.key" [label]="option.label" />
+            </li>
+          </ul>
+        </div>
+      </div>
+      <p-divider />
+      <!-- FILTER ACTION BUTTONS -->
+      <button pButton class="p-button filter-dropdown-apply-button" (click)="onApply()" label="Apply"></button>
+      <button pButton class="p-button p-button-outlined" (click)="onClear()" label="Clear"></button>
+    </div>
+  </p-accordionTab>
+</p-accordion>

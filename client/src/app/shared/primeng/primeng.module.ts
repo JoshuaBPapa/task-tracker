@@ -8,6 +8,8 @@ import { PaginatorModule } from 'primeng/paginator';
 import { CardModule } from 'primeng/card';
 import { DialogModule } from 'primeng/dialog';
 import { DividerModule } from 'primeng/divider';
+import { AccordionModule } from 'primeng/accordion';
+import { CheckboxModule } from 'primeng/checkbox';
 
 @NgModule({
   declarations: [],
@@ -20,6 +22,8 @@ import { DividerModule } from 'primeng/divider';
     PaginatorModule,
     DialogModule,
     DividerModule,
+    CheckboxModule,
+    AccordionModule,
   ],
   exports: [
     InputTextModule,
@@ -30,6 +34,8 @@ import { DividerModule } from 'primeng/divider';
     PaginatorModule,
     DialogModule,
     DividerModule,
+    CheckboxModule,
+    AccordionModule,
   ],
 })
 export class PrimengModule {}
