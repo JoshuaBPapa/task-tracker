@@ -30,10 +30,13 @@
 
 <!-- PROJECT TASKS CARD -->
 <p-card class="project-details-card" header="Project Tasks" subheader="A list of tasks belonging to this project" *ngIf="{ isTableLoading: isTableLoading | async, isTableError: isTableError | async, page: projectTasksData$ | async} as data">
-  <!-- PROJECT TOOL BAR - TASK SEARCH BAR -->
+  <!-- PROJECT TASKS TOOL BAR - TASK SEARCH BAR -->
   <app-toolbar>
     <app-search-input (search)="updateParams($event)" placeholder="Search for tasks by title..." />
   </app-toolbar>
+
+  <!-- PROJECT TASKS FILTER -->
+  <app-filter-dropdown [config]="tableFilterConfig" (filter)="updateParams($event)" />
 
   <!-- PROJECT TASKS TABLE -->
   <app-data-table [headers]="tableHeaderConfig" [isError]="data.isTableError || false" [isLoading]="data.isTableLoading || false" [page]="data.page" (paramsChange)="updateParams($event)">

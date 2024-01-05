@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { FilterDropdownComponent } from 'src/app/components/filter-dropdown/filter-dropdown.component';
 import { SearchInputComponent } from 'src/app/components/inputs/search-input/search-input.component';
 import { DeleteModalComponent } from 'src/app/components/modals/delete-modal/delete-modal.component';
 import { ProjectFormModalComponent } from 'src/app/components/modals/project-form-modal/project-form-modal.component';
@@ -16,7 +17,10 @@ import { ModalDataService } from 'src/app/services/modal-data.service';
 import { ParamsService } from 'src/app/services/params.service';
 import { ProjectsService } from 'src/app/services/projects.service';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
+import { TaskPriorityPipe } from 'src/app/shared/pipes/task-priority.pipe';
+import { TaskStatusPipe } from 'src/app/shared/pipes/task-status.pipe';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { FilterDropdownConfig } from 'src/types/filter-dropdown-config/filter-dropdown-config';
 import { ProjectForm } from 'src/types/forms/project-form';
 import { Page } from 'src/types/page';
 import { Params } from 'src/types/params/params';
@@ -37,8 +41,9 @@ import { Task } from 'src/types/responses/task';
     PaginatorComponent,
     SearchInputComponent,
     ToolbarComponent,
+    FilterDropdownComponent,
   ],
-  providers: [ParamsService, UnsubscribeService],
+  providers: [ParamsService, UnsubscribeService, TaskStatusPipe, TaskPriorityPipe],
   templateUrl: './project-details-container.component.html',
   styleUrls: ['./project-details-container.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -50,6 +55,7 @@ export class ProjectDetailsContainerComponent implements OnInit, OnDestroy {
   projectTasksData$: Observable<Page<Task>>;
   isTableLoading: BehaviorSubject<boolean>;
   isTableError: BehaviorSubject<boolean>;
+  tableFilterConfig: FilterDropdownConfig[];
   tableHeaderConfig = [
     {
       key: 'title',
@@ -84,7 +90,9 @@ export class ProjectDetailsContainerComponent implements OnInit, OnDestroy {
     private formValidationService: FormValidationService,
     private modalDataService: ModalDataService,
     private paramsService: ParamsService,
-    private unsubscribeService: UnsubscribeService
+    private unsubscribeService: UnsubscribeService,
+    private taskStatusPipe: TaskStatusPipe,
+    private taskPriorityPipe: TaskPriorityPipe
   ) {}
 
   ngOnInit(): void {
@@ -93,6 +101,7 @@ export class ProjectDetailsContainerComponent implements OnInit, OnDestroy {
     });
     this.projectTasksData$ = this.projectsService.projectTasksData$;
     this.subscribeToParams();
+    this.setTableFilterConfig();
   }
 
   subscribeToParams(): void {
@@ -104,6 +113,26 @@ export class ProjectDetailsContainerComponent implements OnInit, OnDestroy {
       )
       .subscribe();
     this.unsubscribeService.addSubscription(paramsSub);
+  }
+
+  setTableFilterConfig(): void {
+    const statusFilters: FilterDropdownConfig = {
+      filterName: 'Status',
+      filterKey: 'status',
+      options: [],
+    };
+    const priorityFilters: FilterDropdownConfig = {
+      filterName: 'Priority',
+      filterKey: 'priority',
+      options: [],
+    };
+
+    for (let i = 1; i <= 4; i++) {
+      statusFilters.options.push({ key: i, label: this.taskStatusPipe.transform(i, 'text') });
+      priorityFilters.options.push({ key: i, label: this.taskPriorityPipe.transform(i, 'text') });
+    }
+
+    this.tableFilterConfig = [statusFilters, priorityFilters];
   }
 
   onOpenEditProjectModal(): void {
