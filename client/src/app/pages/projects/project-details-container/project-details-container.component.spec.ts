@@ -15,7 +15,7 @@ const mockProjectData = {
   tasksNotStarted: 6,
 };
 
-fdescribe('ProjectDetailsContainerComponent', () => {
+describe('ProjectDetailsContainerComponent', () => {
   let component: ProjectDetailsContainerComponent;
   let fixture: ComponentFixture<ProjectDetailsContainerComponent>;
   const projectsServiceSpy = jasmine.createSpyObj('ProjectsService', ['putProject']);
