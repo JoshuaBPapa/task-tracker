@@ -1,37 +1,37 @@
 @use "../../../../styles/styles.scss" as *;
 
-.project-details-container-header {
+.project-details-card {
+  display: block;
+}
+
+.project-details-card,
+.project-details-count-cards {
+  margin-bottom: 1.5rem;
+}
+
+.project-details-header {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  margin-bottom: 4rem;
+  justify-content: space-between;
+  padding: 0 0.5rem;
 
-  .project-details-container-name {
+  .project-details-header-name {
     margin: 0;
-    @include text-truncate(100%);
   }
 
-  .project-details-container-buttons {
-    align-items: start;
+  .project-details-header-buttons {
     display: flex;
-    flex-direction: column;
     gap: 0.5rem;
-
-    @include md-breakpoint {
-      align-items: center;
-      flex-direction: row;
-      justify-content: space-between;
-    }
   }
 
   @include md-breakpoint {
     align-items: center;
     flex-direction: row;
-    justify-content: space-between;
   }
 }
 
-.project-details-container-count-cards {
+.project-details-count-cards {
   &.flex-grid-container {
     @include md-breakpoint {
       flex-direction: row;
