@@ -1,10 +1,10 @@
 <div class="project-list-container">
   <p-card header="Projects" subheader="A list of your team's projects" *ngIf="{ isLoading: isLoading | async, isError: isError | async, page: projectsData$ | async} as data">
     <!-- PROJECT TOOL BAR - CREATE PROJECT BUTTON AND SEARCH BAR -->
-    <div class="project-list-container-tool-bar">
+    <app-toolbar>
       <button pButton (click)="onOpenCreateModal()" label="Create Project +" ></button>
       <app-search-input (search)="updateParams($event)" placeholder="Search projects by name..." />
-    </div>
+    </app-toolbar>
 
     <!-- PROJECT TABLE -->
     <app-data-table [headers]="tableHeaderConfig" [isError]="data.isError || false" [isLoading]="data.isLoading || false" [page]="data.page" (paramsChange)="updateParams($event)">

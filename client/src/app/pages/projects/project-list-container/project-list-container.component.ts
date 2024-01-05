@@ -8,6 +8,7 @@ import { ProjectFormModalComponent } from 'src/app/components/modals/project-for
 import { PaginatorComponent } from 'src/app/components/paginator/paginator.component';
 import { PercentageBarComponent } from 'src/app/components/statistics/percentage-bar/percentage-bar.component';
 import { DataTableComponent } from 'src/app/components/tables/data-table/data-table.component';
+import { ToolbarComponent } from 'src/app/components/toolbar/toolbar.component';
 import { FormValidationService } from 'src/app/services/form-validation.service';
 import { ModalDataService } from 'src/app/services/modal-data.service';
 import { ParamsService } from 'src/app/services/params.service';
@@ -31,6 +32,7 @@ import { Project } from 'src/types/responses/project';
     LoadingSpinnerComponent,
     PaginatorComponent,
     ProjectFormModalComponent,
+    ToolbarComponent,
   ],
   providers: [ProjectsService, ParamsService, UnsubscribeService],
   templateUrl: './project-list-container.component.html',
