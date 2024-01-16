@@ -3,6 +3,10 @@ import { TaskStatusPipe } from './task-status.pipe';
 describe('TaskStatusPipe', () => {
   let pipe = new TaskStatusPipe();
 
+  beforeEach(() => {
+    pipe = new TaskStatusPipe();
+  });
+
   it('create an instance', () => {
     expect(pipe).toBeTruthy();
   });
