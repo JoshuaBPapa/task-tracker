@@ -5,7 +5,7 @@ export interface Task {
   priority: number;
   dateTimeCreated: string;
   dateTimeUpdated: string;
-  assignedUser: {
+  assignedUser: null | {
     id: number;
     jobTitle: string;
     lastName: string;
