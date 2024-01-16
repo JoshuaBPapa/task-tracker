@@ -5,6 +5,7 @@ import { of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { ProjectsService } from 'src/app/services/projects.service';
 import { MessageService } from 'primeng/api';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 const mockProjectData = {
   id: 3,
@@ -25,7 +26,7 @@ describe('ProjectDetailsContainerComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ProjectDetailsContainerComponent],
+      imports: [ProjectDetailsContainerComponent, NoopAnimationsModule],
       providers: [{ provide: ActivatedRoute, useValue: activatedRouteStub }, MessageService],
     });
     TestBed.overrideProvider(ProjectsService, { useValue: projectsServiceSpy });

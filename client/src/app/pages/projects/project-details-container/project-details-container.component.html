@@ -43,7 +43,10 @@
     <ng-template pTemplate="body" let-row>
       <tr>
         <td>{{ row.title }}</td>
-        <td>{{ row.assignedUser ? row.assignedUser.firstName + ' ' + row.assignedUser.lastName : '-' }}</td>
+        <td>
+          <app-user-icon *ngIf="row.assignedUser; else noUser" [name]="row.assignedUser.firstName | name: row.assignedUser.lastName" [pictureColour]="row.assignedUser.pictureColour" [jobTitle]="row.assignedUser.jobTitle" [showText]="true" />
+          <ng-template #noUser>No User Assigned</ng-template>
+        </td>
         <td><app-task-status-tag [value]="row.status" /></td>
         <td><app-task-priority-tag [value]="row.priority" /></td>
         <td>{{ row.dateTimeCreated | date: "dd/MM/yyyy" }}</td>

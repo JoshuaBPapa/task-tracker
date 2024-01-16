@@ -12,11 +12,13 @@ import { DataTableComponent } from 'src/app/components/tables/data-table/data-ta
 import { TaskPriorityTagComponent } from 'src/app/components/tags/task-priority-tag/task-priority-tag.component';
 import { TaskStatusTagComponent } from 'src/app/components/tags/task-status-tag/task-status-tag.component';
 import { ToolbarComponent } from 'src/app/components/toolbar/toolbar.component';
+import { UserIconComponent } from 'src/app/components/user/user-icon/user-icon.component';
 import { FormValidationService } from 'src/app/services/form-validation.service';
 import { ModalDataService } from 'src/app/services/modal-data.service';
 import { ParamsService } from 'src/app/services/params.service';
 import { ProjectsService } from 'src/app/services/projects.service';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
+import { NamePipe } from 'src/app/shared/pipes/name.pipe';
 import { TaskPriorityPipe } from 'src/app/shared/pipes/task-priority.pipe';
 import { TaskStatusPipe } from 'src/app/shared/pipes/task-status.pipe';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -42,6 +44,8 @@ import { Task } from 'src/types/responses/task';
     SearchInputComponent,
     ToolbarComponent,
     FilterDropdownComponent,
+    UserIconComponent,
+    NamePipe,
   ],
   providers: [ParamsService, UnsubscribeService, TaskStatusPipe, TaskPriorityPipe],
   templateUrl: './project-details-container.component.html',
@@ -62,7 +66,7 @@ export class ProjectDetailsContainerComponent implements OnInit, OnDestroy {
       label: 'Title',
     },
     {
-      key: 'assignedUserId',
+      key: 'assignedUser.firstName',
       label: 'Assigned User',
     },
     {
