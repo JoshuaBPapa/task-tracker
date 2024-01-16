@@ -1,13 +1,9 @@
 <span class="user-icon-container">
-  <span
-    class="user-icon-text"
-    *ngIf="showText"
-    [ngClass]="{ 'user-icon-text-responsive': responsiveText }"
-  >
-    <span class="user-icon-name">{{ firstName + " " + lastName | titlecase }}</span>
-    <span class="user-icon-job-title">{{ jobTitle }}</span>
+  <span [style]="{ 'background-color': pictureColour }" class="user-icon-circle">
+    {{ name[0] | uppercase }}
   </span>
-  <span [style]="{ 'background-color': bgColour }" class="user-icon-circle">
-    {{ firstName[0] | uppercase }}
+  <span class="user-icon-text" *ngIf="showText">
+    <span class="user-icon-name">{{ name }}</span>
+    <span class="user-icon-job-title">{{ jobTitle }}</span>
   </span>
 </span>

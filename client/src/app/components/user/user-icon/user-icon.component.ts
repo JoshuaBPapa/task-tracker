@@ -10,10 +10,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserIconComponent {
-  @Input() firstName = '';
-  @Input() lastName = '';
+  @Input() name = '';
   @Input() jobTitle = '';
-  @Input() bgColour = '#7239EA';
+  @Input() pictureColour = '#7239EA';
   @Input() showText = false;
-  @Input() responsiveText = false;
 }
