@@ -3,7 +3,7 @@
     {{ name[0] | uppercase }}
   </span>
   <span class="user-icon-text" *ngIf="showText">
-    <span class="user-icon-name">{{ name }}</span>
-    <span class="user-icon-job-title">{{ jobTitle }}</span>
+    <span appTextTruncate maxWidth="10rem" class="user-icon-name">{{ name }}</span>
+    <span appTextTruncate maxWidth="10rem" class="user-icon-job-title">{{ jobTitle }}</span>
   </span>
 </span>

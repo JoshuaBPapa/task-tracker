@@ -1,14 +1,8 @@
-@use "../../../../styles/styles.scss" as *;
+.project-table-project-link {
+  display: inline-block;
+  width: 100%;
 
-.project-table-name {
-  @include text-truncate(15rem);
-
-  a {
-    display: inline-block;
-    width: 100%;
-
-    &:hover {
-      text-decoration: underline;
-    }
+  &:hover {
+    text-decoration: underline;
   }
 }
