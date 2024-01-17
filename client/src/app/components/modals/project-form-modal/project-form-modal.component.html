@@ -3,7 +3,7 @@
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <app-labelled-input [control]="form.controls.name" label="Project Name *" placeholder="Project Name" />
     </form>
-    <app-modal-footer-buttons confirmLabel="Create" (confirm)="onSubmit()" (cancel)="handleCancel()" />
+    <app-modal-footer-buttons confirmLabel="Submit" (confirm)="onSubmit()" (cancel)="handleCancel()" />
   </div>
 </app-modal-data-wrapper>
 
