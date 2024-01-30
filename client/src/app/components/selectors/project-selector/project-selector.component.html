@@ -1,0 +1,15 @@
+<!-- PROJECT LIST OPTIONS FOR SELECTOR -->
+<ng-template #optionTemplate let-project>
+  <!-- PROJECT NAME -->
+  <span appTextTruncate maxWidth="100%" class="project-name">{{ project.name }}</span>
+</ng-template>
+
+<!-- SELECTOR -->
+<app-selector-data-filter
+  [optionTemplate]="optionTemplate"
+  [placeholder]="selectedProjectName || 'Select Project'"
+  [isLoading]="(isLoading | async) || false"
+  [options]="(options$ | async)?.results || []"
+  [isInvalid]="control.invalid && (control.touched || control.dirty)"
+  (filter)="handleFilter($event)"
+  (select)="handleSelect($event)" />
