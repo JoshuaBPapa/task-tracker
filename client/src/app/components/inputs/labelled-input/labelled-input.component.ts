@@ -1,12 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { ValidationMessagePipe } from 'src/app/shared/pipes/validation-message.pipe';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { LabelValidationWrapperComponent } from '../label-validation-wrapper/label-validation-wrapper.component';
 
 @Component({
   selector: 'app-labelled-input',
   standalone: true,
-  imports: [SharedModule, ValidationMessagePipe],
+  imports: [SharedModule, LabelValidationWrapperComponent],
   templateUrl: './labelled-input.component.html',
   styleUrls: ['./labelled-input.component.scss'],
 })

@@ -1,0 +1,11 @@
+<div class="label-validation-wrapper">
+  <label>{{ label }}</label>
+  <ng-content />
+  <small *ngIf="helpText">{{ helpText }}</small>
+  <small
+    *ngIf="control.invalid && (control.touched || control.dirty)"
+    class="failed-validation-message"
+  >
+    {{ control.errors | validationMessage }}
+  </small>
+</div>

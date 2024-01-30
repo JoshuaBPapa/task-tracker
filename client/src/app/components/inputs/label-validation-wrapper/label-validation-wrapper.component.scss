@@ -1,0 +1,11 @@
+.label-validation-wrapper {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.75rem;
+}
+
+.failed-validation-message {
+  color: var(--red-500);
+}
