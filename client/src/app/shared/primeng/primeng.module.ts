@@ -11,6 +11,7 @@ import { DividerModule } from 'primeng/divider';
 import { AccordionModule } from 'primeng/accordion';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DropdownModule } from 'primeng/dropdown';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
 
 @NgModule({
   declarations: [],
@@ -26,6 +27,7 @@ import { DropdownModule } from 'primeng/dropdown';
     CheckboxModule,
     AccordionModule,
     DropdownModule,
+    OverlayPanelModule,
   ],
   exports: [
     InputTextModule,
@@ -39,6 +41,7 @@ import { DropdownModule } from 'primeng/dropdown';
     CheckboxModule,
     AccordionModule,
     DropdownModule,
+    OverlayPanelModule,
   ],
 })
 export class PrimengModule {}

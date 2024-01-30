@@ -1,0 +1,36 @@
+.selector-data-filter-list-container {
+  margin-top: 1rem;
+  max-height: 15rem;
+  overflow: auto;
+
+  .selector-data-filter-list-loading {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
+
+  .selector-data-filter-list {
+    .selector-data-filter-list-item {
+      cursor: pointer;
+    }
+  }
+}
+
+.clear-selected-button-container {
+  padding-top: 1rem;
+  text-align: right;
+}
+
+.toggle-overlay-button {
+  padding: 0.75rem;
+  padding-right: 1.5rem;
+  position: relative;
+  width: 205px;
+
+  i {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}

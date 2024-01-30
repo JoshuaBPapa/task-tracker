@@ -1,0 +1,42 @@
+<!-- OVERLAY PANEL CONTAINING THE FILTER OPTION LIST -->
+<p-overlayPanel #selector [style]="{'max-width': '18.5rem'}">
+  <!-- SEARCH INPUT FOR THE OPTIONS LIST -->
+  <app-search-input (search)="handleSearchInput($event)" />
+
+  <!-- OPTIONS LIST CONTAINER -->
+  <div class="selector-data-filter-list-container">
+    <!-- LOADING SPINNER -->
+    <div class="selector-data-filter-list-loading" *ngIf="isLoading; else optionsList">
+      <app-loading-spinner />
+    </div>
+
+    <!-- OPTIONS LIST -->
+    <ng-template #optionsList>
+      <ul *ngIf="options as listOptions" class="selector-data-filter-list">
+        <li *ngFor="let option of listOptions" (click)="onSelected(option)" class="selector-data-filter-list-item">
+          <!-- DEFAULT TEMPLATE FOR LIST -->
+          <ng-template #defaultTemplate let-option>{{ option }}</ng-template>
+
+          <!-- CUSTOM TEMPLATE FOR LIST -->
+          <ng-container [ngTemplateOutlet]="optionTemplate || defaultTemplate" [ngTemplateOutletContext]="{ $implicit: option }" />
+        </li>
+
+        <!-- MESSAGE FOR EMPTY LIST -->
+        <li *ngIf="!listOptions.length">
+          No Results Found
+        </li>
+      </ul>
+    </ng-template>
+  </div>
+
+  <!-- CLEAR SELECTED VALUE BUTTON -->
+  <div class="clear-selected-button-container" *ngIf="nullable">
+    <button pButton (click)="onClearSelected()" class="p-button p-button-text p-button-secondary p-button-sm" type="button" label="Clear Selected"></button>
+  </div>
+</p-overlayPanel>
+
+<!-- BUTTON TO TOGGLE OVERLAY PANEL -->
+<button pButton class="toggle-overlay-button p-button p-button-outlined" [ngClass]="{ 'p-button-danger': isInvalid, 'p-button-secondary': !isInvalid}" type="button" (click)="selector.toggle($event)">
+  <span appTextTruncate maxWidth="100%">{{ placeholder || 'Select' }}</span>
+  <i class="pi pi-caret-down"></i>
+</button>
