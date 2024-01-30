@@ -8,7 +8,6 @@ import { ParamsService } from 'src/app/services/params.service';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
 import { MessageService } from 'primeng/api';
 import { BehaviorSubject, Subject, of } from 'rxjs';
-import { FormControl } from '@angular/forms';
 import { ModalDataService } from 'src/app/services/modal-data.service';
 
 const mockProjectReponse: Page<Project> = {
