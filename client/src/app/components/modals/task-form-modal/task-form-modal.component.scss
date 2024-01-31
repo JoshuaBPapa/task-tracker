@@ -1,0 +1,11 @@
+.task-form-modal-container {
+  max-width: 100%;
+  width: 35rem;
+
+  .description-text-area {
+    max-height: 10rem;
+    min-height: 3rem;
+    max-width: 100%;
+    min-width: 100%;
+  }
+}

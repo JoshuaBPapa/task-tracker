@@ -1,0 +1,33 @@
+<app-modal-data-wrapper [header]="header">
+  <div class="task-form-modal-container">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <!-- TITLE INPUT -->
+      <app-labelled-input [control]="form.controls.title" label="Task Title *" placeholder="Task Title" helpText="Maximum of 300 characters" />
+      <div class="split-row-into-columns">
+        <!-- PROJECT SELECTOR -->
+        <app-label-validation-wrapper [control]="form.controls.projectId" label="Project *">
+          <app-project-selector [control]="form.controls.projectId" />
+        </app-label-validation-wrapper>
+        <!-- ASSIGNED USER SELECTOR -->
+        <app-label-validation-wrapper [control]="form.controls.assignedUserId" label="Assigned User">
+          <app-user-selector [control]="form.controls.assignedUserId" />
+        </app-label-validation-wrapper>
+      </div>
+      <div class="split-row-into-columns">
+        <!-- STATUS DROPDOWN -->
+        <app-label-validation-wrapper [control]="form.controls.status" label="Status *">
+          <app-task-status-dropdown [control]="form.controls.status" />
+        </app-label-validation-wrapper>
+        <!-- PRIORITY DROPDOWM -->
+        <app-label-validation-wrapper [control]="form.controls.priority" label="Priority *">
+          <app-task-priority-dropdown [control]="form.controls.priority" />
+        </app-label-validation-wrapper>
+      </div>
+      <!-- DESCRIPTION TEXT AREA -->
+      <app-label-validation-wrapper [control]="form.controls.description" label="Description" helpText="Maximum of 2000 characters">
+        <textarea class="description-text-area" pInputTextarea formControlName="description"></textarea>
+      </app-label-validation-wrapper>
+    </form>
+    <app-modal-footer-buttons confirmLabel="Submit" (confirm)="onSubmit()" (cancel)="handleCancel()" />
+  </div>
+</app-modal-data-wrapper>
