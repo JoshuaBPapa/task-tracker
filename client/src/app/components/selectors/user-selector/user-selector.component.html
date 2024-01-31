@@ -1,0 +1,18 @@
+<!-- USER LIST OPTIONS FOR SELECTOR -->
+<ng-template #optionTemplate let-user>
+  <!-- USER ICON WITH NAME AND JOB TITLE -->
+  <span class="user-icon">
+    <app-user-icon [name]="user.firstName | name: user.lastName" [pictureColour]="user.pictureColour" [jobTitle]="user.jobTitle" [showText]="true" />
+  </span>
+</ng-template>
+
+<!-- SELECTOR -->
+<app-selector-data-filter
+  [optionTemplate]="optionTemplate"
+  [placeholder]="selectedUserName || 'Select User'"
+  [isLoading]="(isLoading | async) || false"
+  [options]="(options$ | async)?.results || []"
+  [nullable]="true"
+  (filter)="handleFilter($event)"
+  (select)="handleSelect($event)"
+  (clearSelected)="handleClearSelected()" />
