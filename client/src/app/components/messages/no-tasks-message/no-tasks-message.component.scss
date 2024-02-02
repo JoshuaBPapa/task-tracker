@@ -1,0 +1,13 @@
+.no-tasks-message-container {
+  text-align: center;
+
+  .no-tasks-message-icon {
+    font-size: 6rem;
+    color: var(--bluegray-200);
+  }
+
+  .no-tasks-message-text {
+    font-size: 1.125rem;
+    margin-top: 2.125rem;
+  }
+}
