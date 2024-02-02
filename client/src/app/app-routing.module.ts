@@ -48,6 +48,18 @@ const routes: Routes = [
         ],
       },
       {
+        path: 'tasks',
+        children: [
+          {
+            path: '',
+            loadComponent: () =>
+              import('./pages/tasks/task-list-container//task-list-container.component').then(
+                (c) => c.TaskListContainerComponent
+              ),
+          },
+        ],
+      },
+      {
         path: 'error',
         loadComponent: () => import('./pages/error/error.component').then((c) => c.ErrorComponent),
       },
