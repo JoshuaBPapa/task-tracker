@@ -13,6 +13,53 @@ import { TasksService } from 'src/app/services/tasks.service';
 import { Page } from 'src/types/page';
 import { Task } from 'src/types/responses/task';
 
+const filterConfig = [
+  {
+    filterName: 'Status',
+    filterKey: 'status',
+    options: [
+      {
+        key: 1,
+        label: 'Not Started',
+      },
+      {
+        key: 2,
+        label: 'In Progress',
+      },
+      {
+        key: 3,
+        label: 'In Review',
+      },
+      {
+        key: 4,
+        label: 'Complete',
+      },
+    ],
+  },
+  {
+    filterName: 'Priority',
+    filterKey: 'priority',
+    options: [
+      {
+        key: 1,
+        label: 'Low',
+      },
+      {
+        key: 2,
+        label: 'Medium',
+      },
+      {
+        key: 3,
+        label: 'High',
+      },
+      {
+        key: 4,
+        label: 'Severe',
+      },
+    ],
+  },
+];
+
 const mockProjectData = {
   id: 3,
   name: 'New project',
@@ -73,7 +120,10 @@ describe('ProjectDetailsContainerComponent', () => {
     'addSubscription',
     'unsubscribeAll',
   ]);
-  const tasksServiceSpy = jasmine.createSpyObj('TasksServiceSpy', ['postTask']);
+  const tasksServiceSpy = jasmine.createSpyObj('TasksServiceSpy', [
+    'postTask',
+    'createTaskFilters',
+  ]);
   const activatedRouteStub = {
     data: of({ project: mockProjectData }),
   };
@@ -93,6 +143,7 @@ describe('ProjectDetailsContainerComponent', () => {
     TestBed.overrideProvider(TasksService, { useValue: tasksServiceSpy });
 
     paramsServiceSpy.makeRequestOnParamsChange.and.returnValue(of(mockProjectTasks));
+    tasksServiceSpy.createTaskFilters.and.returnValue(filterConfig);
 
     fixture = TestBed.createComponent(ProjectDetailsContainerComponent);
     component = fixture.componentInstance;
@@ -121,54 +172,10 @@ describe('ProjectDetailsContainerComponent', () => {
     expect(component.isTableError).toEqual(paramsServiceSpy.isError);
   });
 
-  it('setTableFilterConfig should set the value of tableFilterConfig', () => {
+  it('setTableFilterConfig should set tableFilterConfig with the value returned from tasksService.createTaskFilters()', () => {
     component.setTableFilterConfig();
-    expect(component.tableFilterConfig).toEqual([
-      {
-        filterName: 'Status',
-        filterKey: 'status',
-        options: [
-          {
-            key: 1,
-            label: 'Not Started',
-          },
-          {
-            key: 2,
-            label: 'In Progress',
-          },
-          {
-            key: 3,
-            label: 'In Review',
-          },
-          {
-            key: 4,
-            label: 'Complete',
-          },
-        ],
-      },
-      {
-        filterName: 'Priority',
-        filterKey: 'priority',
-        options: [
-          {
-            key: 1,
-            label: 'Low',
-          },
-          {
-            key: 2,
-            label: 'Medium',
-          },
-          {
-            key: 3,
-            label: 'High',
-          },
-          {
-            key: 4,
-            label: 'Severe',
-          },
-        ],
-      },
-    ]);
+    expect(tasksServiceSpy.createTaskFilters).toHaveBeenCalled();
+    expect(component.tableFilterConfig).toEqual(tasksServiceSpy.createTaskFilters());
   });
 
   it('onOpenEditProjectModal should set isEditProjectModalVisible to true', () => {

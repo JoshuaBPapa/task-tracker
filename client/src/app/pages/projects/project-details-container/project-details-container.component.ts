@@ -20,9 +20,8 @@ import { ParamsService } from 'src/app/services/params.service';
 import { ProjectsService } from 'src/app/services/projects.service';
 import { TasksService } from 'src/app/services/tasks.service';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
+import { TextTruncateDirective } from 'src/app/shared/directives/text-truncate.directive';
 import { NamePipe } from 'src/app/shared/pipes/name.pipe';
-import { TaskPriorityPipe } from 'src/app/shared/pipes/task-priority.pipe';
-import { TaskStatusPipe } from 'src/app/shared/pipes/task-status.pipe';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { FilterDropdownConfig } from 'src/types/filter-dropdown-config/filter-dropdown-config';
 import { ProjectForm } from 'src/types/forms/project-form';
@@ -50,8 +49,9 @@ import { Task } from 'src/types/responses/task';
     UserIconComponent,
     NamePipe,
     TaskFormModalComponent,
+    TextTruncateDirective,
   ],
-  providers: [ParamsService, UnsubscribeService, TaskStatusPipe, TaskPriorityPipe, TasksService],
+  providers: [ParamsService, UnsubscribeService, TasksService],
   templateUrl: './project-details-container.component.html',
   styleUrls: ['./project-details-container.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -100,8 +100,6 @@ export class ProjectDetailsContainerComponent implements OnInit, OnDestroy {
     private modalDataService: ModalDataService,
     private paramsService: ParamsService,
     private unsubscribeService: UnsubscribeService,
-    private taskStatusPipe: TaskStatusPipe,
-    private taskPriorityPipe: TaskPriorityPipe,
     private tasksService: TasksService
   ) {}
 
@@ -126,23 +124,7 @@ export class ProjectDetailsContainerComponent implements OnInit, OnDestroy {
   }
 
   setTableFilterConfig(): void {
-    const statusFilters: FilterDropdownConfig = {
-      filterName: 'Status',
-      filterKey: 'status',
-      options: [],
-    };
-    const priorityFilters: FilterDropdownConfig = {
-      filterName: 'Priority',
-      filterKey: 'priority',
-      options: [],
-    };
-
-    for (let i = 1; i <= 4; i++) {
-      statusFilters.options.push({ key: i, label: this.taskStatusPipe.transform(i, 'text') });
-      priorityFilters.options.push({ key: i, label: this.taskPriorityPipe.transform(i, 'text') });
-    }
-
-    this.tableFilterConfig = [statusFilters, priorityFilters];
+    this.tableFilterConfig = this.tasksService.createTaskFilters();
   }
 
   onOpenEditProjectModal(): void {
@@ -196,7 +178,7 @@ export class ProjectDetailsContainerComponent implements OnInit, OnDestroy {
     this.isCreateTaskModalVisible = true;
   }
 
-  handleCreateTaskModal(form: FormGroup<TaskForm>): void {
+  handleCreateTaskModalSubmit(form: FormGroup<TaskForm>): void {
     if (!this.formValidationService.checkIsFormValid(form)) return;
     const formValue = form.getRawValue();
 

@@ -32,7 +32,7 @@
 <p-card class="project-details-card" header="Project Tasks" subheader="A list of tasks belonging to this project" *ngIf="{ isTableLoading: isTableLoading | async, isTableError: isTableError | async, page: projectTasksData$ | async} as data">
   <!-- PROJECT TASKS TOOL BAR - OPEN CREATE TASK MODAL BUTTON, TASK SEARCH BAR -->
   <app-toolbar>
-    <button pButton (click)="onOpenCreateTaskModal()" label="Create New Task +" ></button>
+    <button pButton (click)="onOpenCreateTaskModal()" label="Create New Task +"></button>
     <app-search-input (search)="updateParams($event)" placeholder="Search for tasks by title..." />
   </app-toolbar>
 
@@ -43,7 +43,7 @@
   <app-data-table [headers]="tableHeaderConfig" [isError]="data.isTableError || false" [isLoading]="data.isTableLoading || false" [page]="data.page" (paramsChange)="updateParams($event)">
     <ng-template pTemplate="body" let-row>
       <tr>
-        <td>{{ row.title }}</td>
+        <td appTextTruncate maxWidth="15rem">{{ row.title }}</td>
         <td>
           <app-user-icon *ngIf="row.assignedUser; else noUser" [name]="row.assignedUser.firstName | name: row.assignedUser.lastName" [pictureColour]="row.assignedUser.pictureColour" [jobTitle]="row.assignedUser.jobTitle" [showText]="true" />
           <ng-template #noUser>No User Assigned</ng-template>
@@ -65,4 +65,4 @@
 <!-- DELETE PROJECT MODAL -->
 <app-delete-modal (confirmDelete)="handleDeleteProjectModalConfirm()" (closeModal)="handleDeleteProjectModalClose()" *ngIf="isDeleteProjectModalVisible" label="project" />
 <!-- CREATE TASK FOR PROJECT MODAL -->
-<app-task-form-modal (closeModal)="handleCreateTaskModalClose()" (submitForm)="handleCreateTaskModal($event)" *ngIf="isCreateTaskModalVisible" />
+<app-task-form-modal (closeModal)="handleCreateTaskModalClose()" (submitForm)="handleCreateTaskModalSubmit($event)" *ngIf="isCreateTaskModalVisible" />
