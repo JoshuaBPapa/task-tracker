@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable, catchError, tap } from 'rxjs';
 import { ErrorCardComponent } from 'src/app/components/cards/error-card/error-card.component';
 import { LoadingCardComponent } from 'src/app/components/cards/loading-card/loading-card.component';
 import { NotificationCardComponent } from 'src/app/components/cards/notification-card/notification-card.component';
+import { NoTasksMessageComponent } from 'src/app/components/messages/no-tasks-message/no-tasks-message.component';
 import { CountCardComponent } from 'src/app/components/statistics/count-card/count-card.component';
 import { StackedBarDiagramComponent } from 'src/app/components/statistics/stacked-bar-diagram/stacked-bar-diagram.component';
 import { TopTenTasksTableComponent } from 'src/app/components/tables/top-ten-tasks-table/top-ten-tasks-table.component';
@@ -24,6 +25,7 @@ import { StatisticsResponse } from 'src/types/responses/statistics-response';
     LoadingCardComponent,
     ErrorCardComponent,
     NotificationCardComponent,
+    NoTasksMessageComponent,
   ],
   providers: [TaskStatusPipe],
   templateUrl: './dashboard-container.component.html',
