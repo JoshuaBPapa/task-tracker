@@ -1,8 +1,8 @@
 export interface Task {
   id: number;
   title: string;
-  status: number;
-  priority: number;
+  status: 1 | 2 | 3 | 4;
+  priority: 1 | 2 | 3 | 4;
   dateTimeCreated: string;
   dateTimeUpdated: string;
   assignedUser: null | {
