@@ -12,6 +12,7 @@ import { AccordionModule } from 'primeng/accordion';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DropdownModule } from 'primeng/dropdown';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
 @NgModule({
   declarations: [],
@@ -28,6 +29,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
     AccordionModule,
     DropdownModule,
     OverlayPanelModule,
+    InputTextareaModule,
   ],
   exports: [
     InputTextModule,
@@ -42,6 +44,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
     AccordionModule,
     DropdownModule,
     OverlayPanelModule,
+    InputTextareaModule,
   ],
 })
 export class PrimengModule {}
