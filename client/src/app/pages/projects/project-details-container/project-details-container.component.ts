@@ -13,7 +13,7 @@ import { DataTableComponent } from 'src/app/components/tables/data-table/data-ta
 import { TaskPriorityTagComponent } from 'src/app/components/tags/task-priority-tag/task-priority-tag.component';
 import { TaskStatusTagComponent } from 'src/app/components/tags/task-status-tag/task-status-tag.component';
 import { ToolbarComponent } from 'src/app/components/toolbar/toolbar.component';
-import { UserIconComponent } from 'src/app/components/user/user-icon/user-icon.component';
+import { AssignedUserComponent } from 'src/app/components/user/assigned-user/assigned-user.component';
 import { FormValidationService } from 'src/app/services/form-validation.service';
 import { ModalDataService } from 'src/app/services/modal-data.service';
 import { ParamsService } from 'src/app/services/params.service';
@@ -21,7 +21,6 @@ import { ProjectsService } from 'src/app/services/projects.service';
 import { TasksService } from 'src/app/services/tasks.service';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
 import { TextTruncateDirective } from 'src/app/shared/directives/text-truncate.directive';
-import { NamePipe } from 'src/app/shared/pipes/name.pipe';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { FilterDropdownConfig } from 'src/types/filter-dropdown-config/filter-dropdown-config';
 import { ProjectForm } from 'src/types/forms/project-form';
@@ -46,10 +45,9 @@ import { Task } from 'src/types/responses/task';
     SearchInputComponent,
     ToolbarComponent,
     FilterDropdownComponent,
-    UserIconComponent,
-    NamePipe,
     TaskFormModalComponent,
     TextTruncateDirective,
+    AssignedUserComponent,
   ],
   providers: [ParamsService, UnsubscribeService, TasksService],
   templateUrl: './project-details-container.component.html',
