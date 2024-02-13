@@ -47,6 +47,12 @@ describe('TasksService', () => {
     expect(req.request.method).toBe('GET');
   });
 
+  it('getTask should place a GET request with the correct url', () => {
+    service.getTask('1').subscribe();
+    const req = httpMock.expectOne(`${environment.api}/tasks/task/1`);
+    expect(req.request.method).toBe('GET');
+  });
+
   it('createTaskFilters should return the correct filterConfig', () => {
     expect(service.createTaskFilters()).toEqual([
       {

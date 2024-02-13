@@ -6,7 +6,7 @@ import { FilterDropdownConfig } from 'src/types/filter-dropdown-config/filter-dr
 import { Page } from 'src/types/page';
 import { Params } from 'src/types/params/params';
 import { CreatedResponse } from 'src/types/responses/created-response';
-import { Task } from 'src/types/responses/task';
+import { Task, TaskDetailed } from 'src/types/responses/task';
 import { TaskStatusPipe } from '../shared/pipes/task-status.pipe';
 import { TaskPriorityPipe } from '../shared/pipes/task-priority.pipe';
 
@@ -32,6 +32,10 @@ export class TasksService {
         params: { ...params },
       })
       .pipe(tap((res) => this.tasksData.next(res)));
+  }
+
+  getTask(id: string): Observable<TaskDetailed> {
+    return this.http.get<TaskDetailed>(`${environment.api}/tasks/task/${id}`);
   }
 
   postTask(task: PostTaskData): Observable<CreatedResponse> {
