@@ -1,0 +1,9 @@
+<div class="post-comment-container">
+  <app-user-icon class="post-comment-user" [name]="loggedInUser.firstName" [pictureColour]="loggedInUser.pictureColour" />
+  <form (ngSubmit)="onSubmit()" [formGroup]="form" class="post-comment-form">
+    <app-label-validation-wrapper [control]="form.controls.comment" helpText="Maximum of 2000 characters" label="Post a comment">
+      <textarea pInputTextarea formControlName="comment"></textarea>
+    </app-label-validation-wrapper>
+    <button pButton type="submit" label="Post"></button>
+  </form>
+</div>

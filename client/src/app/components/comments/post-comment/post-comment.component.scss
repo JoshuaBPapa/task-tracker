@@ -1,0 +1,23 @@
+.post-comment-container {
+  display: flex;
+
+  .post-comment-user {
+    margin-right: 1rem;
+    min-width: 5rem;
+    text-align: center;
+  }
+
+  .post-comment-form {
+    width: 100%;
+
+    textarea {
+      height: 7.5rem;
+      resize: none;
+      width: 100%;
+    }
+
+    button {
+      width: 100%;
+    }
+  }
+}
