@@ -1,0 +1,42 @@
+.comment-list {
+  margin-bottom: 0.5rem;
+  max-height: 40rem;
+  overflow: auto;
+
+  .comment-list-comment {
+    border-bottom: 1px solid var(--surface-300);
+    display: flex;
+    padding: 1.5rem 0;
+
+    &:first-of-type {
+      padding-top: 0;
+    }
+
+    &:last-of-type {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .comment-list-comment-user-icon-job-title {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-right: 1rem;
+      min-width: 5rem;
+      width: 5rem;
+    }
+
+    .comment-list-comment-post {
+      flex-grow: 1;
+
+      .comment-list-comment-post-user-name {
+        font-weight: bold;
+      }
+
+      .comment-list-comment-post-content {
+        margin: 0.5rem 0;
+      }
+    }
+  }
+}
