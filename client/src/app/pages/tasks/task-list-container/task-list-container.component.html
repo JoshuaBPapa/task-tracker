@@ -17,8 +17,7 @@
         <tr>
           <td appTextTruncate maxWidth="12.5rem">{{ row.title }}</td>
           <td>
-            <app-user-icon *ngIf="row.assignedUser; else noUser" [name]="row.assignedUser.firstName | name: row.assignedUser.lastName" [pictureColour]="row.assignedUser.pictureColour" [jobTitle]="row.assignedUser.jobTitle" [showText]="true" />
-            <ng-template #noUser>No User Assigned</ng-template>
+            <app-assigned-user [assignedUser]="row.assignedUser" />
           </td>
           <td appTextTruncate maxWidth="10rem">
             <a appTableCellLink [routerLink]="['/projects', row.project.id]">{{ row.project.name }}</a>

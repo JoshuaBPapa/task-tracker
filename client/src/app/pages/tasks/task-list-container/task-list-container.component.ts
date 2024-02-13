@@ -11,7 +11,7 @@ import { DataTableComponent } from 'src/app/components/tables/data-table/data-ta
 import { TaskPriorityTagComponent } from 'src/app/components/tags/task-priority-tag/task-priority-tag.component';
 import { TaskStatusTagComponent } from 'src/app/components/tags/task-status-tag/task-status-tag.component';
 import { ToolbarComponent } from 'src/app/components/toolbar/toolbar.component';
-import { UserIconComponent } from 'src/app/components/user/user-icon/user-icon.component';
+import { AssignedUserComponent } from 'src/app/components/user/assigned-user/assigned-user.component';
 import { FormValidationService } from 'src/app/services/form-validation.service';
 import { ModalDataService } from 'src/app/services/modal-data.service';
 import { ParamsService } from 'src/app/services/params.service';
@@ -19,7 +19,6 @@ import { TasksService } from 'src/app/services/tasks.service';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
 import { TableCellLinkDirective } from 'src/app/shared/directives/table-cell-link.directive';
 import { TextTruncateDirective } from 'src/app/shared/directives/text-truncate.directive';
-import { NamePipe } from 'src/app/shared/pipes/name.pipe';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { FilterDropdownConfig } from 'src/types/filter-dropdown-config/filter-dropdown-config';
 import { TaskForm } from 'src/types/forms/task-form';
@@ -32,8 +31,6 @@ import { Task } from 'src/types/responses/task';
   imports: [
     SharedModule,
     DataTableComponent,
-    UserIconComponent,
-    NamePipe,
     TaskStatusTagComponent,
     TaskPriorityTagComponent,
     PaginatorComponent,
@@ -44,6 +41,7 @@ import { Task } from 'src/types/responses/task';
     NoTasksMessageComponent,
     TextTruncateDirective,
     TableCellLinkDirective,
+    AssignedUserComponent,
   ],
   providers: [ParamsService, UnsubscribeService, TasksService],
   templateUrl: './task-list-container.component.html',
