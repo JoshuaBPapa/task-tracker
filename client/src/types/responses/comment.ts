@@ -1,9 +1,9 @@
 export interface Comment {
   id: number;
-  comment: number;
+  comment: string;
   dateTimeCreated: string;
   postedBy: {
-    userId: number;
+    id: number;
     firstName: string;
     lastName: string;
     jobTitle: string;
