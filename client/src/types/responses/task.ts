@@ -13,3 +13,7 @@ export interface Task {
     name: string;
   };
 }
+
+export interface TaskDetailed extends Task {
+  description: string;
+}
