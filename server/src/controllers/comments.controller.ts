@@ -5,12 +5,12 @@ import { Pagination } from '../classes';
 
 export const postComment = async (
   req: Request<any, any, CreateCommentReqBody>,
-  res: Response<any, TokenData>
+  res: Response<{ id: number }, TokenData>
 ): Promise<void> => {
   const { teamId, userId } = res.locals;
-  await insertComment({ ...req.body, teamId, userId });
+  const newComment = await insertComment({ ...req.body, teamId, userId });
 
-  res.status(201).send();
+  res.status(201).send({ id: newComment[0].insertId });
 };
 
 export const getCommentsPaginated = async (
