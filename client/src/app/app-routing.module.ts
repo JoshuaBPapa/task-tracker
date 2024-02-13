@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
 import { projectDetailsResolver } from './resolvers/project-details.resolver';
 import { ProjectsService } from './services/projects.service';
+import { TasksService } from './services/tasks.service';
+import { taskDetailsResolver } from './resolvers/task-details.resolver';
 
 const routes: Routes = [
   {
@@ -55,6 +57,15 @@ const routes: Routes = [
             loadComponent: () =>
               import('./pages/tasks/task-list-container//task-list-container.component').then(
                 (c) => c.TaskListContainerComponent
+              ),
+          },
+          {
+            path: ':id',
+            providers: [TasksService],
+            resolve: { task: taskDetailsResolver },
+            loadComponent: () =>
+              import('./pages/tasks/task-details-container/task-details-container.component').then(
+                (c) => c.TaskDetailsContainerComponent
               ),
           },
         ],

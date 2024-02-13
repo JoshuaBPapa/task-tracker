@@ -1,0 +1,87 @@
+@use "../../../../styles/styles.scss" as *;
+
+.task-details-grid {
+  .task-details-information-card {
+    width: 100%;
+
+    .task-details-information-list {
+      border-top: 1px solid var(--surface-400);
+
+      li {
+        background-color: var(--surface-200);
+        padding: 1.75rem 1.125rem;
+
+        &:nth-of-type(even) {
+          background-color: white;
+        }
+
+        .task-details-information-list-header {
+          align-items: center;
+          flex-direction: row;
+          gap: 0.75rem;
+          margin: 0;
+        }
+
+        .project-link {
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+
+        .task-description {
+          max-height: 15em;
+          overflow: auto;
+        }
+      }
+    }
+  }
+
+  .task-details-comments-card {
+    flex-shrink: 0;
+    position: relative;
+    width: 100%;
+
+    @include lg-breakpoint {
+      flex-direction: row;
+      max-width: 420px;
+    }
+
+    .comments-loading-spinner-container {
+      align-items: center;
+      background-color: rgba(202, 202, 202, 0.5);
+      backdrop-filter: blur(2px);
+      display: flex;
+      height: 100%;
+      justify-content: center;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    .comments-count-container {
+      margin-top: -1rem;
+      margin-bottom: 2rem;
+
+      .comments-count-total,
+      .comments-count-subtitle {
+        margin: 0;
+      }
+
+      .comments-count-total {
+        font-size: 3.5rem;
+        font-weight: bold;
+      }
+
+      .comments-count-subtitle {
+        color: var(--surface-600);
+      }
+    }
+  }
+
+  .task-details-comments-paginator {
+    display: block;
+    margin-bottom: 1.5rem;
+  }
+}

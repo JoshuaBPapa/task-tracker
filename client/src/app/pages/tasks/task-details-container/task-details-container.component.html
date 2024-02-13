@@ -1,0 +1,61 @@
+<div class="task-details-grid flex-grid flex-grid-container">
+  <!-- TASK DETAILS INFORMATION CARD -->
+  <p-card [header]="task.title" class="task-details-information-card">
+    <!-- TASK DETAILS INFORMATION LIST  -->
+    <ul class="task-details-information-list">
+      <!-- LINK TO PROJECT -->
+      <li class="flex-grid flex-grid-container">
+        <h4 class="flex-grid flex-grid-col col-1 task-details-information-list-header"><i class="pi pi-briefcase"></i>Project</h4>
+        <div appTextTruncate maxWidth="100%" class="flex-grid flex-grid-col col-8 project-link"><a [routerLink]="['/projects', task.project.id]">{{ task.project.name }}</a></div>
+      </li>
+      <!-- TASK STATUS -->
+      <li class="flex-grid flex-grid-container">
+        <h4 class="flex-grid flex-grid-col col-1 task-details-information-list-header"><i class="pi pi-clock"></i>Status</h4>
+        <div class="flex-grid flex-grid-col col-8"><app-task-status-tag [value]="task.status" /></div>
+      </li>
+      <!-- TASK PRIORITY -->
+      <li class="flex-grid flex-grid-container">
+        <h4 class="flex-grid flex-grid-col col-1 task-details-information-list-header"><i class="pi pi-exclamation-triangle"></i>Priority</h4>
+        <div class="flex-grid flex-grid-col col-8"><app-task-priority-tag [value]="task.priority" /></div>
+      </li>
+      <!-- TASK CREATED DATE -->
+      <li class="flex-grid flex-grid-container">
+        <h4 class="flex-grid flex-grid-col col-1 task-details-information-list-header"><i class="pi pi-calendar"></i>Created</h4>
+        <div class="flex-grid flex-grid-col col-8">{{ task.dateTimeCreated | date: "dd/MM/yyyy" }}</div>
+      </li>
+      <!-- TASK UPDATED DATE -->
+      <li class="flex-grid flex-grid-container">
+        <h4 class="flex-grid flex-grid-col col-1 task-details-information-list-header"><i class="pi pi-calendar"></i>Updated</h4>
+        <div class="flex-grid flex-grid-col col-8">{{ task.dateTimeUpdated | date: "dd/MM/yyyy" }}</div>
+      </li>
+      <!-- TASK ASSIGNED USER -->
+      <li class="flex-grid flex-grid-container">
+        <h4 class="flex-grid flex-grid-col col-1 task-details-information-list-header"><i class="pi pi-user"></i>Assigned User</h4>
+        <div class="flex-grid flex-grid-col col-8"><app-assigned-user [assignedUser]="task.assignedUser" /></div>
+      </li>
+      <!-- TASK DESCRIPTION -->
+      <li class="flex-grid flex-grid-container">
+        <h4 class="flex-grid flex-grid-col col-1 task-details-information-list-header"><i class="pi pi-book"></i>Description</h4>
+        <div class="flex-grid flex-grid-col col-8 task-description">{{ task.description }}</div>
+      </li>
+    </ul>
+  </p-card>
+
+  <!-- TASK COMMENT SECTION -->
+  <p-card class="task-details-comments-card" *ngIf="{ isLoading: isCommentsLoading | async, page: commentsData$ | async } as data">
+    <div class="comments-loading-spinner-container" *ngIf="data.isLoading">
+      <app-loading-spinner size="100px"/>
+    </div>
+    <!-- COMMENT COUNT -->
+    <div class="comments-count-container">
+      <p class="comments-count-total">{{ data.page?.total }}</p>
+      <p class="comments-count-subtitle">Comments</p>
+    </div>
+    <!-- COMMENT LIST -->
+    <app-comment-list [comments]="data.page?.results || []" />
+    <!-- PAGINATOR -->
+    <app-paginator *ngIf="data.page?.total" class="task-details-comments-paginator" [page]="data.page" (pageChange)="onCommentsPageChange($event)" />
+    <!-- COMMENT POST FORM -->
+    <app-post-comment (post)="onCommentPost($event)"/>
+  </p-card>
+</div>
