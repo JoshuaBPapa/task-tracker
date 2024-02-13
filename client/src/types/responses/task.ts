@@ -1,3 +1,5 @@
+import { AssignedUser } from '../assigned-user';
+
 export interface Task {
   id: number;
   title: string;
@@ -5,13 +7,7 @@ export interface Task {
   priority: 1 | 2 | 3 | 4;
   dateTimeCreated: string;
   dateTimeUpdated: string;
-  assignedUser: null | {
-    id: number;
-    jobTitle: string;
-    lastName: string;
-    firstName: string;
-    pictureColour: string;
-  };
+  assignedUser: null | AssignedUser;
   project: {
     id: number;
     name: string;

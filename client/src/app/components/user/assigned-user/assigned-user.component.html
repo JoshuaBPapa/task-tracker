@@ -1,0 +1,2 @@
+<app-user-icon *ngIf="assignedUser; else noUser" [name]="assignedUser.firstName | name: assignedUser.lastName" [pictureColour]="assignedUser.pictureColour" [jobTitle]="assignedUser.jobTitle" [showText]="true" />
+<ng-template #noUser>No User Assigned</ng-template>
