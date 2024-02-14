@@ -4,6 +4,7 @@ import { DashboardContainerComponent } from './dashboard-container.component';
 import { StatisticsService } from 'src/app/services/statistics.service';
 import { ErrorHandlingService } from 'src/app/services/error-handling.service';
 import { of } from 'rxjs';
+import { RouterTestingModule } from '@angular/router/testing';
 
 const mockChartConfig = [
   {
@@ -132,7 +133,7 @@ describe('DashboardContainerComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [DashboardContainerComponent],
+      imports: [DashboardContainerComponent, RouterTestingModule],
       providers: [
         { provide: StatisticsService, useValue: statisticsServiceSpy },
         { provide: ErrorHandlingService, useValue: errorHandlingServiceSpy },

@@ -15,12 +15,14 @@
     <app-data-table [headers]="tableHeaderConfig" [isError]="data.isError || false" [isLoading]="data.isLoading || false" [page]="data.page" (paramsChange)="updateParams($event)">
       <ng-template pTemplate="body" let-row>
         <tr>
-          <td appTextTruncate maxWidth="12.5rem">{{ row.title }}</td>
+          <td appTextTruncate maxWidth="20rem">
+            <a class="datatable-link" [routerLink]="['/tasks', row.id]">{{ row.title }}</a>
+          </td>
           <td>
             <app-assigned-user [assignedUser]="row.assignedUser" />
           </td>
           <td appTextTruncate maxWidth="10rem">
-            <a appTableCellLink [routerLink]="['/projects', row.project.id]">{{ row.project.name }}</a>
+            <a class="datatable-link" [routerLink]="['/projects', row.project.id]">{{ row.project.name }}</a>
           </td>
           <td><app-task-status-tag [value]="row.status" /></td>
           <td><app-task-priority-tag [value]="row.priority" /></td>

@@ -43,7 +43,9 @@
   <app-data-table [headers]="tableHeaderConfig" [isError]="data.isTableError || false" [isLoading]="data.isTableLoading || false" [page]="data.page" (paramsChange)="updateParams($event)">
     <ng-template pTemplate="body" let-row>
       <tr>
-        <td appTextTruncate maxWidth="15rem">{{ row.title }}</td>
+        <td appTextTruncate maxWidth="20rem">
+          <a class="datatable-link" [routerLink]="['/tasks', row.id]">{{ row.title }}</a>
+        </td>
         <td>
           <app-assigned-user [assignedUser]="row.assignedUser" />
         </td>

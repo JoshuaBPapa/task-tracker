@@ -14,7 +14,6 @@ import { ModalDataService } from 'src/app/services/modal-data.service';
 import { ParamsService } from 'src/app/services/params.service';
 import { ProjectsService } from 'src/app/services/projects.service';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
-import { TableCellLinkDirective } from 'src/app/shared/directives/table-cell-link.directive';
 import { TextTruncateDirective } from 'src/app/shared/directives/text-truncate.directive';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ProjectForm } from 'src/types/forms/project-form';
@@ -36,7 +35,6 @@ import { Project } from 'src/types/responses/project';
     ProjectFormModalComponent,
     ToolbarComponent,
     TextTruncateDirective,
-    TableCellLinkDirective,
   ],
   providers: [ProjectsService, ParamsService, UnsubscribeService],
   templateUrl: './project-list-container.component.html',

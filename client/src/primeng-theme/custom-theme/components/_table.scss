@@ -9,3 +9,9 @@
   animation: p-icon-spin 1s infinite cubic-bezier(0.18, 0.89, 0.32, 1.28);
   width: 4rem;
 }
+
+.datatable-link {
+  &:hover {
+    text-decoration: underline;
+  }
+}

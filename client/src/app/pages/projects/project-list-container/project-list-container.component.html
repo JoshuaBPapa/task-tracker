@@ -10,7 +10,7 @@
     <app-data-table [headers]="tableHeaderConfig" [isError]="data.isError || false" [isLoading]="data.isLoading || false" [page]="data.page" (paramsChange)="updateParams($event)">
       <ng-template pTemplate="body" let-row>
         <tr>
-          <td appTextTruncate maxWidth="15rem"><a appTableCellLink [routerLink]="row.id">{{ row.name }}</a></td>
+          <td appTextTruncate maxWidth="15rem"><a class="datatable-link" [routerLink]="row.id">{{ row.name }}</a></td>
           <td>{{ row.totalTasks }}</td>
           <td><app-percentage-bar [value]="row.severeTasks" [total]="row.totalTasks" [invertColourValues]="true" /></td>
           <td><app-percentage-bar [value]="row.assignedTasks" [total]="row.totalTasks" /></td>
