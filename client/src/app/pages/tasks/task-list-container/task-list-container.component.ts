@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Params } from '@angular/router';
+import { Params, Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { FilterDropdownComponent } from 'src/app/components/filter-dropdown/filter-dropdown.component';
 import { SearchInputComponent } from 'src/app/components/inputs/search-input/search-input.component';
@@ -87,7 +87,8 @@ export class TaskListContainerComponent implements OnInit, OnDestroy {
     private paramsService: ParamsService,
     private unsubscribeService: UnsubscribeService,
     private formValidationService: FormValidationService,
-    private modalDataService: ModalDataService
+    private modalDataService: ModalDataService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -127,8 +128,9 @@ export class TaskListContainerComponent implements OnInit, OnDestroy {
 
     this.modalDataService
       .sendRequest(this.tasksService.postTask(formValue), 'Task Created', form)
-      .subscribe(() => {
+      .subscribe(({ id }) => {
         this.handleCreateModalClose();
+        this.router.navigateByUrl(`/tasks/${id}`);
       });
   }
 
