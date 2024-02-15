@@ -6,11 +6,11 @@
       <div class="split-row-into-columns">
         <!-- PROJECT SELECTOR -->
         <app-label-validation-wrapper [control]="form.controls.projectId" label="Project *">
-          <app-project-selector [control]="form.controls.projectId" />
+          <app-project-selector [control]="form.controls.projectId" [selectedProjectName]="assignedProjectName" />
         </app-label-validation-wrapper>
         <!-- ASSIGNED USER SELECTOR -->
         <app-label-validation-wrapper [control]="form.controls.assignedUserId" label="Assigned User">
-          <app-user-selector [control]="form.controls.assignedUserId" />
+          <app-user-selector [control]="form.controls.assignedUserId" [selectedUserName]="assignedUserName" />
         </app-label-validation-wrapper>
       </div>
       <div class="split-row-into-columns">

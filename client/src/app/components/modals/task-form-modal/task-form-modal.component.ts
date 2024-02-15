@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ModalDataWrapperComponent } from '../modal-data-wrapper/modal-data-wrapper.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -10,6 +17,8 @@ import { LabelValidationWrapperComponent } from '../../inputs/label-validation-w
 import { TaskStatusDropdownComponent } from '../../inputs/task-status-dropdown/task-status-dropdown.component';
 import { TaskPriorityDropdownComponent } from '../../inputs/task-priority-dropdown/task-priority-dropdown.component';
 import { TaskForm } from 'src/types/forms/task-form';
+import { Task } from 'src/types/responses/task';
+import { NamePipe } from 'src/app/shared/pipes/name.pipe';
 
 @Component({
   selector: 'app-task-form-modal',
@@ -25,14 +34,18 @@ import { TaskForm } from 'src/types/forms/task-form';
     TaskStatusDropdownComponent,
     TaskPriorityDropdownComponent,
   ],
+  providers: [NamePipe],
   templateUrl: './task-form-modal.component.html',
   styleUrls: ['./task-form-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TaskFormModalComponent {
+export class TaskFormModalComponent implements OnInit {
+  @Input() formEditData: Partial<Task> | undefined;
   @Output() submitForm = new EventEmitter<FormGroup<TaskForm>>();
   @Output() closeModal = new EventEmitter<void>();
   header = 'Create Task';
+  assignedProjectName = '';
+  assignedUserName = '';
   form = new FormGroup<TaskForm>({
     title: new FormControl<string>('', {
       validators: [Validators.required, Validators.maxLength(300)],
@@ -55,6 +68,30 @@ export class TaskFormModalComponent {
       nonNullable: true,
     }),
   });
+
+  constructor(private namePipe: NamePipe) {}
+
+  ngOnInit(): void {
+    this.setEditModalValues();
+  }
+
+  setEditModalValues(): void {
+    if (!this.formEditData) return;
+    this.header = 'Edit Task';
+    this.form.patchValue(this.formEditData);
+    const { project, assignedUser } = this.formEditData;
+    if (project) {
+      this.form.controls.projectId.setValue(project.id);
+      this.assignedProjectName = project.name;
+    }
+    if (assignedUser) {
+      this.form.controls.assignedUserId.setValue(assignedUser.id);
+      this.assignedUserName = this.namePipe.transform(
+        assignedUser.firstName,
+        assignedUser.lastName
+      );
+    }
+  }
 
   onSubmit(): void {
     this.submitForm.emit(this.form);
