@@ -182,8 +182,9 @@ export class ProjectDetailsContainerComponent implements OnInit, OnDestroy {
 
     this.modalDataService
       .sendRequest(this.tasksService.postTask(formValue), 'Task Created', form)
-      .subscribe(() => {
+      .subscribe(({ id }) => {
         this.handleCreateTaskModalClose();
+        this.router.navigateByUrl(`/tasks/${id}`);
       });
   }
 

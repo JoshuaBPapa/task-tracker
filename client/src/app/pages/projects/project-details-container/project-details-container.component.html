@@ -62,8 +62,8 @@
 </p-card>
 
 <!-- EDIT PROJECT MODAL -->
-<app-project-form-modal (submitForm)="handleEditProjectModalSubmit($event)" (closeModal)="handleEditProjectModalClose()" *ngIf="isEditProjectModalVisible" [formEditData]="{name: project.name}" />
+<app-project-form-modal (submitForm)="handleEditProjectModalSubmit($event)" (closeModal)="handleEditProjectModalClose()" *ngIf="isEditProjectModalVisible" [formEditData]="{ name: project.name }" />
 <!-- DELETE PROJECT MODAL -->
 <app-delete-modal (confirmDelete)="handleDeleteProjectModalConfirm()" (closeModal)="handleDeleteProjectModalClose()" *ngIf="isDeleteProjectModalVisible" label="project" />
 <!-- CREATE TASK FOR PROJECT MODAL -->
-<app-task-form-modal (closeModal)="handleCreateTaskModalClose()" (submitForm)="handleCreateTaskModalSubmit($event)" *ngIf="isCreateTaskModalVisible" />
+<app-task-form-modal (closeModal)="handleCreateTaskModalClose()" (submitForm)="handleCreateTaskModalSubmit($event)" *ngIf="isCreateTaskModalVisible" [formEditData]="{ project: project }" />
