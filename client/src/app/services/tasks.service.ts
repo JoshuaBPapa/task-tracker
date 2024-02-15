@@ -42,6 +42,14 @@ export class TasksService {
     return this.http.post<CreatedResponse>(`${environment.api}/tasks`, task);
   }
 
+  putTask(task: PostTaskData, id: number): Observable<CreatedResponse> {
+    return this.http.put<CreatedResponse>(`${environment.api}/tasks/${id}`, task);
+  }
+
+  deleteTask(id: number): Observable<null> {
+    return this.http.delete<null>(`${environment.api}/tasks/${id}`);
+  }
+
   createTaskFilters(): FilterDropdownConfig[] {
     const taskStatusPipe = new TaskStatusPipe();
     const taskPriorityPipe = new TaskPriorityPipe();
