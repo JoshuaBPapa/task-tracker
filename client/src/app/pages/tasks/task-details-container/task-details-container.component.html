@@ -1,6 +1,13 @@
 <div class="task-details-grid flex-grid flex-grid-container">
   <!-- TASK DETAILS INFORMATION CARD -->
-  <p-card [header]="task.title" class="task-details-information-card">
+  <p-card class="task-details-information-card">
+    <!-- TASK TITLE AND ACTION BUTTONS  -->
+    <h1 appTextTruncate maxWidth="100%" class="task-details-information-title">{{ task.title }}</h1>
+    <div class="task-details-actions-buttons">
+      <button pButton (click)="onOpenEditModal()" label="Edit Task"></button>
+      <button pButton (click)="onOpenDeleteModal()" label="Delete Task" class="p-button-danger"></button>
+    </div>
+
     <!-- TASK DETAILS INFORMATION LIST  -->
     <ul class="task-details-information-list">
       <!-- LINK TO PROJECT -->
@@ -43,19 +50,29 @@
 
   <!-- TASK COMMENT SECTION -->
   <p-card class="task-details-comments-card" *ngIf="{ isLoading: isCommentsLoading | async, page: commentsData$ | async } as data">
+    <!-- COMMENT SECTION LOADING SPINNER -->
     <div class="comments-loading-spinner-container" *ngIf="data.isLoading">
       <app-loading-spinner size="100px"/>
     </div>
+
     <!-- COMMENT COUNT -->
     <div class="comments-count-container">
       <p class="comments-count-total">{{ data.page?.total }}</p>
       <p class="comments-count-subtitle">Comments</p>
     </div>
+
     <!-- COMMENT LIST -->
     <app-comment-list [comments]="data.page?.results || []" />
+
     <!-- PAGINATOR -->
     <app-paginator *ngIf="data.page?.total" class="task-details-comments-paginator" [page]="data.page" (pageChange)="onCommentsPageChange($event)" />
+
     <!-- COMMENT POST FORM -->
     <app-post-comment (post)="onCommentPost($event)"/>
   </p-card>
 </div>
+
+<!-- EDIT TASK MODAL -->
+<app-task-form-modal (closeModal)="handleEditModalClose()" (submitForm)="handleEditModalSubmit($event)" *ngIf="isEditModalVisible" [formEditData]="task" />
+<!-- DELETE TASK MODAL -->
+<app-delete-modal (confirmDelete)="handleDeleteModalConfirm()" (closeModal)="handleDeleteModalClose()" *ngIf="isDeleteModalVisible" label="task" />

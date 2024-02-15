@@ -2,7 +2,21 @@
 
 .task-details-grid {
   .task-details-information-card {
-    width: 100%;
+    @include lg-breakpoint {
+      flex-grow: 1;
+      width: 0%;
+    }
+
+    .task-details-information-title {
+      margin: 0;
+      margin-bottom: 2rem;
+    }
+
+    .task-details-actions-buttons {
+      display: flex;
+      gap: 0.875rem;
+      margin-bottom: 1.25rem;
+    }
 
     .task-details-information-list {
       border-top: 1px solid var(--surface-400);
