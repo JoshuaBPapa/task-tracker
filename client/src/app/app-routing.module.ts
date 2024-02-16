@@ -55,7 +55,7 @@ const routes: Routes = [
           {
             path: '',
             loadComponent: () =>
-              import('./pages/tasks/task-list-container//task-list-container.component').then(
+              import('./pages/tasks/task-list-container/task-list-container.component').then(
                 (c) => c.TaskListContainerComponent
               ),
           },
@@ -66,6 +66,18 @@ const routes: Routes = [
             loadComponent: () =>
               import('./pages/tasks/task-details-container/task-details-container.component').then(
                 (c) => c.TaskDetailsContainerComponent
+              ),
+          },
+        ],
+      },
+      {
+        path: 'users',
+        children: [
+          {
+            path: '',
+            loadComponent: () =>
+              import('./pages/users/user-list-container/user-list-container.component').then(
+                (c) => c.UserListContainerComponent
               ),
           },
         ],

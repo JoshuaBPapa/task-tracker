@@ -1,0 +1,28 @@
+<p-card header="Users" subheader="Users in your team" *ngIf="{ isLoading: isLoading | async, isError: isError | async, page: usersData$ | async} as data">
+  <!-- USERS TOOLBAR - SEARCH BAR -->
+  <app-toolbar>
+    <app-search-input placeholder="Search by first name..." (search)="updateParams($event)" />
+  </app-toolbar>
+
+  <!-- USERS FILTER -->
+  <app-filter-dropdown [config]="tableFilterConfig" (filter)="updateParams($event)" />
+
+  <!-- USERS TABLE -->
+  <app-data-table [headers]="tableHeaderConfig" [isError]="data.isError || false" [isLoading]="data.isLoading || false" [page]="data.page" (paramsChange)="updateParams($event)">
+    <ng-template pTemplate="body" let-row>
+        <tr>
+          <td appTextTruncate maxWidth="10rem" class="user-list-name-icon">
+            <app-user-icon [name]="row.firstName" [pictureColour]="row.pictureColour" />
+            <a class="datatable-link" [routerLink]="['/users', row.id]">{{ row.firstName | name: row.lastName }}</a>
+        </td>
+          <td appTextTruncate maxWidth="10rem">{{ row.jobTitle }}</td>
+          <td>{{ row.authLevel | authLevel }}</td>
+          <td>{{ row.assignedTasks }}</td>
+          <td>{{ row.username }}</td>
+        </tr>
+      </ng-template>
+  </app-data-table>
+
+  <!-- PAGINATOR -->
+  <app-paginator [page]="data.page" (pageChange)="updateParams($event)" />
+</p-card>
