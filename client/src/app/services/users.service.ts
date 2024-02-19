@@ -32,6 +32,10 @@ export class UsersService {
       .pipe(tap((res) => this.usersData.next(res)));
   }
 
+  getUser(id: string): Observable<User> {
+    return this.http.get<User>(`${environment.api}/users/${id}`);
+  }
+
   postUser(user: PostUserData): Observable<CreatedResponse> {
     return this.http.post<CreatedResponse>(`${environment.api}/users`, user);
   }

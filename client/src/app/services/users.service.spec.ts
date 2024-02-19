@@ -41,6 +41,12 @@ describe('UsersService', () => {
     expect(req.request.method).toBe('GET');
   });
 
+  it('getUser should place a GET request with the correct url', () => {
+    service.getUser('1').subscribe();
+    const req = httpMock.expectOne(`${environment.api}/users/1`);
+    expect(req.request.method).toBe('GET');
+  });
+
   it('postUser should place a POST request with the correct url and body', () => {
     service.postUser(mockPostUserValues).subscribe();
     const req = httpMock.expectOne(`${environment.api}/users`);
