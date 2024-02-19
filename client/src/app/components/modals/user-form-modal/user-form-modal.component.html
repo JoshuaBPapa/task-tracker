@@ -1,0 +1,33 @@
+<app-modal-data-wrapper [header]="header">
+  <div class="user-form-modal-container">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="split-row-into-columns">
+        <!-- FIRST NAME INPUT -->
+        <app-labelled-input [control]="form.controls.firstName" label="First Name *" placeholder="First Name" helpText="Maximum of 100 characters" />
+        <!-- LAST NAME INPUT -->
+        <app-labelled-input [control]="form.controls.lastName" label="Last Name *" placeholder="Last Name" helpText="Maximum of 100 characters" />
+      </div>
+      <div class="split-row-into-columns">
+        <!-- JOB TITLE INPUT -->
+        <app-labelled-input [control]="form.controls.jobTitle" label="Job Title *" placeholder="Job Title" helpText="Maximum of 50 characters" />
+        <!-- AUTH LEVEL DROPDOWN -->
+        <app-label-validation-wrapper [control]="form.controls.authLevel" label="Auth Level *">
+          <p-dropdown [formControl]="form.controls.authLevel" [options]="authLevelOptions" optionLabel="label" optionValue="value" [style]="{ width: '205px' }" />
+        </app-label-validation-wrapper>
+      </div>
+
+      <!-- INPUTS FOR CREATE USER ONLY -->
+      <ng-container *ngIf="!formEditData">
+        <!-- USERNAME INPUT -->
+        <app-labelled-input [control]="$any(form).controls.username" label="Username*" placeholder="Username" helpText="Alphanumeric characters only" />
+        <div class="split-row-into-columns">
+          <!-- PASSWORD INPUT -->
+          <app-labelled-input [control]="$any(form).controls.password" label="Password *" type="password" placeholder="Password" helpText="Minimum 8 characters" />
+          <!-- CONFIRM PASSWORD INPUT -->
+          <app-labelled-input [control]="$any(form).controls.confirmPassword" label="Confirm Password *" type="password" placeholder="Confirm Password" />
+        </div>
+      </ng-container>
+    </form>
+    <app-modal-footer-buttons confirmLabel="Submit" (confirm)="onSubmit()" (cancel)="handleCancel()" />
+  </div>
+</app-modal-data-wrapper>
