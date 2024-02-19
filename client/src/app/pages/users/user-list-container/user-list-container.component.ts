@@ -1,12 +1,16 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { Params } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { FilterDropdownComponent } from 'src/app/components/filter-dropdown/filter-dropdown.component';
 import { SearchInputComponent } from 'src/app/components/inputs/search-input/search-input.component';
+import { UserFormModalComponent } from 'src/app/components/modals/user-form-modal/user-form-modal.component';
 import { PaginatorComponent } from 'src/app/components/paginator/paginator.component';
 import { DataTableComponent } from 'src/app/components/tables/data-table/data-table.component';
 import { ToolbarComponent } from 'src/app/components/toolbar/toolbar.component';
 import { UserIconComponent } from 'src/app/components/user/user-icon/user-icon.component';
+import { FormValidationService } from 'src/app/services/form-validation.service';
+import { ModalDataService } from 'src/app/services/modal-data.service';
 import { ParamsService } from 'src/app/services/params.service';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
 import { UsersService } from 'src/app/services/users.service';
@@ -14,6 +18,7 @@ import { AuthLevelPipe } from 'src/app/shared/pipes/auth-level.pipe';
 import { NamePipe } from 'src/app/shared/pipes/name.pipe';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { FilterDropdownConfig } from 'src/types/filter-dropdown-config/filter-dropdown-config';
+import { CreateUserForm, EditUserForm } from 'src/types/forms/user-form';
 import { Page } from 'src/types/page';
 import { User } from 'src/types/responses/user';
 
@@ -30,17 +35,19 @@ import { User } from 'src/types/responses/user';
     NamePipe,
     UserIconComponent,
     AuthLevelPipe,
+    UserFormModalComponent,
   ],
   providers: [UsersService, ParamsService, UnsubscribeService, AuthLevelPipe],
   templateUrl: './user-list-container.component.html',
   styleUrls: ['./user-list-container.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UserListContainerComponent implements OnInit {
+export class UserListContainerComponent implements OnInit, OnDestroy {
   usersData$: Observable<Page<User>>;
   isLoading: BehaviorSubject<boolean>;
   isError: BehaviorSubject<boolean>;
   tableFilterConfig: FilterDropdownConfig[];
+  isCreateModalVisible = false;
   tableHeaderConfig = [
     {
       key: 'firstName',
@@ -68,7 +75,9 @@ export class UserListContainerComponent implements OnInit {
     private usersService: UsersService,
     private paramsService: ParamsService,
     private unsubscribeService: UnsubscribeService,
-    private authLevelPipe: AuthLevelPipe
+    private authLevelPipe: AuthLevelPipe,
+    private formValidationService: FormValidationService,
+    private modalDataService: ModalDataService
   ) {}
 
   ngOnInit(): void {
@@ -101,5 +110,29 @@ export class UserListContainerComponent implements OnInit {
     }
 
     this.tableFilterConfig = [config];
+  }
+
+  onOpenCreateModal(): void {
+    this.isCreateModalVisible = true;
+  }
+
+  handleCreateModalClose(): void {
+    this.isCreateModalVisible = false;
+  }
+
+  handleCreateModalSubmit(form: FormGroup<CreateUserForm> | FormGroup<EditUserForm>): void {
+    const createForm = form as FormGroup<CreateUserForm>;
+    if (!this.formValidationService.checkIsFormValid(createForm)) return;
+    const formValue = createForm.getRawValue();
+
+    this.modalDataService
+      .sendRequest(this.usersService.postUser(formValue), 'User Created', createForm)
+      .subscribe(() => {
+        this.handleCreateModalClose();
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribeService.unsubscribeAll();
   }
 }

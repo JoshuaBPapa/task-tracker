@@ -1,6 +1,7 @@
 <p-card header="Users" subheader="Users in your team" *ngIf="{ isLoading: isLoading | async, isError: isError | async, page: usersData$ | async} as data">
-  <!-- USERS TOOLBAR - SEARCH BAR -->
+  <!-- USERS TOOLBAR - OPEN CREATE USER MODAL BUTTON, SEARCH BAR -->
   <app-toolbar>
+    <button pButton (click)="onOpenCreateModal()" label="Create New User +"></button>
     <app-search-input placeholder="Search by first name..." (search)="updateParams($event)" />
   </app-toolbar>
 
@@ -26,3 +27,6 @@
   <!-- PAGINATOR -->
   <app-paginator [page]="data.page" (pageChange)="updateParams($event)" />
 </p-card>
+
+<!-- CREATE USER FOMR MODAL -->
+<app-user-form-modal (closeModal)="handleCreateModalClose()" (submitForm)="handleCreateModalSubmit($event)" *ngIf="isCreateModalVisible" />
