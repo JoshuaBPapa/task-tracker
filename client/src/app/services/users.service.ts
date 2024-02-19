@@ -4,7 +4,18 @@ import { Params } from '@angular/router';
 import { Observable, Subject, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Page } from 'src/types/page';
+import { CreatedResponse } from 'src/types/responses/created-response';
 import { User } from 'src/types/responses/user';
+
+interface PostUserData {
+  firstName: string;
+  lastName: string;
+  jobTitle: string;
+  authLevel: number;
+  username: string;
+  password: string;
+  confirmPassword: string;
+}
 
 @Injectable()
 export class UsersService {
@@ -19,5 +30,9 @@ export class UsersService {
         params: { ...params },
       })
       .pipe(tap((res) => this.usersData.next(res)));
+  }
+
+  postUser(user: PostUserData): Observable<CreatedResponse> {
+    return this.http.post<CreatedResponse>(`${environment.api}/users`, user);
   }
 }

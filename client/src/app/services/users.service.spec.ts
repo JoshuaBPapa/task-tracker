@@ -4,6 +4,16 @@ import { UsersService } from './users.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { environment } from 'src/environments/environment';
 
+const mockPostUserValues = {
+  firstName: `John`,
+  lastName: 'Doe',
+  username: 'johndoe',
+  authLevel: 1,
+  jobTitle: 'Tester',
+  password: 'password',
+  confirmPassword: 'password',
+};
+
 describe('UsersService', () => {
   let service: UsersService;
   let httpMock: HttpTestingController;
@@ -29,5 +39,12 @@ describe('UsersService', () => {
     service.getUsers({}).subscribe();
     const req = httpMock.expectOne(`${environment.api}/users`);
     expect(req.request.method).toBe('GET');
+  });
+
+  it('postUser should place a POST request with the correct url and body', () => {
+    service.postUser(mockPostUserValues).subscribe();
+    const req = httpMock.expectOne(`${environment.api}/users`);
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body).toEqual(mockPostUserValues);
   });
 });
