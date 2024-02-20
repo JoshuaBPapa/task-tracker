@@ -15,4 +15,5 @@ export class UserIconComponent {
   @Input() jobTitle = '';
   @Input() pictureColour = '#7239EA';
   @Input() showText = false;
+  @Input() size: 'medium' | 'large' = 'medium';
 }

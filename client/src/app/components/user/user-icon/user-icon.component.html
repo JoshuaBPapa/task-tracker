@@ -1,4 +1,4 @@
-<span class="user-icon-container">
+<span class="user-icon-container" [ngClass]="{ 'user-icon-container-large': size === 'large' }">
   <span [style]="{ 'background-color': pictureColour }" class="user-icon-circle">
     {{ name[0] | uppercase }}
   </span>

@@ -29,4 +29,12 @@
       color: var(--surface-700);
     }
   }
+
+  &.user-icon-container-large {
+    .user-icon-circle {
+      height: 5.25rem;
+      font-size: 2.75rem;
+      width: 5.25rem;
+    }
+  }
 }
