@@ -14,6 +14,7 @@ import { ModalDataService } from 'src/app/services/modal-data.service';
 import { ParamsService } from 'src/app/services/params.service';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
 import { UsersService } from 'src/app/services/users.service';
+import { TextTruncateDirective } from 'src/app/shared/directives/text-truncate.directive';
 import { AuthLevelPipe } from 'src/app/shared/pipes/auth-level.pipe';
 import { NamePipe } from 'src/app/shared/pipes/name.pipe';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -36,6 +37,7 @@ import { User } from 'src/types/responses/user';
     UserIconComponent,
     AuthLevelPipe,
     UserFormModalComponent,
+    TextTruncateDirective,
   ],
   providers: [UsersService, ParamsService, UnsubscribeService, AuthLevelPipe],
   templateUrl: './user-list-container.component.html',
