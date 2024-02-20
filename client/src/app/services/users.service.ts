@@ -5,6 +5,7 @@ import { Observable, Subject, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Page } from 'src/types/page';
 import { CreatedResponse } from 'src/types/responses/created-response';
+import { Task } from 'src/types/responses/task';
 import { User } from 'src/types/responses/user';
 
 interface PostUserData {
@@ -21,6 +22,8 @@ interface PostUserData {
 export class UsersService {
   private usersData = new Subject<Page<User>>();
   usersData$ = this.usersData.asObservable();
+  private userTasksData = new Subject<Page<Task>>();
+  userTasksData$ = this.userTasksData.asObservable();
 
   constructor(private http: HttpClient) {}
 
@@ -34,6 +37,14 @@ export class UsersService {
 
   getUser(id: string): Observable<User> {
     return this.http.get<User>(`${environment.api}/users/${id}`);
+  }
+
+  getUserTasks(params: Params, id: number): Observable<Page<Task>> {
+    return this.http
+      .get<Page<Task>>(`${environment.api}/tasks/assignedUser/${id}`, {
+        params: { ...params },
+      })
+      .pipe(tap((res) => this.userTasksData.next(res)));
   }
 
   postUser(user: PostUserData): Observable<CreatedResponse> {
