@@ -18,6 +18,8 @@ interface PostUserData {
   confirmPassword: string;
 }
 
+interface PutUserData extends Omit<PostUserData, 'password' | 'confirmPassword' | 'username'> {}
+
 @Injectable()
 export class UsersService {
   private usersData = new Subject<Page<User>>();
@@ -49,5 +51,13 @@ export class UsersService {
 
   postUser(user: PostUserData): Observable<CreatedResponse> {
     return this.http.post<CreatedResponse>(`${environment.api}/users`, user);
+  }
+
+  deleteUser(id: number): Observable<null> {
+    return this.http.delete<null>(`${environment.api}/users/${id}`);
+  }
+
+  putUser(user: PutUserData, id: number): Observable<CreatedResponse> {
+    return this.http.put<CreatedResponse>(`${environment.api}/users/${id}`, user);
   }
 }

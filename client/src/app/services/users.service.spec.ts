@@ -14,6 +14,13 @@ const mockPostUserValues = {
   confirmPassword: 'password',
 };
 
+const mockPutUserValues = {
+  firstName: `John`,
+  lastName: 'Doe',
+  authLevel: 1,
+  jobTitle: 'Tester',
+};
+
 describe('UsersService', () => {
   let service: UsersService;
   let httpMock: HttpTestingController;
@@ -58,5 +65,18 @@ describe('UsersService', () => {
     const req = httpMock.expectOne(`${environment.api}/users`);
     expect(req.request.method).toBe('POST');
     expect(req.request.body).toEqual(mockPostUserValues);
+  });
+
+  it('putUser should place a POST request with the correct url, id, and body', () => {
+    service.putUser(mockPutUserValues, 1).subscribe();
+    const req = httpMock.expectOne(`${environment.api}/users/1`);
+    expect(req.request.method).toBe('PUT');
+    expect(req.request.body).toEqual(mockPutUserValues);
+  });
+
+  it('deleteUser should place a DELETE request with the correct url and id', () => {
+    service.deleteUser(1).subscribe();
+    const req = httpMock.expectOne(`${environment.api}/users/1`);
+    expect(req.request.method).toBe('DELETE');
   });
 });
