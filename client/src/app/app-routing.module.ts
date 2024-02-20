@@ -5,6 +5,8 @@ import { projectDetailsResolver } from './resolvers/project-details.resolver';
 import { ProjectsService } from './services/projects.service';
 import { TasksService } from './services/tasks.service';
 import { taskDetailsResolver } from './resolvers/task-details.resolver';
+import { UsersService } from './services/users.service';
+import { userDetailsResolver } from './resolvers/user-details.resolver';
 
 const routes: Routes = [
   {
@@ -78,6 +80,15 @@ const routes: Routes = [
             loadComponent: () =>
               import('./pages/users/user-list-container/user-list-container.component').then(
                 (c) => c.UserListContainerComponent
+              ),
+          },
+          {
+            path: ':id',
+            providers: [UsersService],
+            resolve: { user: userDetailsResolver },
+            loadComponent: () =>
+              import('./pages/users/user-details-container/user-details-container.component').then(
+                (c) => c.UserDetailsContainerComponent
               ),
           },
         ],

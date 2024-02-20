@@ -1,0 +1,66 @@
+<!-- USER DETAILS CARD -->
+<p-card class="user-details-card">
+  <div class="user-details">
+    <!-- USER ICON -->
+    <app-user-icon [name]="user.firstName" [pictureColour]="user.pictureColour" size="large" />
+    <div appTextTruncate maxWidth="100%" class="user-details-information">
+      <!-- USER'S NAME -->
+      <h1 appTextTruncate maxWidth="100%" class="user-details-information-name">{{ user.firstName | name: user.lastName }}</h1>
+      <!-- USER INFORMATION -->
+      <div class="user-details-information-subheaders">
+        <span>
+          <h4>JOB TITLE</h4>
+          <p appTextTruncate maxWidth="10rem">{{ user.jobTitle }}</p>
+        </span>
+        <span>
+          <h4>AUTH LEVEL</h4>
+          <p appTextTruncate maxWidth="10rem">{{ user.authLevel | authLevel }}</p>
+        </span>
+        <span>
+          <h4>USERNAME</h4>
+          <p appTextTruncate maxWidth="10rem">{{ user.username }}</p>
+        </span>
+         <span>
+          <h4>ASSIGNED TASKS</h4>
+          <p appTextTruncate maxWidth="10rem">{{ user.assignedTasks }}</p>
+        </span>
+      </div>
+    </div>
+  </div>
+</p-card>
+
+<!-- ASSIGNED TASKS CARD -->
+<p-card header="Assigned Tasks" subheader="Tasks assigned to this user" *ngIf="{ isTableLoading: isTableLoading | async, isTableError: isTableError | async, page: userTasksData$ | async} as data">
+  <!-- ASSIGNED TASKS TOOLBAR - OPEN CREATE TASK MODAL BUTTON, SEARCH BAR -->
+  <app-toolbar>
+    <button pButton (click)="onOpenCreateTaskModal()" label="Assign New Task +"></button>
+    <app-search-input (search)="updateParams($event)" placeholder="Search user's tasks..." />
+  </app-toolbar>
+
+  <!-- ASSIGNED TASKS TABLE FILTER DROPDOWN -->
+  <app-filter-dropdown (filter)="updateParams($event)" [config]="tableFilterConfig" />
+
+  <!-- ASSIGNED TASKS TABLE -->
+  <app-data-table [headers]="tableHeaderConfig" [isError]="data.isTableError || false" [isLoading]="data.isTableLoading || false" [page]="data.page" (paramsChange)="updateParams($event)">
+    <ng-template pTemplate="body" let-row>
+      <tr>
+        <td appTextTruncate maxWidth="20rem">
+          <a class="datatable-link" [routerLink]="['/tasks', row.id]">{{ row.title }}</a>
+        </td>
+        <td appTextTruncate maxWidth="10rem">
+          <a class="datatable-link" [routerLink]="['/projects', row.project.id]">{{ row.project.name }}</a>
+        </td>
+        <td><app-task-status-tag [value]="row.status" /></td>
+        <td><app-task-priority-tag [value]="row.priority" /></td>
+        <td>{{ row.dateTimeCreated | date: "dd/MM/yyyy" }}</td>
+        <td>{{ row.dateTimeUpdated | date: "dd/MM/yyyy" }}</td>
+      </tr>
+    </ng-template>
+  </app-data-table>
+
+    <!-- ASSIGNED TASKS TABLE PAGINATOR -->
+  <app-paginator (pageChange)="updateParams($event)" [page]="data.page" />
+</p-card>
+
+<!-- CREATE TASK FOR USER MODAL -->
+<app-task-form-modal (closeModal)="handleCreateTaskModalClose()" (submitForm)="handleCreateTaskModalSubmit($event)" *ngIf="isCreateTaskModalVisible" [formEditData]="{ assignedUser: user }" />

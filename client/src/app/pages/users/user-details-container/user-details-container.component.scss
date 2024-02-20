@@ -1,0 +1,49 @@
+@use "../../../../styles/styles.scss" as *;
+
+.user-details-card {
+  display: block;
+  margin-bottom: 1.5rem;
+
+  .user-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+
+    @include md-breakpoint {
+      align-items: center;
+      flex-direction: row;
+    }
+
+    .user-details-information {
+      .user-details-information-name {
+        font-weight: normal;
+        margin: 0;
+        margin-bottom: 1rem;
+      }
+
+      .user-details-information-subheaders {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+
+        @include md-breakpoint {
+          align-items: center;
+          flex-direction: row;
+          gap: 1.75rem;
+        }
+
+        h4 {
+          color: var(--surface-600);
+          font-weight: normal;
+          margin: 0;
+          margin-bottom: 0.25rem;
+        }
+
+        p {
+          color: var(--surface-800);
+          margin: 0;
+        }
+      }
+    }
+  }
+}
