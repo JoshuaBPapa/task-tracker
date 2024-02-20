@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Params } from '@angular/router';
+import { Params, Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { FilterDropdownComponent } from 'src/app/components/filter-dropdown/filter-dropdown.component';
 import { SearchInputComponent } from 'src/app/components/inputs/search-input/search-input.component';
@@ -58,16 +58,16 @@ export class UserListContainerComponent implements OnInit, OnDestroy {
       label: 'Job Title',
     },
     {
+      key: 'username',
+      label: 'Username',
+    },
+    {
       key: 'authLevel',
       label: 'Auth Level',
     },
     {
       key: 'assignedTasks',
-      label: 'Tasks',
-    },
-    {
-      key: 'username',
-      label: 'Username',
+      label: 'Tasks Assigned',
     },
   ];
 
@@ -77,7 +77,8 @@ export class UserListContainerComponent implements OnInit, OnDestroy {
     private unsubscribeService: UnsubscribeService,
     private authLevelPipe: AuthLevelPipe,
     private formValidationService: FormValidationService,
-    private modalDataService: ModalDataService
+    private modalDataService: ModalDataService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -127,8 +128,9 @@ export class UserListContainerComponent implements OnInit, OnDestroy {
 
     this.modalDataService
       .sendRequest(this.usersService.postUser(formValue), 'User Created', createForm)
-      .subscribe(() => {
+      .subscribe((res) => {
         this.handleCreateModalClose();
+        this.router.navigateByUrl(`/users/${res.id}`);
       });
   }
 

@@ -17,9 +17,9 @@
             <a class="datatable-link" [routerLink]="['/users', row.id]">{{ row.firstName | name: row.lastName }}</a>
         </td>
           <td appTextTruncate maxWidth="10rem">{{ row.jobTitle }}</td>
+          <td>{{ row.username }}</td>
           <td>{{ row.authLevel | authLevel }}</td>
           <td>{{ row.assignedTasks }}</td>
-          <td>{{ row.username }}</td>
         </tr>
       </ng-template>
   </app-data-table>
