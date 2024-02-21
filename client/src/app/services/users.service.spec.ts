@@ -21,6 +21,11 @@ const mockPutUserValues = {
   jobTitle: 'Tester',
 };
 
+const mockUpdatePwValue = {
+  password: 'password',
+  confirmPassword: 'password',
+};
+
 describe('UsersService', () => {
   let service: UsersService;
   let httpMock: HttpTestingController;
@@ -78,5 +83,12 @@ describe('UsersService', () => {
     service.deleteUser(1).subscribe();
     const req = httpMock.expectOne(`${environment.api}/users/1`);
     expect(req.request.method).toBe('DELETE');
+  });
+
+  it('updateUserPassword should place a PUT request with the correct url, id, and body', () => {
+    service.updateUserPassword(mockUpdatePwValue, 1).subscribe();
+    const req = httpMock.expectOne(`${environment.api}/users/password/1`);
+    expect(req.request.method).toBe('PUT');
+    expect(req.request.body).toEqual(mockUpdatePwValue);
   });
 });

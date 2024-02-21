@@ -20,6 +20,11 @@ interface PostUserData {
 
 interface PutUserData extends Omit<PostUserData, 'password' | 'confirmPassword' | 'username'> {}
 
+interface UpdatedPasswordData {
+  password: string;
+  confirmPassword: string;
+}
+
 @Injectable()
 export class UsersService {
   private usersData = new Subject<Page<User>>();
@@ -59,5 +64,9 @@ export class UsersService {
 
   putUser(user: PutUserData, id: number): Observable<CreatedResponse> {
     return this.http.put<CreatedResponse>(`${environment.api}/users/${id}`, user);
+  }
+
+  updateUserPassword(updatedPw: UpdatedPasswordData, id: number): Observable<CreatedResponse> {
+    return this.http.put<CreatedResponse>(`${environment.api}/users/password/${id}`, updatedPw);
   }
 }
