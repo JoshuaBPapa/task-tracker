@@ -7,7 +7,7 @@
     </a>
     <!-- USER ICON AND HAMBURGER MENU FOR MOBILE NAV -->
     <div class="top-bar-buttons">
-        <app-user-icon [name]="currentUser.firstName" [pictureColour]="currentUser.pictureColour" />
+      <a [routerLink]="['/users', currentUser.userId]"><app-user-icon [name]="currentUser.firstName" [pictureColour]="currentUser.pictureColour" /></a>
       <button class="hamburger-menu transparent-button" aria-label="open mobile navigation menu" (click)="setIsMobileNavOpen(true)">
         <i class="pi pi-bars"></i>
       </button>
