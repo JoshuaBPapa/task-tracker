@@ -1,2 +1,4 @@
-<app-user-icon *ngIf="assignedUser; else noUser" [name]="assignedUser.firstName | name: assignedUser.lastName" [pictureColour]="assignedUser.pictureColour" [jobTitle]="assignedUser.jobTitle" [showText]="true" />
+<a *ngIf="assignedUser; else noUser" [routerLink]="['/users', assignedUser.id]">
+  <app-user-icon [name]="assignedUser.firstName | name: assignedUser.lastName" [pictureColour]="assignedUser.pictureColour" [jobTitle]="assignedUser.jobTitle" [showText]="true" />
+</a>
 <ng-template #noUser>No User Assigned</ng-template>
