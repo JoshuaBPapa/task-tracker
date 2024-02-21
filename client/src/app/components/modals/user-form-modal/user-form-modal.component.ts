@@ -66,6 +66,7 @@ export class UserFormModalComponent implements OnInit {
       });
     } else {
       this.header = 'Edit User';
+      this.form.patchValue(this.formEditData);
     }
   }
 
