@@ -1,32 +1,41 @@
 <!-- USER DETAILS CARD -->
 <p-card class="user-details-card">
-  <div class="user-details">
-    <!-- USER ICON -->
-    <app-user-icon [name]="user.firstName" [pictureColour]="user.pictureColour" size="large" />
-    <div appTextTruncate maxWidth="100%" class="user-details-information">
-      <!-- USER'S NAME -->
-      <h1 appTextTruncate maxWidth="100%" class="user-details-information-name">{{ user.firstName | name: user.lastName }}</h1>
-      <!-- USER INFORMATION -->
-      <div class="user-details-information-subheaders">
-        <span>
-          <h4>JOB TITLE</h4>
-          <p appTextTruncate maxWidth="10rem">{{ user.jobTitle }}</p>
-        </span>
-        <span>
-          <h4>AUTH LEVEL</h4>
-          <p appTextTruncate maxWidth="10rem">{{ user.authLevel | authLevel }}</p>
-        </span>
-        <span>
-          <h4>USERNAME</h4>
-          <p appTextTruncate maxWidth="10rem">{{ user.username }}</p>
-        </span>
-         <span>
-          <h4>ASSIGNED TASKS</h4>
-          <p appTextTruncate maxWidth="10rem">{{ user.assignedTasks }}</p>
-        </span>
+  <div class="user-details-container">
+    <div class="user-details" appTextTruncate maxWidth="100%">
+      <!-- USER ICON -->
+      <app-user-icon [name]="user.firstName" [pictureColour]="user.pictureColour" size="large" />
+      <div appTextTruncate maxWidth="100%" class="user-details-information">
+        <!-- USER'S NAME -->
+        <h1 appTextTruncate maxWidth="100%" class="user-details-information-name">{{ user.firstName | name: user.lastName }}</h1>
+        <!-- USER INFORMATION -->
+        <div class="user-details-information-subheaders">
+          <span>
+            <h4>JOB TITLE</h4>
+            <p appTextTruncate maxWidth="10rem">{{ user.jobTitle }}</p>
+          </span>
+          <span>
+            <h4>AUTH LEVEL</h4>
+            <p appTextTruncate maxWidth="10rem">{{ user.authLevel | authLevel }}</p>
+          </span>
+          <span>
+            <h4>USERNAME</h4>
+            <p appTextTruncate maxWidth="10rem">{{ user.username }}</p>
+          </span>
+          <span>
+            <h4>ASSIGNED TASKS</h4>
+            <p appTextTruncate maxWidth="10rem">{{ user.assignedTasks }}</p>
+          </span>
+        </div>
       </div>
     </div>
+    <!-- ACTION BUTTON TO EDIT / DELETE USER -->
+    <div class="user-details-action-buttons">
+      <button pButton (click)="onOpenUpdatePwModal()" label="Update Password" class="p-button-outlined"></button>
+      <button pButton (click)="onOpenEditModal()" label="Edit User"></button>
+      <button pButton (click)="onOpenDeleteModal()" label="Delete User" class="p-button-danger"></button>
+    </div>
   </div>
+
 </p-card>
 
 <!-- ASSIGNED TASKS CARD -->
@@ -64,3 +73,9 @@
 
 <!-- CREATE TASK FOR USER MODAL -->
 <app-task-form-modal (closeModal)="handleCreateTaskModalClose()" (submitForm)="handleCreateTaskModalSubmit($event)" *ngIf="isCreateTaskModalVisible" [formEditData]="{ assignedUser: user }" />
+<!-- DELETE USER MODAL -->
+<app-delete-modal (confirmDelete)="handleDeleteModalConfirm()" (closeModal)="handleDeleteModalClose()" *ngIf="isDeleteModalVisible" label="user" />
+<!-- EDIT USER FORM MODAL -->
+<app-user-form-modal (closeModal)="handleEditModalClose()" (submitForm)="handleEditModalSubmit($event)" [formEditData]="user" *ngIf="isEditModalVisible" />
+<!-- UPDATE PASSWORD FORM MODAL -->
+<app-update-password-form-modal (closeModal)="handleUpdatePwModalClose()" (submitForm)="handleUpdatePwModalSubmit($event)" *ngIf="isUpdatePwModalVisible" />
