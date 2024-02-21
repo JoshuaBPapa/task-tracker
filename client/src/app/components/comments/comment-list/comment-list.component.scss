@@ -30,6 +30,12 @@
     .comment-list-comment-post {
       flex-grow: 1;
 
+      a {
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
       .comment-list-comment-post-user-name {
         font-weight: bold;
       }

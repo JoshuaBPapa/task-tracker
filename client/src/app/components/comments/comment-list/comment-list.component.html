@@ -5,7 +5,9 @@
       <span appTextTruncate maxWidth="100%">{{ comment.postedBy.jobTitle }}</span>
     </div>
     <div class="comment-list-comment-post">
-      <span class="comment-list-comment-post-user-name">{{ comment.postedBy.firstName | name: comment.postedBy.lastName }}</span>
+      <a [routerLink]="['/users', comment.postedBy.id]">
+        <span class="comment-list-comment-post-user-name">{{ comment.postedBy.firstName | name: comment.postedBy.lastName }}</span>
+      </a>
       <p class="comment-list-comment-post-content">{{ comment.comment }}</p>
       <small>{{ comment.dateTimeCreated | date: "dd/MM/yyyy 'at' HH:mm" }}</small>
     </div>
