@@ -7,7 +7,7 @@
         <!-- LAST NAME INPUT -->
         <app-labelled-input [control]="form.controls.lastName" label="Last Name *" placeholder="Last Name" helpText="Maximum of 100 characters" />
       </div>
-      <div class="split-row-into-columns">
+      <div class="split-row-into-columns" *ngIf="!formEditData || formEditData.authLevel < 4; else editingMasterAdmin">
         <!-- JOB TITLE INPUT -->
         <app-labelled-input [control]="form.controls.jobTitle" label="Job Title *" placeholder="Job Title" helpText="Maximum of 50 characters" />
         <!-- AUTH LEVEL DROPDOWN -->
@@ -15,6 +15,11 @@
           <p-dropdown [formControl]="form.controls.authLevel" [options]="authLevelOptions" optionLabel="label" optionValue="value" [style]="{ width: '205px' }" />
         </app-label-validation-wrapper>
       </div>
+      <!-- JOB TITLE INPUT WITHOUT AUTH LEVEL DROPDOWN IF EDITING MASTER ADMIN. MASTER ADMIN CAN'T HAVE AUTH LEVEL CHANGED -->
+      <ng-template #editingMasterAdmin>
+        <app-labelled-input [control]="form.controls.jobTitle" label="Job Title *" placeholder="Job Title" helpText="Maximum of 50 characters" />
+        <strong>Note:</strong> The Auth Level of the Master Admin cannot be changed.
+      </ng-template>
 
       <!-- INPUTS FOR CREATE USER ONLY -->
       <ng-container *ngIf="!formEditData">
