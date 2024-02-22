@@ -24,7 +24,7 @@ const mockLinks: NavLink[] = [
   {
     url: '/team',
     title: 'Delete Team',
-    icon: 'pi pi-th-large',
+    icon: 'pi pi-trash',
   },
 ];
 
