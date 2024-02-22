@@ -77,8 +77,11 @@ export class TaskFormModalComponent implements OnInit {
 
   setEditModalValues(): void {
     if (!this.formEditData) return;
-    this.header = 'Edit Task';
-    this.form.patchValue(this.formEditData);
+    // if form edit data has a title, the user is opening a task to edit it - set form in edit mode
+    if (this.formEditData.title) {
+      this.header = 'Edit Task';
+      this.form.patchValue(this.formEditData);
+    }
     const { project, assignedUser } = this.formEditData;
     if (project) {
       this.form.controls.projectId.setValue(project.id);
