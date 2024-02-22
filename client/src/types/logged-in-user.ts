@@ -5,6 +5,7 @@ export interface LoggedInUser {
   username: string;
   jobTitle: string;
   teamId: number;
+  teamName: string;
   authLevel: number;
   pictureColour: string;
 }

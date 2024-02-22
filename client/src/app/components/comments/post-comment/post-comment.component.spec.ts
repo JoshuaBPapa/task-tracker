@@ -9,6 +9,7 @@ const mockLoggedInUser: LoggedInUser = {
   lastName: 'Doe',
   authLevel: 4,
   teamId: 1,
+  teamName: 'Mock Team',
   pictureColour: '#7239EA',
   jobTitle: 'CEO',
   userId: 1,

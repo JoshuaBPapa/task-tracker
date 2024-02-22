@@ -105,6 +105,7 @@ describe('AuthService', () => {
       jobTitle: 'mock value',
       teamId: 1,
       authLevel: 1,
+      teamName: 'mock team',
       pictureColour: 'mock value',
     };
     service.clearUser();

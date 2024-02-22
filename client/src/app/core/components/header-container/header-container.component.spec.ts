@@ -14,6 +14,7 @@ const mockLoggedInUser: LoggedInUser = {
   teamId: 1,
   pictureColour: '#7239EA',
   jobTitle: 'CEO',
+  teamName: 'Mock Team',
   userId: 1,
   username: 'JohnDoe',
 };
