@@ -21,6 +21,9 @@ export const checkDbIfTeamNameExists = (isSigningUp: boolean, res: Response): Va
     else if (!findTeam[0].length && !isSigningUp) return Promise.reject('Team name not found');
 
     // if logging in, save team id to locals for username validation check and then creation of JWTs
-    if (!isSigningUp) res.locals.teamId = findTeam[0][0].id;
+    if (!isSigningUp) {
+      res.locals.teamId = findTeam[0][0].id;
+      res.locals.teamName = findTeam[0][0].teamName;
+    }
   });
 };

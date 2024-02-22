@@ -35,13 +35,14 @@ export const postSignUp = async (
   const userId = newUser[0].insertId;
 
   // create token pair using team id and new user
-  const { firstName, lastName, jobTitle, username } = body;
+  const { firstName, lastName, jobTitle, username, teamName } = body;
   const tokenPair = await createTokenPair({
     firstName,
     lastName,
     username,
     jobTitle,
     teamId,
+    teamName,
     authLevel: 4,
     pictureColour,
     userId,
