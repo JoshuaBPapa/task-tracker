@@ -28,21 +28,47 @@
         </div>
       </div>
     </div>
-    <!-- ACTION BUTTON TO EDIT / DELETE USER -->
+    <!-- ACTION BUTTONS TO EDIT / DELETE USER -->
     <div class="user-details-action-buttons">
-      <button pButton (click)="onOpenUpdatePwModal()" label="Update Password" class="p-button-outlined"></button>
-      <button pButton (click)="onOpenEditModal()" label="Edit User"></button>
-      <button pButton (click)="onOpenDeleteModal()" label="Delete User" class="p-button-danger"></button>
+      <button
+        appAuthLevelCheck
+        method="PUT"
+        itemType="users"
+        [targetIsMasterAdmin]="user.authLevel === 4"
+        hideMethod="display:none"
+        pButton
+        (click)="onOpenUpdatePwModal()"
+        label="Update Password" class="p-button-outlined">
+      </button>
+      <button
+        appAuthLevelCheck
+        method="PUT"
+        itemType="users"
+        [targetIsMasterAdmin]="user.authLevel === 4"
+        hideMethod="display:none"
+        pButton
+        (click)="onOpenEditModal()"
+        label="Edit User">
+      </button>
+      <button
+        appAuthLevelCheck
+        method="DELETE"
+        itemType="users"
+        [targetIsMasterAdmin]="user.authLevel === 4"
+        hideMethod="display:none"
+        pButton
+        (click)="onOpenDeleteModal()"
+        label="Delete User" class="p-button-danger">
+      </button>
     </div>
   </div>
-
 </p-card>
 
 <!-- ASSIGNED TASKS CARD -->
 <p-card header="Assigned Tasks" subheader="Tasks assigned to this user" *ngIf="{ isTableLoading: isTableLoading | async, isTableError: isTableError | async, page: userTasksData$ | async} as data">
   <!-- ASSIGNED TASKS TOOLBAR - OPEN CREATE TASK MODAL BUTTON, SEARCH BAR -->
   <app-toolbar>
-    <button pButton (click)="onOpenCreateTaskModal()" label="Assign New Task +"></button>
+    <button appAuthLevelCheck method="POST" itemType="tasks" pButton (click)="onOpenCreateTaskModal()" label="Assign New Task +"></button>
     <app-search-input (search)="updateParams($event)" placeholder="Search user's tasks..." />
   </app-toolbar>
 

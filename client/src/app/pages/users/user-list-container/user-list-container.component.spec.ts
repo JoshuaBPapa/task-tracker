@@ -11,6 +11,7 @@ import { Page } from 'src/types/page';
 import { User } from 'src/types/responses/user';
 import { UsersService } from 'src/app/services/users.service';
 import { AuthLevelPipe } from 'src/app/shared/pipes/auth-level.pipe';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 
 const mockUsersResponse: Page<User> = {
   results: [
@@ -39,6 +40,18 @@ const mockUsersResponse: Page<User> = {
   page: 1,
 };
 
+const mockLoggedInUser = {
+  firstName: 'John',
+  lastName: 'Doe',
+  authLevel: 4,
+  teamId: 1,
+  teamName: 'Mock Team',
+  pictureColour: '#7239EA',
+  jobTitle: 'CEO',
+  userId: 1,
+  username: 'JohnDoe',
+};
+
 describe('UserListContainerComponent', () => {
   let component: UserListContainerComponent;
   let fixture: ComponentFixture<UserListContainerComponent>;
@@ -58,11 +71,18 @@ describe('UserListContainerComponent', () => {
   const usersServiceSpy = jasmine.createSpyObj('UsersService', ['getUsers', 'postUsers'], {
     usersData$: new Subject().asObservable(),
   });
+  const authServiceSpy = jasmine.createSpyObj('AuthService', ['logout'], {
+    loggedInUser: mockLoggedInUser,
+  });
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [UserListContainerComponent, NoopAnimationsModule],
-      providers: [MessageService, { provide: ModalDataService, useValue: modalDataServiceSpy }],
+      providers: [
+        MessageService,
+        { provide: ModalDataService, useValue: modalDataServiceSpy },
+        { provide: AuthService, useValue: authServiceSpy },
+      ],
     });
     TestBed.overrideProvider(ParamsService, { useValue: paramsServiceSpy });
     TestBed.overrideProvider(UnsubscribeService, { useValue: unsubscribeServiceSpy });

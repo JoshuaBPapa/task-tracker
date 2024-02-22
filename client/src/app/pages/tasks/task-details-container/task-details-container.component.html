@@ -4,8 +4,27 @@
     <!-- TASK TITLE AND ACTION BUTTONS  -->
     <h1 appTextTruncate maxWidth="100%" class="task-details-information-title">{{ task.title }}</h1>
     <div class="task-details-actions-buttons">
-      <button pButton (click)="onOpenEditModal()" label="Edit Task"></button>
-      <button pButton (click)="onOpenDeleteModal()" label="Delete Task" class="p-button-danger"></button>
+      <button
+        appAuthLevelCheck
+        method="PUT"
+        itemType="tasks"
+        [targetId]="task.assignedUser ? task.assignedUser.id : null"
+        hideMethod="display:none"
+        pButton
+        (click)="onOpenEditModal()"
+        label="Edit Task">
+      </button>
+      <button
+        appAuthLevelCheck
+        method="DELETE"
+        itemType="tasks"
+        targetId="task.assignedUser.id"
+        hideMethod="display:none"
+        pButton
+        (click)="onOpenDeleteModal()"
+        label="Delete Task"
+        class="p-button-danger">
+      </button>
     </div>
 
     <!-- TASK DETAILS INFORMATION LIST  -->

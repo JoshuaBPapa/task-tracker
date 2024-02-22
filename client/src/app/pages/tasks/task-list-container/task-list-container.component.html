@@ -4,7 +4,7 @@
   <ng-template #tasks>
     <!-- TASKS TOOL BAR - OPEN CREATE TASK MODAL BUTTON, TASK SEARCH BAR -->
     <app-toolbar>
-      <button pButton (click)="onOpenCreateModal()" label="Create New Task +"></button>
+      <button appAuthLevelCheck method="POST" itemType="tasks" pButton (click)="onOpenCreateModal()" label="Create New Task +"></button>
       <app-search-input placeholder="Search for tasks by title..."  (search)="updateParams($event)" />
     </app-toolbar>
 

@@ -20,6 +20,7 @@ import { ParamsService } from 'src/app/services/params.service';
 import { ProjectsService } from 'src/app/services/projects.service';
 import { TasksService } from 'src/app/services/tasks.service';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
+import { AuthLevelCheckDirective } from 'src/app/shared/directives/auth-level-check.directive';
 import { TextTruncateDirective } from 'src/app/shared/directives/text-truncate.directive';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { FilterDropdownConfig } from 'src/types/filter-dropdown-config/filter-dropdown-config';
@@ -48,6 +49,7 @@ import { Task } from 'src/types/responses/task';
     TaskFormModalComponent,
     TextTruncateDirective,
     AssignedUserComponent,
+    AuthLevelCheckDirective,
   ],
   providers: [ParamsService, UnsubscribeService, TasksService],
   templateUrl: './project-details-container.component.html',

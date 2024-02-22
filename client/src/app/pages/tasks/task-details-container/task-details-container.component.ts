@@ -17,6 +17,7 @@ import { FormValidationService } from 'src/app/services/form-validation.service'
 import { ModalDataService } from 'src/app/services/modal-data.service';
 import { TasksService } from 'src/app/services/tasks.service';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
+import { AuthLevelCheckDirective } from 'src/app/shared/directives/auth-level-check.directive';
 import { TextTruncateDirective } from 'src/app/shared/directives/text-truncate.directive';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CommentForm } from 'src/types/forms/comment-form';
@@ -40,6 +41,7 @@ import { TaskDetailed } from 'src/types/responses/task';
     TextTruncateDirective,
     DeleteModalComponent,
     TaskFormModalComponent,
+    AuthLevelCheckDirective,
   ],
   providers: [CommentsService, UnsubscribeService, TasksService],
   templateUrl: './task-details-container.component.html',

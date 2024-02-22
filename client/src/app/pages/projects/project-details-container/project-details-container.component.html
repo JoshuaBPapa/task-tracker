@@ -5,7 +5,7 @@
     <h1 class="project-details-header-name">{{ project.name }}</h1>
 
     <!-- PROJECT BUTTONS -->
-    <div class="project-details-header-buttons">
+    <div appAuthLevelCheck method="PUT" itemType="projects" hideMethod="display:none" class="project-details-header-buttons">
       <button pButton (click)="onOpenEditProjectModal()" label="Edit Project"></button>
       <button pButton (click)="openDeleteProjectModal()" label="Delete Project" class="p-button-danger"></button>
     </div>
@@ -32,7 +32,7 @@
 <p-card class="project-details-card" header="Project Tasks" subheader="A list of tasks belonging to this project" *ngIf="{ isTableLoading: isTableLoading | async, isTableError: isTableError | async, page: projectTasksData$ | async} as data">
   <!-- PROJECT TASKS TOOL BAR - OPEN CREATE TASK MODAL BUTTON, TASK SEARCH BAR -->
   <app-toolbar>
-    <button pButton (click)="onOpenCreateTaskModal()" label="Create New Task +"></button>
+    <button appAuthLevelCheck method="POST" itemType="tasks" pButton (click)="onOpenCreateTaskModal()" label="Create New Task +"></button>
     <app-search-input (search)="updateParams($event)" placeholder="Search for tasks by title..." />
   </app-toolbar>
 

@@ -11,6 +11,7 @@ import { UsersService } from 'src/app/services/users.service';
 import { Page } from 'src/types/page';
 import { Task } from 'src/types/responses/task';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 
 const mockUserData = {
   id: 1,
@@ -103,6 +104,18 @@ const filterConfig = [
   },
 ];
 
+const mockLoggedInUser = {
+  firstName: 'John',
+  lastName: 'Doe',
+  authLevel: 4,
+  teamId: 1,
+  teamName: 'Mock Team',
+  pictureColour: '#7239EA',
+  jobTitle: 'CEO',
+  userId: 1,
+  username: 'JohnDoe',
+};
+
 describe('UserDetailsContainerComponent', () => {
   let component: UserDetailsContainerComponent;
   let fixture: ComponentFixture<UserDetailsContainerComponent>;
@@ -132,11 +145,18 @@ describe('UserDetailsContainerComponent', () => {
       userTasksData$: new Subject().asObservable(),
     }
   );
+  const authServiceSpy = jasmine.createSpyObj('AuthService', ['logout'], {
+    loggedInUser: mockLoggedInUser,
+  });
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [UserDetailsContainerComponent, NoopAnimationsModule],
-      providers: [{ provide: ActivatedRoute, useValue: activatedRouteStub }, MessageService],
+      providers: [
+        { provide: ActivatedRoute, useValue: activatedRouteStub },
+        { provide: AuthService, useValue: authServiceSpy },
+        MessageService,
+      ],
     });
     TestBed.overrideProvider(ParamsService, { useValue: paramsServiceSpy });
     TestBed.overrideProvider(UnsubscribeService, { useValue: unsubscribeServiceSpy });

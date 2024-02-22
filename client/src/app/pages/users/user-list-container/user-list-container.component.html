@@ -1,7 +1,7 @@
 <p-card header="Users" subheader="Users in your team" *ngIf="{ isLoading: isLoading | async, isError: isError | async, page: usersData$ | async} as data">
   <!-- USERS TOOLBAR - OPEN CREATE USER MODAL BUTTON, SEARCH BAR -->
   <app-toolbar>
-    <button pButton (click)="onOpenCreateModal()" label="Create New User +"></button>
+    <button appAuthLevelCheck method="POST" itemType="users" pButton (click)="onOpenCreateModal()" label="Create New User +"></button>
     <app-search-input placeholder="Search by first name..." (search)="updateParams($event)" />
   </app-toolbar>
 

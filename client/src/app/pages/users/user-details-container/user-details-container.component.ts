@@ -20,6 +20,7 @@ import { ParamsService } from 'src/app/services/params.service';
 import { TasksService } from 'src/app/services/tasks.service';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
 import { UsersService } from 'src/app/services/users.service';
+import { AuthLevelCheckDirective } from 'src/app/shared/directives/auth-level-check.directive';
 import { TextTruncateDirective } from 'src/app/shared/directives/text-truncate.directive';
 import { AuthLevelPipe } from 'src/app/shared/pipes/auth-level.pipe';
 import { NamePipe } from 'src/app/shared/pipes/name.pipe';
@@ -52,6 +53,7 @@ import { User } from 'src/types/responses/user';
     DeleteModalComponent,
     UserFormModalComponent,
     UpdatePasswordFormModalComponent,
+    AuthLevelCheckDirective,
   ],
   providers: [ParamsService, TasksService, UnsubscribeService],
   templateUrl: './user-details-container.component.html',

@@ -6,12 +6,12 @@ import { ActivatedRoute } from '@angular/router';
 import { ProjectsService } from 'src/app/services/projects.service';
 import { MessageService } from 'primeng/api';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { provideHttpClient } from '@angular/common/http';
 import { ParamsService } from 'src/app/services/params.service';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
 import { TasksService } from 'src/app/services/tasks.service';
 import { Page } from 'src/types/page';
 import { Task } from 'src/types/responses/task';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 
 const filterConfig = [
   {
@@ -102,6 +102,18 @@ const mockProjectTasks: Page<Task> = {
   page: 1,
 };
 
+const mockLoggedInUser = {
+  firstName: 'John',
+  lastName: 'Doe',
+  authLevel: 4,
+  teamId: 1,
+  teamName: 'Mock Team',
+  pictureColour: '#7239EA',
+  jobTitle: 'CEO',
+  userId: 1,
+  username: 'JohnDoe',
+};
+
 describe('ProjectDetailsContainerComponent', () => {
   let component: ProjectDetailsContainerComponent;
   let fixture: ComponentFixture<ProjectDetailsContainerComponent>;
@@ -127,14 +139,17 @@ describe('ProjectDetailsContainerComponent', () => {
   const activatedRouteStub = {
     data: of({ project: mockProjectData }),
   };
+  const authServiceSpy = jasmine.createSpyObj('AuthService', ['logout'], {
+    loggedInUser: mockLoggedInUser,
+  });
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ProjectDetailsContainerComponent, NoopAnimationsModule],
       providers: [
         { provide: ActivatedRoute, useValue: activatedRouteStub },
+        { provide: AuthService, useValue: authServiceSpy },
         MessageService,
-        provideHttpClient(),
       ],
     });
     TestBed.overrideProvider(ProjectsService, { useValue: projectsServiceSpy });

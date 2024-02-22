@@ -10,6 +10,7 @@ import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
 import { ModalDataService } from 'src/app/services/modal-data.service';
 import { MessageService } from 'primeng/api';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 
 const filterConfig = [
   {
@@ -91,6 +92,18 @@ const mockTasksResponse: Page<Task> = {
   page: 1,
 };
 
+const mockLoggedInUser = {
+  firstName: 'John',
+  lastName: 'Doe',
+  authLevel: 4,
+  teamId: 1,
+  teamName: 'Mock Team',
+  pictureColour: '#7239EA',
+  jobTitle: 'CEO',
+  userId: 1,
+  username: 'JohnDoe',
+};
+
 describe('TaskListContainerComponent', () => {
   let component: TaskListContainerComponent;
   let fixture: ComponentFixture<TaskListContainerComponent>;
@@ -110,11 +123,18 @@ describe('TaskListContainerComponent', () => {
     tasksData$: new Subject().asObservable(),
   });
   const modalDataServiceSpy = jasmine.createSpyObj('ModalDataService', ['sendRequest']);
+  const authServiceSpy = jasmine.createSpyObj('AuthService', ['logout'], {
+    loggedInUser: mockLoggedInUser,
+  });
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [TaskListContainerComponent, NoopAnimationsModule],
-      providers: [MessageService, { provide: ModalDataService, useValue: modalDataServiceSpy }],
+      providers: [
+        MessageService,
+        { provide: ModalDataService, useValue: modalDataServiceSpy },
+        { provide: AuthService, useValue: authServiceSpy },
+      ],
     });
     TestBed.overrideProvider(TasksService, { useValue: tasksServiceSpy });
     TestBed.overrideProvider(ParamsService, { useValue: paramsServiceSpy });

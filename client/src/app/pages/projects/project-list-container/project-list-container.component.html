@@ -2,7 +2,7 @@
   <p-card header="Projects" subheader="A list of your team's projects" *ngIf="{ isLoading: isLoading | async, isError: isError | async, page: projectsData$ | async} as data">
     <!-- PROJECT TOOL BAR - CREATE PROJECT BUTTON AND SEARCH BAR -->
     <app-toolbar>
-      <button pButton (click)="onOpenCreateModal()" label="Create Project +" ></button>
+      <button appAuthLevelCheck method="POST" itemType="projects" pButton (click)="onOpenCreateModal()" label="Create Project +" ></button>
       <app-search-input (search)="updateParams($event)" placeholder="Search projects by name..." />
     </app-toolbar>
 
