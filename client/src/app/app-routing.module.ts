@@ -7,6 +7,7 @@ import { TasksService } from './services/tasks.service';
 import { taskDetailsResolver } from './resolvers/task-details.resolver';
 import { UsersService } from './services/users.service';
 import { userDetailsResolver } from './resolvers/user-details.resolver';
+import { teamContainerGuard } from './guards/team-container.guard';
 
 const routes: Routes = [
   {
@@ -95,6 +96,7 @@ const routes: Routes = [
       },
       {
         path: 'team',
+        canActivate: [teamContainerGuard],
         loadComponent: () =>
           import('./pages/teams/team-container/team-container.component').then(
             (c) => c.TeamContainerComponent
