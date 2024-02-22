@@ -34,8 +34,8 @@ export class HeaderContainerComponent implements OnInit {
         ...linkList,
         {
           url: '/team',
-          title: 'My Team',
-          icon: 'pi pi-th-large',
+          title: 'Delete Team',
+          icon: 'pi pi-trash',
         },
       ];
     }
