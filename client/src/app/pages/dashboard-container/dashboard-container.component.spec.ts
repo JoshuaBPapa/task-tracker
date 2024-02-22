@@ -5,6 +5,7 @@ import { StatisticsService } from 'src/app/services/statistics.service';
 import { ErrorHandlingService } from 'src/app/services/error-handling.service';
 import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 
 const mockChartConfig = [
   {
@@ -124,12 +125,26 @@ const mockData = {
     },
   ],
 };
+const mockLoggedInUser = {
+  userId: 1,
+  firstName: 'mock value',
+  lastName: 'mock value',
+  username: 'mock value',
+  jobTitle: 'mock value',
+  teamId: 1,
+  authLevel: 1,
+  teamName: 'mock team',
+  pictureColour: 'mock value',
+};
 
 describe('DashboardContainerComponent', () => {
   let component: DashboardContainerComponent;
   let fixture: ComponentFixture<DashboardContainerComponent>;
   const statisticsServiceSpy = jasmine.createSpyObj('StatisticsService', ['getStatistics']);
   const errorHandlingServiceSpy = jasmine.createSpyObj('ErrorHandlingService', ['handleError']);
+  const authServiceSpy = jasmine.createSpyObj('AuthService', [], {
+    loggedInUser: mockLoggedInUser,
+  });
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -137,6 +152,7 @@ describe('DashboardContainerComponent', () => {
       providers: [
         { provide: StatisticsService, useValue: statisticsServiceSpy },
         { provide: ErrorHandlingService, useValue: errorHandlingServiceSpy },
+        { provide: AuthService, useValue: authServiceSpy },
       ],
     });
 
@@ -166,6 +182,11 @@ describe('DashboardContainerComponent', () => {
     spyOn(component, 'setStatisticsDataObservable');
     component.ngOnInit();
     expect(component.setStatisticsDataObservable).toHaveBeenCalled();
+  });
+
+  it('ngOnInit should call set the value of teamName', () => {
+    component.ngOnInit();
+    expect(component.teamName).toEqual(mockLoggedInUser.teamName);
   });
 
   it('setChartConfig should set chartConfig correctly', () => {

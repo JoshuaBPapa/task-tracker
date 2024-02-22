@@ -7,11 +7,13 @@ import { NoTasksMessageComponent } from 'src/app/components/messages/no-tasks-me
 import { CountCardComponent } from 'src/app/components/statistics/count-card/count-card.component';
 import { StackedBarDiagramComponent } from 'src/app/components/statistics/stacked-bar-diagram/stacked-bar-diagram.component';
 import { TopTenTasksTableComponent } from 'src/app/components/tables/top-ten-tasks-table/top-ten-tasks-table.component';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { ErrorHandlingService } from 'src/app/services/error-handling.service';
 import { StatisticsService } from 'src/app/services/statistics.service';
 import { TaskStatusPipe } from 'src/app/shared/pipes/task-status.pipe';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { StackedBarDiagramConfig } from 'src/types/chart-configs/stacked-bar-diagram-config';
+import { LoggedInUser } from 'src/types/logged-in-user';
 import { StatisticsResponse } from 'src/types/responses/statistics-response';
 
 @Component({
@@ -37,17 +39,20 @@ export class DashboardContainerComponent implements OnInit {
   isLoading = new BehaviorSubject(false);
   isError = new BehaviorSubject(false);
   chartConfig: StackedBarDiagramConfig[] = [];
+  teamName: string;
 
   constructor(
     private statisticsService: StatisticsService,
     private errorHandlingService: ErrorHandlingService,
-    private taskStatusPipe: TaskStatusPipe
+    private taskStatusPipe: TaskStatusPipe,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
     this.isLoading.next(true);
     this.setChartConfig();
     this.setStatisticsDataObservable();
+    this.teamName = (this.authService.loggedInUser as LoggedInUser).teamName;
   }
 
   setChartConfig(): void {

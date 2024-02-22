@@ -10,6 +10,19 @@
   margin-top: 2.125rem;
 }
 
+.dashboard-team-name-card {
+  display: block;
+  margin-bottom: 1.5rem;
+
+  h1 {
+    margin: 0;
+
+    span {
+      font-weight: normal;
+    }
+  }
+}
+
 .dashboard-grid {
   &.flex-grid-container {
     @include lg-breakpoint {
