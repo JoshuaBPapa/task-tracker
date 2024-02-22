@@ -1,0 +1,17 @@
+<app-notification-card>
+  <h1>Deleting your Team</h1>
+  <p>
+    <strong>Warning</strong>: Deleting your team will permanently remove all users, projects, and
+    tasks. It will <strong>not</strong> be possible to reverse this. Are you sure you want to delete
+    your team?
+  </p>
+  <button
+    pButton
+    (click)="onOpenDeleteModal()"
+    label="Delete Team"
+    class="p-button-danger"
+  ></button>
+</app-notification-card>
+
+<!-- DELETE TEAM MODAL -->
+<app-delete-modal (closeModal)="handleDeleteModalClose()" (confirmDelete)="handleDeleteModalConfirm()" *ngIf="isDeleteModalVisible" label="team" />

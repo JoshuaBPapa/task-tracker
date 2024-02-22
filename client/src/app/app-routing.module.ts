@@ -94,6 +94,13 @@ const routes: Routes = [
         ],
       },
       {
+        path: 'team',
+        loadComponent: () =>
+          import('./pages/teams/team-container/team-container.component').then(
+            (c) => c.TeamContainerComponent
+          ),
+      },
+      {
         path: 'error',
         loadComponent: () => import('./pages/error/error.component').then((c) => c.ErrorComponent),
       },
