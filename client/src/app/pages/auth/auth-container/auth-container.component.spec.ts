@@ -7,12 +7,18 @@ import { ErrorHandlingService } from 'src/app/services/error-handling.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { of } from 'rxjs';
 
+const mockTokens = {
+  accessToken: 'test',
+  refreshToken: 'test',
+};
+
 describe('AuthContainerComponent', () => {
   let component: AuthContainerComponent;
   let fixture: ComponentFixture<AuthContainerComponent>;
   const authServiceSpy = jasmine.createSpyObj('AuthService', [
     'loginOrSignUp',
     'handleSuccessfulLogin',
+    'loginWithDemoTeam',
   ]);
   const formValidationServiceSpy = jasmine.createSpyObj('FormValidationService', [
     'checkIsFormValid',
@@ -53,10 +59,6 @@ describe('AuthContainerComponent', () => {
       username: new FormControl(''),
       password: new FormControl(''),
     });
-    const mockTokens = {
-      accessToken: 'test',
-      refreshToken: 'test',
-    };
     formValidationServiceSpy.checkIsFormValid.and.returnValue(true);
     authServiceSpy.loginOrSignUp.and.returnValue(of(mockTokens));
     component.handleSubmit(mockForm as any);
@@ -65,6 +67,13 @@ describe('AuthContainerComponent', () => {
       component.formType,
       mockForm.getRawValue()
     );
+    expect(authServiceSpy.handleSuccessfulLogin).toHaveBeenCalledWith(mockTokens);
+  });
+
+  it('onUseADemoTeam should call authService.loginWithDemoTeam and authService.handleSuccessfulLogin', () => {
+    authServiceSpy.loginWithDemoTeam.and.returnValue(of(mockTokens));
+    component.onUseADemoTeam();
+    expect(authServiceSpy.loginWithDemoTeam).toHaveBeenCalled();
     expect(authServiceSpy.handleSuccessfulLogin).toHaveBeenCalledWith(mockTokens);
   });
 });

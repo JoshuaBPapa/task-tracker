@@ -4,10 +4,12 @@
     <div class="auth-form-header">
       <img src="/assets/logos/logo1.png" alt="task tracker logo" />
       <h1>{{ formType | titlecase }} to Task Tracker</h1>
+      <!-- LINK TO SIGN UP FORM -->
       <p *ngIf="formType === 'login'; else loginLink">
         New Here?
         <button pButton class="sign-up-button p-button-link" label="Sign Up" (click)="changeFormType()" [disabled]="isLoading | async"></button>
       </p>
+      <!-- LINK TO LOGIN FORM -->
       <ng-template #loginLink>
         <p>
           Have an Account?
@@ -15,11 +17,22 @@
         </p>
       </ng-template>
     </div>
-    <!-- FORM -->
+
+    <!-- FORMS -->
+    <!-- LOGIN FORM -->
     <app-login-form (submitForm)="handleSubmit($event)" *ngIf="formType === 'login'; else signUpForm" />
+    <!-- SIGN UP FORM -->
     <ng-template #signUpForm>
       <app-signup-form (submitForm)="handleSubmit($event)"/>
     </ng-template>
+
+    <p-divider align="center">
+      <b>Or</b>
+    </p-divider>
+
+    <!-- USE A DEMO TEAM BUTTON -->
+    <button pButton style="width: 100%;" class="p-button-outlined" label="Use A Demo Team" (click)="onUseADemoTeam()"></button>
+
     <!-- LOADING SPINNER -->
     <div class="loading-spinner-container" [ngClass]="{visible: isLoading | async}">
       <app-loading-spinner />

@@ -50,4 +50,19 @@ export class AuthContainerComponent {
         this.isLoading.next(false);
       });
   }
+
+  onUseADemoTeam(): void {
+    this.isLoading.next(true);
+    this.authService
+      .loginWithDemoTeam()
+      .pipe(
+        catchError((error: HttpError) =>
+          this.errorHandlingService.handleError(error, this.isLoading)
+        )
+      )
+      .subscribe((tokens) => {
+        this.authService.handleSuccessfulLogin(tokens);
+        this.isLoading.next(false);
+      });
+  }
 }
