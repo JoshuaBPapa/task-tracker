@@ -9,6 +9,7 @@ import {
   tasksRouter,
   teamsRouter,
   usersRouter,
+  demoRouter,
 } from './routes';
 import { verifyAccessToken, errorMiddleware } from './middleware';
 import { checkAuthLevel } from './middleware/authorisation';
@@ -24,6 +25,7 @@ app.use(express.json());
 
 // unprotected routes
 app.use('/auth', authRouter);
+app.use('/demo', demoRouter);
 
 // protected routes
 app.use(verifyAccessToken);

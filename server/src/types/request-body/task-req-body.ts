@@ -3,6 +3,6 @@ export interface CreateTaskReqBody {
   description?: string;
   status: number;
   priority: number;
-  assignedUserId?: number;
+  assignedUserId: number | null;
   projectId: number;
 }
