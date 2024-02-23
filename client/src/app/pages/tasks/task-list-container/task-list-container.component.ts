@@ -4,7 +4,6 @@ import { Params, Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { FilterDropdownComponent } from 'src/app/components/filter-dropdown/filter-dropdown.component';
 import { SearchInputComponent } from 'src/app/components/inputs/search-input/search-input.component';
-import { NoTasksMessageComponent } from 'src/app/components/messages/no-tasks-message/no-tasks-message.component';
 import { TaskFormModalComponent } from 'src/app/components/modals/task-form-modal/task-form-modal.component';
 import { PaginatorComponent } from 'src/app/components/paginator/paginator.component';
 import { DataTableComponent } from 'src/app/components/tables/data-table/data-table.component';
@@ -38,7 +37,6 @@ import { Task } from 'src/types/responses/task';
     SearchInputComponent,
     ToolbarComponent,
     TaskFormModalComponent,
-    NoTasksMessageComponent,
     TextTruncateDirective,
     AssignedUserComponent,
     AuthLevelCheckDirective,

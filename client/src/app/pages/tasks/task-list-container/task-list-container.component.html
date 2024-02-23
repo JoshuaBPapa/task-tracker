@@ -1,40 +1,36 @@
 <p-card header="Tasks" subheader="A list of tasks in your team" *ngIf="{ isLoading: isLoading | async, isError: isError | async, page: tasksData$ | async} as data">
-  <app-no-tasks-message *ngIf="!data.page?.results?.length && !isLoading; else tasks" />
+  <!-- TASKS TOOL BAR - OPEN CREATE TASK MODAL BUTTON, TASK SEARCH BAR -->
+  <app-toolbar>
+    <button appAuthLevelCheck method="POST" itemType="tasks" pButton (click)="onOpenCreateModal()" label="Create New Task +"></button>
+    <app-search-input placeholder="Search for tasks by title..."  (search)="updateParams($event)" />
+  </app-toolbar>
 
-  <ng-template #tasks>
-    <!-- TASKS TOOL BAR - OPEN CREATE TASK MODAL BUTTON, TASK SEARCH BAR -->
-    <app-toolbar>
-      <button appAuthLevelCheck method="POST" itemType="tasks" pButton (click)="onOpenCreateModal()" label="Create New Task +"></button>
-      <app-search-input placeholder="Search for tasks by title..."  (search)="updateParams($event)" />
-    </app-toolbar>
+  <!-- TASKS FILTER -->
+  <app-filter-dropdown [config]="tableFilterConfig" (filter)="updateParams($event)" />
 
-    <!-- TASKS FILTER -->
-    <app-filter-dropdown [config]="tableFilterConfig" (filter)="updateParams($event)" />
+  <!-- TASKS TABLE -->
+  <app-data-table [headers]="tableHeaderConfig" [isError]="data.isError || false" [isLoading]="data.isLoading || false" [page]="data.page" (paramsChange)="updateParams($event)">
+    <ng-template pTemplate="body" let-row>
+      <tr>
+        <td appTextTruncate maxWidth="20rem">
+          <a class="datatable-link" [routerLink]="['/tasks', row.id]">{{ row.title }}</a>
+        </td>
+        <td>
+          <app-assigned-user [assignedUser]="row.assignedUser" />
+        </td>
+        <td appTextTruncate maxWidth="10rem">
+          <a class="datatable-link" [routerLink]="['/projects', row.project.id]">{{ row.project.name }}</a>
+        </td>
+        <td><app-task-status-tag [value]="row.status" /></td>
+        <td><app-task-priority-tag [value]="row.priority" /></td>
+        <td>{{ row.dateTimeCreated | date: "dd/MM/yyyy" }}</td>
+        <td>{{ row.dateTimeUpdated | date: "dd/MM/yyyy" }}</td>
+      </tr>
+    </ng-template>
+  </app-data-table>
 
-    <!-- TASKS TABLE -->
-    <app-data-table [headers]="tableHeaderConfig" [isError]="data.isError || false" [isLoading]="data.isLoading || false" [page]="data.page" (paramsChange)="updateParams($event)">
-      <ng-template pTemplate="body" let-row>
-        <tr>
-          <td appTextTruncate maxWidth="20rem">
-            <a class="datatable-link" [routerLink]="['/tasks', row.id]">{{ row.title }}</a>
-          </td>
-          <td>
-            <app-assigned-user [assignedUser]="row.assignedUser" />
-          </td>
-          <td appTextTruncate maxWidth="10rem">
-            <a class="datatable-link" [routerLink]="['/projects', row.project.id]">{{ row.project.name }}</a>
-          </td>
-          <td><app-task-status-tag [value]="row.status" /></td>
-          <td><app-task-priority-tag [value]="row.priority" /></td>
-          <td>{{ row.dateTimeCreated | date: "dd/MM/yyyy" }}</td>
-          <td>{{ row.dateTimeUpdated | date: "dd/MM/yyyy" }}</td>
-        </tr>
-      </ng-template>
-    </app-data-table>
-
-    <!-- PAGINATOR -->
-    <app-paginator [page]="data.page" (pageChange)="updateParams($event)" />
-  </ng-template>
+  <!-- PAGINATOR -->
+  <app-paginator [page]="data.page" (pageChange)="updateParams($event)" />
 </p-card>
 
 <!-- CREATE TASK FOR PROJECT MODAL -->
