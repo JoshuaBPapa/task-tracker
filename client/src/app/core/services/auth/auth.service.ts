@@ -80,4 +80,8 @@ export class AuthService {
       .post<{ accessToken: string }>(`${environment.api}/auth/token`, { refreshToken })
       .pipe(map((res) => res.accessToken));
   }
+
+  loginWithDemoTeam(): Observable<Tokens> {
+    return this.http.get<Tokens>(`${environment.api}/demo`);
+  }
 }

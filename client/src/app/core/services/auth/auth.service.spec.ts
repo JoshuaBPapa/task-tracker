@@ -122,4 +122,10 @@ describe('AuthService', () => {
     expect(req.request.method).toBe('POST');
     expect(req.request.body).toEqual({ refreshToken: mockPayload });
   });
+
+  it('loginWithDemoTeam should place a GET request with the correct url', () => {
+    service.loginWithDemoTeam().subscribe();
+    const req = httpMock.expectOne(`${environment.api}/demo`);
+    expect(req.request.method).toBe('GET');
+  });
 });
