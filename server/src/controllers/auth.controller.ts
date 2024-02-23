@@ -69,7 +69,7 @@ export const postLogout = async (
   const { refreshToken } = req.body;
   await deleteRefreshToken(refreshToken);
 
-  res.status(200).send('Successfully logged out.');
+  res.status(205).send();
 };
 
 export const postNewAccessToken = async (
