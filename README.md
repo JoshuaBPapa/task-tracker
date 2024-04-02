@@ -1,6 +1,6 @@
 # Task Tracker
 
-A full stack project management web application built with Angular, PrimeNG, Node.js, Express.js, and MySQL. Users can create a team to manage projects, tasks, and other users. Tasks are managed in projects by changing their status, priority, and by posting comments. Users are given an authorisation level to determine their CRUD permissions. Authentication handled using JSON Web
+A full stack project management web application built with Angular, PrimeNG, Node.js, Express.js, and MySQL. Users can create a team to manage projects, tasks, and other users. Tasks are managed in projects by changing their status, priority, and by posting comments. Users are given an authorisation level to determine their CRUD permissions. Authentication handled using JSON Web Tokens.
 
 **Demo**: https://task-tracker-77112.web.app
 
