@@ -31,7 +31,7 @@ Only the master admin has access to this function. They can delete a team by nav
 
 ## Screenshots
 
-![Auth Screen](https://i.imgur.com/1gofwpC.png)
+![Auth Screen](https://i.imgur.com/pIWhGrz.png)
 ![Dashboard](https://i.imgur.com/0MjVBo8.png)
 ![Project Details Page](https://i.imgur.com/4WPGe5b.png)
 ![Create Task Modal](https://i.imgur.com/fdRaEWe.png)
